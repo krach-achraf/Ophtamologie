@@ -1,0 +1,162 @@
+import { Component, Vue, Inject } from 'vue-property-decorator';
+
+import AlertService from '@/shared/alert/alert.service';
+
+import CompteService from '@/entities/compte/compte.service';
+import { ICompte } from '@/shared/model/compte.model';
+
+import SecretaireService from '@/entities/secretaire/secretaire.service';
+import { ISecretaire } from '@/shared/model/secretaire.model';
+
+import MaladieService from '@/entities/maladie/maladie.service';
+import { IMaladie } from '@/shared/model/maladie.model';
+
+import DetectionService from '@/entities/detection/detection.service';
+import { IDetection } from '@/shared/model/detection.model';
+
+import { IPatient, Patient } from '@/shared/model/patient.model';
+import PatientService from './patient.service';
+import { Genre } from '@/shared/model/enumerations/genre.model';
+
+const validations: any = {
+  patient: {
+    code: {},
+    nom: {},
+    prenom: {},
+    dateNaissance: {},
+    adresse: {},
+    genre: {},
+    telephone: {},
+    poids: {},
+    taille: {},
+  },
+};
+
+@Component({
+  validations,
+})
+export default class PatientUpdate extends Vue {
+  @Inject('patientService') private patientService: () => PatientService;
+  @Inject('alertService') private alertService: () => AlertService;
+
+  public patient: IPatient = new Patient();
+
+  @Inject('compteService') private compteService: () => CompteService;
+
+  public comptes: ICompte[] = [];
+
+  @Inject('secretaireService') private secretaireService: () => SecretaireService;
+
+  public secretaires: ISecretaire[] = [];
+
+  @Inject('maladieService') private maladieService: () => MaladieService;
+
+  public maladies: IMaladie[] = [];
+
+  @Inject('detectionService') private detectionService: () => DetectionService;
+
+  public detections: IDetection[] = [];
+  public genreValues: string[] = Object.keys(Genre);
+  public isSaving = false;
+  public currentLanguage = '';
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (to.params.patientId) {
+        vm.retrievePatient(to.params.patientId);
+      }
+      vm.initRelationships();
+    });
+  }
+
+  created(): void {
+    this.currentLanguage = this.$store.getters.currentLanguage;
+    this.$store.watch(
+      () => this.$store.getters.currentLanguage,
+      () => {
+        this.currentLanguage = this.$store.getters.currentLanguage;
+      }
+    );
+  }
+
+  public save(): void {
+    this.isSaving = true;
+    if (this.patient.id) {
+      this.patientService()
+        .update(this.patient)
+        .then(param => {
+          this.isSaving = false;
+          this.$router.go(-1);
+          const message = 'A Patient is updated with identifier ' + param.id;
+          return this.$root.$bvToast.toast(message.toString(), {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(error => {
+          this.isSaving = false;
+          this.alertService().showHttpError(this, error.response);
+        });
+    } else {
+      this.patientService()
+        .create(this.patient)
+        .then(param => {
+          this.isSaving = false;
+          this.$router.go(-1);
+          const message = 'A Patient is created with identifier ' + param.id;
+          this.$root.$bvToast.toast(message.toString(), {
+            toaster: 'b-toaster-top-center',
+            title: 'Success',
+            variant: 'success',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(error => {
+          this.isSaving = false;
+          this.alertService().showHttpError(this, error.response);
+        });
+    }
+  }
+
+  public retrievePatient(patientId): void {
+    this.patientService()
+      .find(patientId)
+      .then(res => {
+        this.patient = res;
+      })
+      .catch(error => {
+        this.alertService().showHttpError(this, error.response);
+      });
+  }
+
+  public previousState(): void {
+    this.$router.go(-1);
+  }
+
+  public initRelationships(): void {
+    this.compteService()
+      .retrieve()
+      .then(res => {
+        this.comptes = res.data;
+      });
+    this.secretaireService()
+      .retrieve()
+      .then(res => {
+        this.secretaires = res.data;
+      });
+    this.maladieService()
+      .retrieve()
+      .then(res => {
+        this.maladies = res.data;
+      });
+    this.detectionService()
+      .retrieve()
+      .then(res => {
+        this.detections = res.data;
+      });
+  }
+}

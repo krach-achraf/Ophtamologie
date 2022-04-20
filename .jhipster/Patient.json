@@ -1,0 +1,80 @@
+{
+  "applications": "*",
+  "changelogDate": "20220414224956",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "patient",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prenom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateNaissance",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "adresse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "genre",
+      "fieldType": "Genre",
+      "fieldValues": "Homme,Femme"
+    },
+    {
+      "fieldName": "telephone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "poids",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "taille",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Patient",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "compte",
+      "otherEntityRelationshipName": "patient",
+      "ownerSide": true,
+      "relationshipName": "compte",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "secretaire",
+      "otherEntityRelationshipName": "patient",
+      "relationshipName": "secretaire",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "maladie",
+      "otherEntityRelationshipName": "patient",
+      "relationshipName": "maladie",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "detection",
+      "otherEntityRelationshipName": "patient",
+      "relationshipName": "detection",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

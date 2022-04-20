@@ -1,0 +1,129 @@
+import { Component, Vue, Inject } from 'vue-property-decorator';
+
+import AlertService from '@/shared/alert/alert.service';
+
+import MaladieService from '@/entities/maladie/maladie.service';
+import { IMaladie } from '@/shared/model/maladie.model';
+
+import ClassificationService from '@/entities/classification/classification.service';
+import { IClassification } from '@/shared/model/classification.model';
+
+import { IUnclassified, Unclassified } from '@/shared/model/unclassified.model';
+import UnclassifiedService from './unclassified.service';
+
+const validations: any = {
+  unclassified: {
+    code: {},
+    path: {},
+  },
+};
+
+@Component({
+  validations,
+})
+export default class UnclassifiedUpdate extends Vue {
+  @Inject('unclassifiedService') private unclassifiedService: () => UnclassifiedService;
+  @Inject('alertService') private alertService: () => AlertService;
+
+  public unclassified: IUnclassified = new Unclassified();
+
+  @Inject('maladieService') private maladieService: () => MaladieService;
+
+  public maladies: IMaladie[] = [];
+
+  @Inject('classificationService') private classificationService: () => ClassificationService;
+
+  public classifications: IClassification[] = [];
+  public isSaving = false;
+  public currentLanguage = '';
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (to.params.unclassifiedId) {
+        vm.retrieveUnclassified(to.params.unclassifiedId);
+      }
+      vm.initRelationships();
+    });
+  }
+
+  created(): void {
+    this.currentLanguage = this.$store.getters.currentLanguage;
+    this.$store.watch(
+      () => this.$store.getters.currentLanguage,
+      () => {
+        this.currentLanguage = this.$store.getters.currentLanguage;
+      }
+    );
+  }
+
+  public save(): void {
+    this.isSaving = true;
+    if (this.unclassified.id) {
+      this.unclassifiedService()
+        .update(this.unclassified)
+        .then(param => {
+          this.isSaving = false;
+          this.$router.go(-1);
+          const message = 'A Unclassified is updated with identifier ' + param.id;
+          return this.$root.$bvToast.toast(message.toString(), {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(error => {
+          this.isSaving = false;
+          this.alertService().showHttpError(this, error.response);
+        });
+    } else {
+      this.unclassifiedService()
+        .create(this.unclassified)
+        .then(param => {
+          this.isSaving = false;
+          this.$router.go(-1);
+          const message = 'A Unclassified is created with identifier ' + param.id;
+          this.$root.$bvToast.toast(message.toString(), {
+            toaster: 'b-toaster-top-center',
+            title: 'Success',
+            variant: 'success',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(error => {
+          this.isSaving = false;
+          this.alertService().showHttpError(this, error.response);
+        });
+    }
+  }
+
+  public retrieveUnclassified(unclassifiedId): void {
+    this.unclassifiedService()
+      .find(unclassifiedId)
+      .then(res => {
+        this.unclassified = res;
+      })
+      .catch(error => {
+        this.alertService().showHttpError(this, error.response);
+      });
+  }
+
+  public previousState(): void {
+    this.$router.go(-1);
+  }
+
+  public initRelationships(): void {
+    this.maladieService()
+      .retrieve()
+      .then(res => {
+        this.maladies = res.data;
+      });
+    this.classificationService()
+      .retrieve()
+      .then(res => {
+        this.classifications = res.data;
+      });
+  }
+}

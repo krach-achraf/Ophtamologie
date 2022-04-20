@@ -1,0 +1,101 @@
+<template>
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <div v-if="patient">
+        <h2 class="jh-entity-heading" data-cy="patientDetailsHeading"><span>Patient</span> {{ patient.id }}</h2>
+        <dl class="row jh-entity-details">
+          <dt>
+            <span>Code</span>
+          </dt>
+          <dd>
+            <span>{{ patient.code }}</span>
+          </dd>
+          <dt>
+            <span>Nom</span>
+          </dt>
+          <dd>
+            <span>{{ patient.nom }}</span>
+          </dd>
+          <dt>
+            <span>Prenom</span>
+          </dt>
+          <dd>
+            <span>{{ patient.prenom }}</span>
+          </dd>
+          <dt>
+            <span>Date Naissance</span>
+          </dt>
+          <dd>
+            <span>{{ patient.dateNaissance }}</span>
+          </dd>
+          <dt>
+            <span>Adresse</span>
+          </dt>
+          <dd>
+            <span>{{ patient.adresse }}</span>
+          </dd>
+          <dt>
+            <span>Genre</span>
+          </dt>
+          <dd>
+            <span>{{ patient.genre }}</span>
+          </dd>
+          <dt>
+            <span>Telephone</span>
+          </dt>
+          <dd>
+            <span>{{ patient.telephone }}</span>
+          </dd>
+          <dt>
+            <span>Poids</span>
+          </dt>
+          <dd>
+            <span>{{ patient.poids }}</span>
+          </dd>
+          <dt>
+            <span>Taille</span>
+          </dt>
+          <dd>
+            <span>{{ patient.taille }}</span>
+          </dd>
+          <dt>
+            <span>Compte</span>
+          </dt>
+          <dd>
+            <div v-if="patient.compte">
+              <router-link :to="{ name: 'CompteView', params: { compteId: patient.compte.id } }">{{ patient.compte.id }}</router-link>
+            </div>
+          </dd>
+          <dt>
+            <span>Secretaire</span>
+          </dt>
+          <dd>
+            <div v-if="patient.secretaire">
+              <router-link :to="{ name: 'SecretaireView', params: { secretaireId: patient.secretaire.id } }">{{
+                patient.secretaire.id
+              }}</router-link>
+            </div>
+          </dd>
+          <dt>
+            <span>Maladie</span>
+          </dt>
+          <dd>
+            <div v-if="patient.maladie">
+              <router-link :to="{ name: 'MaladieView', params: { maladieId: patient.maladie.id } }">{{ patient.maladie.id }}</router-link>
+            </div>
+          </dd>
+        </dl>
+        <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>
+        </button>
+        <router-link v-if="patient.id" :to="{ name: 'PatientEdit', params: { patientId: patient.id } }" custom v-slot="{ navigate }">
+          <button @click="navigate" class="btn btn-primary">
+            <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span> Edit</span>
+          </button>
+        </router-link>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" src="./patient-details.component.ts"></script>
