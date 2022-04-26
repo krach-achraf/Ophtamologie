@@ -21,7 +21,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="stade_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_image__stade_id" />
+                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

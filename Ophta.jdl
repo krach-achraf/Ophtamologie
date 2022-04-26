@@ -50,17 +50,10 @@ entity Visite {
 }
 
 entity Compte {
-	email String,
-	code String unique,
-    motDePasse String,
-    role String,
-    ip String,
-    status String
 }
 entity Maladie {
 	code String unique,
-	nom String,
-    description String
+	date LocalDate
 }
 
 entity Classification {
@@ -95,8 +88,6 @@ relationship OneToOne {
 	Patient{compte} to Compte
     Visite to Detection
     Detection to Maladie
-    Image{stade} to Stade
-
 }
 
 relationship ManyToOne {
@@ -105,13 +96,15 @@ relationship ManyToOne {
      Patient to Maladie
      Medecin to Secretaire
      RendezVous{patient} to Patient
-     RendezVous{medecin} to Medecin
+	 RendezVous{medecin} to Medecin
      Classification{medecin} to Medecin
      Classification{stade} to Stade
      Classification to Unclassified
+     Image to Stade
      Stade to Maladie
-     Unclassified{maladie} to Maladie  
+     Unclassified to Maladie  
 }
+
 
 
 

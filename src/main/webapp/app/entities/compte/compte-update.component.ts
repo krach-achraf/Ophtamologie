@@ -8,14 +8,7 @@ import { ICompte, Compte } from '@/shared/model/compte.model';
 import CompteService from './compte.service';
 
 const validations: any = {
-  compte: {
-    email: {},
-    code: {},
-    motDePasse: {},
-    role: {},
-    ip: {},
-    status: {},
-  },
+  compte: {},
 };
 
 @Component({

@@ -5,6 +5,9 @@ import AlertService from '@/shared/alert/alert.service';
 import MaladieService from '@/entities/maladie/maladie.service';
 import { IMaladie } from '@/shared/model/maladie.model';
 
+import ImageService from '@/entities/image/image.service';
+import { IImage } from '@/shared/model/image.model';
+
 import { IStade, Stade } from '@/shared/model/stade.model';
 import StadeService from './stade.service';
 
@@ -28,6 +31,10 @@ export default class StadeUpdate extends Vue {
   @Inject('maladieService') private maladieService: () => MaladieService;
 
   public maladies: IMaladie[] = [];
+
+  @Inject('imageService') private imageService: () => ImageService;
+
+  public images: IImage[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -113,6 +120,11 @@ export default class StadeUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.maladies = res.data;
+      });
+    this.imageService()
+      .retrieve()
+      .then(res => {
+        this.images = res.data;
       });
   }
 }

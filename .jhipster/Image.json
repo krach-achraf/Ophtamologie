@@ -24,9 +24,8 @@
     {
       "otherEntityName": "stade",
       "otherEntityRelationshipName": "image",
-      "ownerSide": true,
       "relationshipName": "stade",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

@@ -1,7 +1,9 @@
 /* tslint:disable max-line-length */
 import axios from 'axios';
 import sinon from 'sinon';
+import dayjs from 'dayjs';
 
+import { DATE_FORMAT } from '@/shared/date/filters';
 import MaladieService from '@/entities/maladie/maladie.service';
 import { Maladie } from '@/shared/model/maladie.model';
 
@@ -26,15 +28,22 @@ describe('Service Tests', () => {
   describe('Maladie Service', () => {
     let service: MaladieService;
     let elemDefault;
+    let currentDate: Date;
 
     beforeEach(() => {
       service = new MaladieService();
-      elemDefault = new Maladie(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      currentDate = new Date();
+      elemDefault = new Maladie(123, 'AAAAAAA', currentDate);
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            date: dayjs(currentDate).format(DATE_FORMAT),
+          },
+          elemDefault
+        );
         axiosStub.get.resolves({ data: returnedFromService });
 
         return service.find(123).then(res => {
@@ -56,10 +65,16 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 123,
+            date: dayjs(currentDate).format(DATE_FORMAT),
           },
           elemDefault
         );
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            date: currentDate,
+          },
+          returnedFromService
+        );
 
         axiosStub.post.resolves({ data: returnedFromService });
         return service.create({}).then(res => {
@@ -82,13 +97,17 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             code: 'BBBBBB',
-            nom: 'BBBBBB',
-            description: 'BBBBBB',
+            date: dayjs(currentDate).format(DATE_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            date: currentDate,
+          },
+          returnedFromService
+        );
         axiosStub.put.resolves({ data: returnedFromService });
 
         return service.update(expected).then(res => {
@@ -108,15 +127,15 @@ describe('Service Tests', () => {
       });
 
       it('should partial update a Maladie', async () => {
-        const patchObject = Object.assign(
-          {
-            description: 'BBBBBB',
-          },
-          new Maladie()
-        );
+        const patchObject = Object.assign({}, new Maladie());
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            date: currentDate,
+          },
+          returnedFromService
+        );
         axiosStub.patch.resolves({ data: returnedFromService });
 
         return service.partialUpdate(patchObject).then(res => {
@@ -139,12 +158,16 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             code: 'BBBBBB',
-            nom: 'BBBBBB',
-            description: 'BBBBBB',
+            date: dayjs(currentDate).format(DATE_FORMAT),
           },
           elemDefault
         );
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            date: currentDate,
+          },
+          returnedFromService
+        );
         axiosStub.get.resolves([returnedFromService]);
         return service.retrieve().then(res => {
           expect(res).toContainEqual(expected);

@@ -25,9 +25,8 @@ public class Image implements Serializable {
     @Column(name = "path")
     private String path;
 
-    @JsonIgnoreProperties(value = { "maladie" }, allowSetters = true)
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "maladie", "images" }, allowSetters = true)
     private Stade stade;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

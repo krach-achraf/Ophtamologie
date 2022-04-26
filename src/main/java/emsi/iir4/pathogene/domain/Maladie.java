@@ -2,6 +2,7 @@ package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -24,11 +25,8 @@ public class Maladie implements Serializable {
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "nom")
-    private String nom;
-
-    @Column(name = "description")
-    private String description;
+    @Column(name = "date")
+    private LocalDate date;
 
     @JsonIgnoreProperties(value = { "maladie", "patient", "visite" }, allowSetters = true)
     @OneToOne(mappedBy = "maladie")
@@ -39,8 +37,12 @@ public class Maladie implements Serializable {
     private Set<Patient> patients = new HashSet<>();
 
     @OneToMany(mappedBy = "maladie")
-    @JsonIgnoreProperties(value = { "maladie" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "maladie", "images" }, allowSetters = true)
     private Set<Stade> stades = new HashSet<>();
+
+    @OneToMany(mappedBy = "maladie")
+    @JsonIgnoreProperties(value = { "maladie", "classifications" }, allowSetters = true)
+    private Set<Unclassified> unclassifieds = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -70,30 +72,17 @@ public class Maladie implements Serializable {
         this.code = code;
     }
 
-    public String getNom() {
-        return this.nom;
+    public LocalDate getDate() {
+        return this.date;
     }
 
-    public Maladie nom(String nom) {
-        this.setNom(nom);
+    public Maladie date(LocalDate date) {
+        this.setDate(date);
         return this;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public Maladie description(String description) {
-        this.setDescription(description);
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Detection getDetection() {
@@ -177,6 +166,37 @@ public class Maladie implements Serializable {
         return this;
     }
 
+    public Set<Unclassified> getUnclassifieds() {
+        return this.unclassifieds;
+    }
+
+    public void setUnclassifieds(Set<Unclassified> unclassifieds) {
+        if (this.unclassifieds != null) {
+            this.unclassifieds.forEach(i -> i.setMaladie(null));
+        }
+        if (unclassifieds != null) {
+            unclassifieds.forEach(i -> i.setMaladie(this));
+        }
+        this.unclassifieds = unclassifieds;
+    }
+
+    public Maladie unclassifieds(Set<Unclassified> unclassifieds) {
+        this.setUnclassifieds(unclassifieds);
+        return this;
+    }
+
+    public Maladie addUnclassified(Unclassified unclassified) {
+        this.unclassifieds.add(unclassified);
+        unclassified.setMaladie(this);
+        return this;
+    }
+
+    public Maladie removeUnclassified(Unclassified unclassified) {
+        this.unclassifieds.remove(unclassified);
+        unclassified.setMaladie(null);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -202,8 +222,7 @@ public class Maladie implements Serializable {
         return "Maladie{" +
             "id=" + getId() +
             ", code='" + getCode() + "'" +
-            ", nom='" + getNom() + "'" +
-            ", description='" + getDescription() + "'" +
+            ", date='" + getDate() + "'" +
             "}";
     }
 }

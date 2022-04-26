@@ -61,7 +61,7 @@ public class Patient implements Serializable {
     private Secretaire secretaire;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "detection", "patients", "stades" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
     private Maladie maladie;
 
     @OneToMany(mappedBy = "patient")

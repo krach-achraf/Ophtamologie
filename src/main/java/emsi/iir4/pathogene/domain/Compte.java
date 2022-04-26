@@ -2,7 +2,6 @@ package emsi.iir4.pathogene.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 /**
  * A Compte.
@@ -17,24 +16,6 @@ public class Compte implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "code", unique = true)
-    private String code;
-
-    @Column(name = "mot_de_passe")
-    private String motDePasse;
-
-    @Column(name = "role")
-    private String role;
-
-    @Column(name = "ip")
-    private String ip;
-
-    @Column(name = "status")
-    private String status;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -53,84 +34,6 @@ public class Compte implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public Compte email(String email) {
-        this.setEmail(email);
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
-
-    public Compte code(String code) {
-        this.setCode(code);
-        return this;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMotDePasse() {
-        return this.motDePasse;
-    }
-
-    public Compte motDePasse(String motDePasse) {
-        this.setMotDePasse(motDePasse);
-        return this;
-    }
-
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
-    }
-
-    public String getRole() {
-        return this.role;
-    }
-
-    public Compte role(String role) {
-        this.setRole(role);
-        return this;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getIp() {
-        return this.ip;
-    }
-
-    public Compte ip(String ip) {
-        this.setIp(ip);
-        return this;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public Compte status(String status) {
-        this.setStatus(status);
-        return this;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public User getUser() {
@@ -170,12 +73,6 @@ public class Compte implements Serializable {
     public String toString() {
         return "Compte{" +
             "id=" + getId() +
-            ", email='" + getEmail() + "'" +
-            ", code='" + getCode() + "'" +
-            ", motDePasse='" + getMotDePasse() + "'" +
-            ", role='" + getRole() + "'" +
-            ", ip='" + getIp() + "'" +
-            ", status='" + getStatus() + "'" +
             "}";
     }
 }

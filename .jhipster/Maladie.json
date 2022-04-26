@@ -11,12 +11,8 @@
       "fieldValidateRules": ["unique"]
     },
     {
-      "fieldName": "nom",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "description",
-      "fieldType": "String"
+      "fieldName": "date",
+      "fieldType": "LocalDate"
     }
   ],
   "fluentMethods": true,
@@ -42,6 +38,12 @@
       "otherEntityName": "stade",
       "otherEntityRelationshipName": "maladie",
       "relationshipName": "stade",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "unclassified",
+      "otherEntityRelationshipName": "maladie",
+      "relationshipName": "unclassified",
       "relationshipType": "one-to-many"
     }
   ],

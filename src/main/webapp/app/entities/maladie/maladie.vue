@@ -29,8 +29,7 @@
           <tr>
             <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Code</span></th>
-            <th scope="row"><span>Nom</span></th>
-            <th scope="row"><span>Description</span></th>
+            <th scope="row"><span>Date</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -40,8 +39,7 @@
               <router-link :to="{ name: 'MaladieView', params: { maladieId: maladie.id } }">{{ maladie.id }}</router-link>
             </td>
             <td>{{ maladie.code }}</td>
-            <td>{{ maladie.nom }}</td>
-            <td>{{ maladie.description }}</td>
+            <td>{{ maladie.date }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'MaladieView', params: { maladieId: maladie.id } }" custom v-slot="{ navigate }">

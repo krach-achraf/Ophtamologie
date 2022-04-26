@@ -11,14 +11,16 @@ import { IPatient } from '@/shared/model/patient.model';
 import StadeService from '@/entities/stade/stade.service';
 import { IStade } from '@/shared/model/stade.model';
 
+import UnclassifiedService from '@/entities/unclassified/unclassified.service';
+import { IUnclassified } from '@/shared/model/unclassified.model';
+
 import { IMaladie, Maladie } from '@/shared/model/maladie.model';
 import MaladieService from './maladie.service';
 
 const validations: any = {
   maladie: {
     code: {},
-    nom: {},
-    description: {},
+    date: {},
   },
 };
 
@@ -42,6 +44,10 @@ export default class MaladieUpdate extends Vue {
   @Inject('stadeService') private stadeService: () => StadeService;
 
   public stades: IStade[] = [];
+
+  @Inject('unclassifiedService') private unclassifiedService: () => UnclassifiedService;
+
+  public unclassifieds: IUnclassified[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -137,6 +143,11 @@ export default class MaladieUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.stades = res.data;
+      });
+    this.unclassifiedService()
+      .retrieve()
+      .then(res => {
+        this.unclassifieds = res.data;
       });
   }
 }

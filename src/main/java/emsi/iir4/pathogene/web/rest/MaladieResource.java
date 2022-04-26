@@ -130,11 +130,8 @@ public class MaladieResource {
                 if (maladie.getCode() != null) {
                     existingMaladie.setCode(maladie.getCode());
                 }
-                if (maladie.getNom() != null) {
-                    existingMaladie.setNom(maladie.getNom());
-                }
-                if (maladie.getDescription() != null) {
-                    existingMaladie.setDescription(maladie.getDescription());
+                if (maladie.getDate() != null) {
+                    existingMaladie.setDate(maladie.getDate());
                 }
 
                 return existingMaladie;

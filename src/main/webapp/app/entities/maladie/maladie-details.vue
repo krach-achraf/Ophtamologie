@@ -11,16 +11,10 @@
             <span>{{ maladie.code }}</span>
           </dd>
           <dt>
-            <span>Nom</span>
+            <span>Date</span>
           </dt>
           <dd>
-            <span>{{ maladie.nom }}</span>
-          </dd>
-          <dt>
-            <span>Description</span>
-          </dt>
-          <dd>
-            <span>{{ maladie.description }}</span>
+            <span>{{ maladie.date }}</span>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

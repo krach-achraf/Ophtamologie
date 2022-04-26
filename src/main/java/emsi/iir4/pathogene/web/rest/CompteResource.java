@@ -8,8 +8,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +46,7 @@ public class CompteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/comptes")
-    public ResponseEntity<Compte> createCompte(@Valid @RequestBody Compte compte) throws URISyntaxException {
+    public ResponseEntity<Compte> createCompte(@RequestBody Compte compte) throws URISyntaxException {
         log.debug("REST request to save Compte : {}", compte);
         if (compte.getId() != null) {
             throw new BadRequestAlertException("A new compte cannot already have an ID", ENTITY_NAME, "idexists");
@@ -71,10 +69,8 @@ public class CompteResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/comptes/{id}")
-    public ResponseEntity<Compte> updateCompte(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody Compte compte
-    ) throws URISyntaxException {
+    public ResponseEntity<Compte> updateCompte(@PathVariable(value = "id", required = false) final Long id, @RequestBody Compte compte)
+        throws URISyntaxException {
         log.debug("REST request to update Compte : {}, {}", id, compte);
         if (compte.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -108,7 +104,7 @@ public class CompteResource {
     @PatchMapping(value = "/comptes/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<Compte> partialUpdateCompte(
         @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody Compte compte
+        @RequestBody Compte compte
     ) throws URISyntaxException {
         log.debug("REST request to partial update Compte partially : {}, {}", id, compte);
         if (compte.getId() == null) {
@@ -125,25 +121,6 @@ public class CompteResource {
         Optional<Compte> result = compteRepository
             .findById(compte.getId())
             .map(existingCompte -> {
-                if (compte.getEmail() != null) {
-                    existingCompte.setEmail(compte.getEmail());
-                }
-                if (compte.getCode() != null) {
-                    existingCompte.setCode(compte.getCode());
-                }
-                if (compte.getMotDePasse() != null) {
-                    existingCompte.setMotDePasse(compte.getMotDePasse());
-                }
-                if (compte.getRole() != null) {
-                    existingCompte.setRole(compte.getRole());
-                }
-                if (compte.getIp() != null) {
-                    existingCompte.setIp(compte.getIp());
-                }
-                if (compte.getStatus() != null) {
-                    existingCompte.setStatus(compte.getStatus());
-                }
-
                 return existingCompte;
             })
             .map(compteRepository::save);

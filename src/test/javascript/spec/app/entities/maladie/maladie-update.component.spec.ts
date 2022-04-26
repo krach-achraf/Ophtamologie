@@ -14,6 +14,8 @@ import DetectionService from '@/entities/detection/detection.service';
 import PatientService from '@/entities/patient/patient.service';
 
 import StadeService from '@/entities/stade/stade.service';
+
+import UnclassifiedService from '@/entities/unclassified/unclassified.service';
 import AlertService from '@/shared/alert/alert.service';
 
 const localVue = createLocalVue();
@@ -58,6 +60,11 @@ describe('Component Tests', () => {
 
           stadeService: () =>
             sinon.createStubInstance<StadeService>(StadeService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          unclassifiedService: () =>
+            sinon.createStubInstance<UnclassifiedService>(UnclassifiedService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },

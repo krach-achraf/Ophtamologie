@@ -4,33 +4,7 @@
   "dto": "no",
   "embedded": false,
   "entityTableName": "compte",
-  "fields": [
-    {
-      "fieldName": "email",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "code",
-      "fieldType": "String",
-      "fieldValidateRules": ["unique"]
-    },
-    {
-      "fieldName": "motDePasse",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "role",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "ip",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "status",
-      "fieldType": "String"
-    }
-  ],
+  "fields": [],
   "fluentMethods": true,
   "jpaMetamodelFiltering": false,
   "name": "Compte",

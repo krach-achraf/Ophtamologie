@@ -28,7 +28,7 @@ public class Unclassified implements Serializable {
     private String path;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "detection", "patients", "stades" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
     private Maladie maladie;
 
     @OneToMany(mappedBy = "unclassified")

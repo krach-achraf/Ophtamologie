@@ -2,6 +2,8 @@ package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -29,8 +31,12 @@ public class Stade implements Serializable {
     private String description;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "detection", "patients", "stades" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
     private Maladie maladie;
+
+    @OneToMany(mappedBy = "stade")
+    @JsonIgnoreProperties(value = { "stade" }, allowSetters = true)
+    private Set<Image> images = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -96,6 +102,37 @@ public class Stade implements Serializable {
 
     public Stade maladie(Maladie maladie) {
         this.setMaladie(maladie);
+        return this;
+    }
+
+    public Set<Image> getImages() {
+        return this.images;
+    }
+
+    public void setImages(Set<Image> images) {
+        if (this.images != null) {
+            this.images.forEach(i -> i.setStade(null));
+        }
+        if (images != null) {
+            images.forEach(i -> i.setStade(this));
+        }
+        this.images = images;
+    }
+
+    public Stade images(Set<Image> images) {
+        this.setImages(images);
+        return this;
+    }
+
+    public Stade addImage(Image image) {
+        this.images.add(image);
+        image.setStade(this);
+        return this;
+    }
+
+    public Stade removeImage(Image image) {
+        this.images.remove(image);
+        image.setStade(null);
         return this;
     }
 

@@ -22,28 +22,32 @@
             <div v-if="$v.maladie.code.$anyDirty && $v.maladie.code.$invalid"></div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="maladie-nom">Nom</label>
-            <input
-              type="text"
-              class="form-control"
-              name="nom"
-              id="maladie-nom"
-              data-cy="nom"
-              :class="{ valid: !$v.maladie.nom.$invalid, invalid: $v.maladie.nom.$invalid }"
-              v-model="$v.maladie.nom.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" for="maladie-description">Description</label>
-            <input
-              type="text"
-              class="form-control"
-              name="description"
-              id="maladie-description"
-              data-cy="description"
-              :class="{ valid: !$v.maladie.description.$invalid, invalid: $v.maladie.description.$invalid }"
-              v-model="$v.maladie.description.$model"
-            />
+            <label class="form-control-label" for="maladie-date">Date</label>
+            <b-input-group class="mb-3">
+              <b-input-group-prepend>
+                <b-form-datepicker
+                  aria-controls="maladie-date"
+                  v-model="$v.maladie.date.$model"
+                  name="date"
+                  class="form-control"
+                  :locale="currentLanguage"
+                  button-only
+                  today-button
+                  reset-button
+                  close-button
+                >
+                </b-form-datepicker>
+              </b-input-group-prepend>
+              <b-form-input
+                id="maladie-date"
+                data-cy="date"
+                type="text"
+                class="form-control"
+                name="date"
+                :class="{ valid: !$v.maladie.date.$invalid, invalid: $v.maladie.date.$invalid }"
+                v-model="$v.maladie.date.$model"
+              />
+            </b-input-group>
           </div>
         </div>
         <div>

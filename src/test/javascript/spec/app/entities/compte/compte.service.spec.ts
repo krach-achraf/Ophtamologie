@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new CompteService();
-      elemDefault = new Compte(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Compte(123);
     });
 
     describe('Service methods', () => {
@@ -79,17 +79,7 @@ describe('Service Tests', () => {
       });
 
       it('should update a Compte', async () => {
-        const returnedFromService = Object.assign(
-          {
-            email: 'BBBBBB',
-            code: 'BBBBBB',
-            motDePasse: 'BBBBBB',
-            role: 'BBBBBB',
-            ip: 'BBBBBB',
-            status: 'BBBBBB',
-          },
-          elemDefault
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
 
         const expected = Object.assign({}, returnedFromService);
         axiosStub.put.resolves({ data: returnedFromService });
@@ -111,14 +101,7 @@ describe('Service Tests', () => {
       });
 
       it('should partial update a Compte', async () => {
-        const patchObject = Object.assign(
-          {
-            code: 'BBBBBB',
-            motDePasse: 'BBBBBB',
-            status: 'BBBBBB',
-          },
-          new Compte()
-        );
+        const patchObject = Object.assign({}, new Compte());
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
         const expected = Object.assign({}, returnedFromService);
@@ -141,17 +124,7 @@ describe('Service Tests', () => {
       });
 
       it('should return a list of Compte', async () => {
-        const returnedFromService = Object.assign(
-          {
-            email: 'BBBBBB',
-            code: 'BBBBBB',
-            motDePasse: 'BBBBBB',
-            role: 'BBBBBB',
-            ip: 'BBBBBB',
-            status: 'BBBBBB',
-          },
-          elemDefault
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
         const expected = Object.assign({}, returnedFromService);
         axiosStub.get.resolves([returnedFromService]);
         return service.retrieve().then(res => {

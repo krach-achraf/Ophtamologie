@@ -38,7 +38,7 @@ public class Detection implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @JsonIgnoreProperties(value = { "detection", "patients", "stades" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Maladie maladie;

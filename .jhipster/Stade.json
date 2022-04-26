@@ -30,6 +30,12 @@
       "otherEntityRelationshipName": "stade",
       "relationshipName": "maladie",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "image",
+      "otherEntityRelationshipName": "stade",
+      "relationshipName": "image",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

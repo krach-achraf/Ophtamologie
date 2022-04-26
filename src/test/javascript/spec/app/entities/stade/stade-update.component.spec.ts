@@ -10,6 +10,8 @@ import StadeClass from '@/entities/stade/stade-update.component';
 import StadeService from '@/entities/stade/stade.service';
 
 import MaladieService from '@/entities/maladie/maladie.service';
+
+import ImageService from '@/entities/image/image.service';
 import AlertService from '@/shared/alert/alert.service';
 
 const localVue = createLocalVue();
@@ -44,6 +46,11 @@ describe('Component Tests', () => {
 
           maladieService: () =>
             sinon.createStubInstance<MaladieService>(MaladieService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          imageService: () =>
+            sinon.createStubInstance<ImageService>(ImageService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },

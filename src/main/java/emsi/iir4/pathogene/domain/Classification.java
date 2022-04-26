@@ -30,7 +30,7 @@ public class Classification implements Serializable {
     private Medecin medecin;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "maladie" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "maladie", "images" }, allowSetters = true)
     private Stade stade;
 
     @ManyToOne

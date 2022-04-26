@@ -28,12 +28,6 @@
         <thead>
           <tr>
             <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>Email</span></th>
-            <th scope="row"><span>Code</span></th>
-            <th scope="row"><span>Mot De Passe</span></th>
-            <th scope="row"><span>Role</span></th>
-            <th scope="row"><span>Ip</span></th>
-            <th scope="row"><span>Status</span></th>
             <th scope="row"><span>User</span></th>
             <th scope="row"></th>
           </tr>
@@ -43,12 +37,6 @@
             <td>
               <router-link :to="{ name: 'CompteView', params: { compteId: compte.id } }">{{ compte.id }}</router-link>
             </td>
-            <td>{{ compte.email }}</td>
-            <td>{{ compte.code }}</td>
-            <td>{{ compte.motDePasse }}</td>
-            <td>{{ compte.role }}</td>
-            <td>{{ compte.ip }}</td>
-            <td>{{ compte.status }}</td>
             <td>
               {{ compte.user ? compte.user.id : '' }}
             </td>

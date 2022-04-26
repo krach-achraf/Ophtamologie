@@ -1,4 +1,5 @@
 import { IMaladie } from '@/shared/model/maladie.model';
+import { IImage } from '@/shared/model/image.model';
 
 export interface IStade {
   id?: number;
@@ -6,6 +7,7 @@ export interface IStade {
   level?: string | null;
   description?: string | null;
   maladie?: IMaladie | null;
+  images?: IImage[] | null;
 }
 
 export class Stade implements IStade {
@@ -14,6 +16,7 @@ export class Stade implements IStade {
     public code?: string | null,
     public level?: string | null,
     public description?: string | null,
-    public maladie?: IMaladie | null
+    public maladie?: IMaladie | null,
+    public images?: IImage[] | null
   ) {}
 }

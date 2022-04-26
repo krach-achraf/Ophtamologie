@@ -5,42 +5,6 @@
         <h2 class="jh-entity-heading" data-cy="compteDetailsHeading"><span>Compte</span> {{ compte.id }}</h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span>Email</span>
-          </dt>
-          <dd>
-            <span>{{ compte.email }}</span>
-          </dd>
-          <dt>
-            <span>Code</span>
-          </dt>
-          <dd>
-            <span>{{ compte.code }}</span>
-          </dd>
-          <dt>
-            <span>Mot De Passe</span>
-          </dt>
-          <dd>
-            <span>{{ compte.motDePasse }}</span>
-          </dd>
-          <dt>
-            <span>Role</span>
-          </dt>
-          <dd>
-            <span>{{ compte.role }}</span>
-          </dd>
-          <dt>
-            <span>Ip</span>
-          </dt>
-          <dd>
-            <span>{{ compte.ip }}</span>
-          </dd>
-          <dt>
-            <span>Status</span>
-          </dt>
-          <dd>
-            <span>{{ compte.status }}</span>
-          </dd>
-          <dt>
             <span>User</span>
           </dt>
           <dd>

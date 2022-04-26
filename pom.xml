@@ -977,8 +977,8 @@
                                 <driver>com.mysql.cj.jdbc.Driver</driver>
                                 <url>jdbc:mysql://localhost:3306/pathogene</url>
                                 <defaultSchemaName>pathogene</defaultSchemaName>
-                                <username>root</username>
-                                <password></password>
+                                <username>jyupiter</username>
+                                <password>15935789</password>
                                 <referenceUrl>hibernate:spring:emsi.iir4.pathogene.domain?dialect=org.hibernate.dialect.MySQL8Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                                 <verbose>true</verbose>
                                 <logging>debug</logging>
