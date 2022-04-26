@@ -27,7 +27,7 @@
     <include file="config/liquibase/changelog/20220414225003_added_entity_Image.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225004_added_entity_Unclassified.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225005_added_entity_Stade.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20220426003619_changelog.xml" relativeToChangelogFile="false"/>
+
     
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220414224954_added_entity_constraints_Medecin.xml" relativeToChangelogFile="false"/>
