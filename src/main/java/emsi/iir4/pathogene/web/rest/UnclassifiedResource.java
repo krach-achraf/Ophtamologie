@@ -128,8 +128,11 @@ public class UnclassifiedResource {
                 if (unclassified.getCode() != null) {
                     existingUnclassified.setCode(unclassified.getCode());
                 }
-                if (unclassified.getPath() != null) {
-                    existingUnclassified.setPath(unclassified.getPath());
+                if (unclassified.getPhoto() != null) {
+                    existingUnclassified.setPhoto(unclassified.getPhoto());
+                }
+                if (unclassified.getPhotoContentType() != null) {
+                    existingUnclassified.setPhotoContentType(unclassified.getPhotoContentType());
                 }
 
                 return existingUnclassified;

@@ -29,7 +29,7 @@
           <tr>
             <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Code</span></th>
-            <th scope="row"><span>Path</span></th>
+            <th scope="row"><span>Photo</span></th>
             <th scope="row"><span>Maladie</span></th>
             <th scope="row"></th>
           </tr>
@@ -42,7 +42,16 @@
               }}</router-link>
             </td>
             <td>{{ unclassified.code }}</td>
-            <td>{{ unclassified.path }}</td>
+            <td>
+              <a v-if="unclassified.photo" v-on:click="openFile(unclassified.photoContentType, unclassified.photo)">
+                <img
+                  v-bind:src="'data:' + unclassified.photoContentType + ';base64,' + unclassified.photo"
+                  style="max-height: 30px"
+                  alt="unclassified image"
+                />
+              </a>
+              <span v-if="unclassified.photo">{{ unclassified.photoContentType }}, {{ byteSize(unclassified.photo) }}</span>
+            </td>
             <td>
               <div v-if="unclassified.maladie">
                 <router-link :to="{ name: 'MaladieView', params: { maladieId: unclassified.maladie.id } }">{{

@@ -6,6 +6,7 @@
   "entityTableName": "compte",
   "fields": [],
   "fluentMethods": true,
+  "incrementalChangelog": false,
   "jpaMetamodelFiltering": false,
   "name": "Compte",
   "pagination": "no",

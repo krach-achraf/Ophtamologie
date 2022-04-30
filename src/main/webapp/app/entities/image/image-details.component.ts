@@ -1,11 +1,14 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import { IImage } from '@/shared/model/image.model';
 import ImageService from './image.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component
-export default class ImageDetails extends Vue {
+export default class ImageDetails extends mixins(JhiDataUtils) {
   @Inject('imageService') private imageService: () => ImageService;
   @Inject('alertService') private alertService: () => AlertService;
 

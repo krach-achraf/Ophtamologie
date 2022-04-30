@@ -29,7 +29,7 @@
           <tr>
             <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Code</span></th>
-            <th scope="row"><span>Path</span></th>
+            <th scope="row"><span>Photo</span></th>
             <th scope="row"><span>Stade</span></th>
             <th scope="row"></th>
           </tr>
@@ -40,7 +40,12 @@
               <router-link :to="{ name: 'ImageView', params: { imageId: image.id } }">{{ image.id }}</router-link>
             </td>
             <td>{{ image.code }}</td>
-            <td>{{ image.path }}</td>
+            <td>
+              <a v-if="image.photo" v-on:click="openFile(image.photoContentType, image.photo)">
+                <img v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo" style="max-height: 30px" alt="image image" />
+              </a>
+              <span v-if="image.photo">{{ image.photoContentType }}, {{ byteSize(image.photo) }}</span>
+            </td>
             <td>
               <div v-if="image.stade">
                 <router-link :to="{ name: 'StadeView', params: { stadeId: image.stade.id } }">{{ image.stade.id }}</router-link>

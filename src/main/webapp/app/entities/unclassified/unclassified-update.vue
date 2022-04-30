@@ -24,15 +24,48 @@
             <div v-if="$v.unclassified.code.$anyDirty && $v.unclassified.code.$invalid"></div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="unclassified-path">Path</label>
+            <label class="form-control-label" for="unclassified-photo">Photo</label>
+            <div>
+              <img
+                v-bind:src="'data:' + unclassified.photoContentType + ';base64,' + unclassified.photo"
+                style="max-height: 100px"
+                v-if="unclassified.photo"
+                alt="unclassified image"
+              />
+              <div v-if="unclassified.photo" class="form-text text-danger clearfix">
+                <span class="pull-left">{{ unclassified.photoContentType }}, {{ byteSize(unclassified.photo) }}</span>
+                <button
+                  type="button"
+                  v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                  class="btn btn-secondary btn-xs pull-right"
+                >
+                  <font-awesome-icon icon="times"></font-awesome-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                ref="file_photo"
+                id="file_photo"
+                data-cy="photo"
+                v-on:change="setFileData($event, unclassified, 'photo', true)"
+                accept="image/*"
+              />
+            </div>
             <input
-              type="text"
+              type="hidden"
               class="form-control"
-              name="path"
-              id="unclassified-path"
-              data-cy="path"
-              :class="{ valid: !$v.unclassified.path.$invalid, invalid: $v.unclassified.path.$invalid }"
-              v-model="$v.unclassified.path.$model"
+              name="photo"
+              id="unclassified-photo"
+              data-cy="photo"
+              :class="{ valid: !$v.unclassified.photo.$invalid, invalid: $v.unclassified.photo.$invalid }"
+              v-model="$v.unclassified.photo.$model"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="photoContentType"
+              id="unclassified-photoContentType"
+              v-model="unclassified.photoContentType"
             />
           </div>
           <div class="form-group">

@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new UnclassifiedService();
-      elemDefault = new Unclassified(123, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Unclassified(123, 'AAAAAAA', 'image/png', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -82,7 +82,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             code: 'BBBBBB',
-            path: 'BBBBBB',
+            photo: 'BBBBBB',
           },
           elemDefault
         );
@@ -133,7 +133,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             code: 'BBBBBB',
-            path: 'BBBBBB',
+            photo: 'BBBBBB',
           },
           elemDefault
         );

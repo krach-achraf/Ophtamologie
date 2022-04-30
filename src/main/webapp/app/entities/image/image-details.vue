@@ -11,10 +11,15 @@
             <span>{{ image.code }}</span>
           </dd>
           <dt>
-            <span>Path</span>
+            <span>Photo</span>
           </dt>
           <dd>
-            <span>{{ image.path }}</span>
+            <div v-if="image.photo">
+              <a v-on:click="openFile(image.photoContentType, image.photo)">
+                <img v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo" style="max-width: 100%" alt="image image" />
+              </a>
+              {{ image.photoContentType }}, {{ byteSize(image.photo) }}
+            </div>
           </dd>
           <dt>
             <span>Stade</span>

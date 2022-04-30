@@ -38,7 +38,7 @@ entity Detection {
     
 }
 
-entity 	RendezVous{
+entity  RendezVous{
 	date ZonedDateTime,
     code String unique,
     status String
@@ -63,12 +63,12 @@ entity Classification {
 
 entity Image {
 	code String unique,
-	path String
+	photo ImageBlob
 }
 
 entity Unclassified {
 	code String unique,
-	path String
+	photo ImageBlob
 }
 entity Stade {
 	code String unique,

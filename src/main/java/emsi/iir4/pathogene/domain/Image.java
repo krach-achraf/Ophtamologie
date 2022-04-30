@@ -22,8 +22,12 @@ public class Image implements Serializable {
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "path")
-    private String path;
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "maladie", "images" }, allowSetters = true)
@@ -57,17 +61,30 @@ public class Image implements Serializable {
         this.code = code;
     }
 
-    public String getPath() {
-        return this.path;
+    public byte[] getPhoto() {
+        return this.photo;
     }
 
-    public Image path(String path) {
-        this.setPath(path);
+    public Image photo(byte[] photo) {
+        this.setPhoto(photo);
         return this;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Image photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
     }
 
     public Stade getStade() {
@@ -108,7 +125,8 @@ public class Image implements Serializable {
         return "Image{" +
             "id=" + getId() +
             ", code='" + getCode() + "'" +
-            ", path='" + getPath() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

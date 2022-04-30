@@ -11,10 +11,19 @@
             <span>{{ unclassified.code }}</span>
           </dd>
           <dt>
-            <span>Path</span>
+            <span>Photo</span>
           </dt>
           <dd>
-            <span>{{ unclassified.path }}</span>
+            <div v-if="unclassified.photo">
+              <a v-on:click="openFile(unclassified.photoContentType, unclassified.photo)">
+                <img
+                  v-bind:src="'data:' + unclassified.photoContentType + ';base64,' + unclassified.photo"
+                  style="max-width: 100%"
+                  alt="unclassified image"
+                />
+              </a>
+              {{ unclassified.photoContentType }}, {{ byteSize(unclassified.photo) }}
+            </div>
           </dd>
           <dt>
             <span>Maladie</span>

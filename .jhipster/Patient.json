@@ -45,6 +45,7 @@
     }
   ],
   "fluentMethods": true,
+  "incrementalChangelog": false,
   "jpaMetamodelFiltering": false,
   "name": "Patient",
   "pagination": "no",

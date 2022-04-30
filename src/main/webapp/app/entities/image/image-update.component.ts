@@ -1,4 +1,7 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import AlertService from '@/shared/alert/alert.service';
 
@@ -11,14 +14,14 @@ import ImageService from './image.service';
 const validations: any = {
   image: {
     code: {},
-    path: {},
+    photo: {},
   },
 };
 
 @Component({
   validations,
 })
-export default class ImageUpdate extends Vue {
+export default class ImageUpdate extends mixins(JhiDataUtils) {
   @Inject('imageService') private imageService: () => ImageService;
   @Inject('alertService') private alertService: () => AlertService;
 
@@ -105,6 +108,20 @@ export default class ImageUpdate extends Vue {
 
   public previousState(): void {
     this.$router.go(-1);
+  }
+
+  public clearInputImage(field, fieldContentType, idInput): void {
+    if (this.image && field && fieldContentType) {
+      if (Object.prototype.hasOwnProperty.call(this.image, field)) {
+        this.image[field] = null;
+      }
+      if (Object.prototype.hasOwnProperty.call(this.image, fieldContentType)) {
+        this.image[fieldContentType] = null;
+      }
+      if (idInput) {
+        (<any>this).$refs[idInput] = null;
+      }
+    }
   }
 
   public initRelationships(): void {

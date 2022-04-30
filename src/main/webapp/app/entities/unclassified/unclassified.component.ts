@@ -1,6 +1,9 @@
+import { mixins } from 'vue-class-component';
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { IUnclassified } from '@/shared/model/unclassified.model';
+
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import UnclassifiedService from './unclassified.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -8,7 +11,7 @@ import AlertService from '@/shared/alert/alert.service';
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class Unclassified extends Vue {
+export default class Unclassified extends mixins(JhiDataUtils) {
   @Inject('unclassifiedService') private unclassifiedService: () => UnclassifiedService;
   @Inject('alertService') private alertService: () => AlertService;
 

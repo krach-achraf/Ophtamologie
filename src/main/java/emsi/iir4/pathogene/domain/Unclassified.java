@@ -24,8 +24,12 @@ public class Unclassified implements Serializable {
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "path")
-    private String path;
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
@@ -63,17 +67,30 @@ public class Unclassified implements Serializable {
         this.code = code;
     }
 
-    public String getPath() {
-        return this.path;
+    public byte[] getPhoto() {
+        return this.photo;
     }
 
-    public Unclassified path(String path) {
-        this.setPath(path);
+    public Unclassified photo(byte[] photo) {
+        this.setPhoto(photo);
         return this;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Unclassified photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
     }
 
     public Maladie getMaladie() {
@@ -145,7 +162,8 @@ public class Unclassified implements Serializable {
         return "Unclassified{" +
             "id=" + getId() +
             ", code='" + getCode() + "'" +
-            ", path='" + getPath() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

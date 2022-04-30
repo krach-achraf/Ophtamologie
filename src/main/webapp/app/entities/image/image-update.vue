@@ -22,15 +22,48 @@
             <div v-if="$v.image.code.$anyDirty && $v.image.code.$invalid"></div>
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="image-path">Path</label>
+            <label class="form-control-label" for="image-photo">Photo</label>
+            <div>
+              <img
+                v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo"
+                style="max-height: 100px"
+                v-if="image.photo"
+                alt="image image"
+              />
+              <div v-if="image.photo" class="form-text text-danger clearfix">
+                <span class="pull-left">{{ image.photoContentType }}, {{ byteSize(image.photo) }}</span>
+                <button
+                  type="button"
+                  v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                  class="btn btn-secondary btn-xs pull-right"
+                >
+                  <font-awesome-icon icon="times"></font-awesome-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                ref="file_photo"
+                id="file_photo"
+                data-cy="photo"
+                v-on:change="setFileData($event, image, 'photo', true)"
+                accept="image/*"
+              />
+            </div>
             <input
-              type="text"
+              type="hidden"
               class="form-control"
-              name="path"
-              id="image-path"
-              data-cy="path"
-              :class="{ valid: !$v.image.path.$invalid, invalid: $v.image.path.$invalid }"
-              v-model="$v.image.path.$model"
+              name="photo"
+              id="image-photo"
+              data-cy="photo"
+              :class="{ valid: !$v.image.photo.$invalid, invalid: $v.image.photo.$invalid }"
+              v-model="$v.image.photo.$model"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="photoContentType"
+              id="image-photoContentType"
+              v-model="image.photoContentType"
             />
           </div>
           <div class="form-group">

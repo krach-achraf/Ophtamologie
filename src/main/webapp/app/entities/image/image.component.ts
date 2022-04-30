@@ -1,6 +1,9 @@
+import { mixins } from 'vue-class-component';
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { IImage } from '@/shared/model/image.model';
+
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import ImageService from './image.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -8,7 +11,7 @@ import AlertService from '@/shared/alert/alert.service';
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class Image extends Vue {
+export default class Image extends mixins(JhiDataUtils) {
   @Inject('imageService') private imageService: () => ImageService;
   @Inject('alertService') private alertService: () => AlertService;
 

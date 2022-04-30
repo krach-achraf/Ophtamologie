@@ -1,4 +1,7 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import AlertService from '@/shared/alert/alert.service';
 
@@ -14,14 +17,14 @@ import UnclassifiedService from './unclassified.service';
 const validations: any = {
   unclassified: {
     code: {},
-    path: {},
+    photo: {},
   },
 };
 
 @Component({
   validations,
 })
-export default class UnclassifiedUpdate extends Vue {
+export default class UnclassifiedUpdate extends mixins(JhiDataUtils) {
   @Inject('unclassifiedService') private unclassifiedService: () => UnclassifiedService;
   @Inject('alertService') private alertService: () => AlertService;
 
@@ -112,6 +115,20 @@ export default class UnclassifiedUpdate extends Vue {
 
   public previousState(): void {
     this.$router.go(-1);
+  }
+
+  public clearInputImage(field, fieldContentType, idInput): void {
+    if (this.unclassified && field && fieldContentType) {
+      if (Object.prototype.hasOwnProperty.call(this.unclassified, field)) {
+        this.unclassified[field] = null;
+      }
+      if (Object.prototype.hasOwnProperty.call(this.unclassified, fieldContentType)) {
+        this.unclassified[fieldContentType] = null;
+      }
+      if (idInput) {
+        (<any>this).$refs[idInput] = null;
+      }
+    }
   }
 
   public initRelationships(): void {

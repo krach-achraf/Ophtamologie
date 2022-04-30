@@ -20,6 +20,7 @@
     }
   ],
   "fluentMethods": true,
+  "incrementalChangelog": false,
   "jpaMetamodelFiltering": false,
   "name": "RendezVous",
   "pagination": "no",

@@ -1,11 +1,14 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import { IUnclassified } from '@/shared/model/unclassified.model';
 import UnclassifiedService from './unclassified.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component
-export default class UnclassifiedDetails extends Vue {
+export default class UnclassifiedDetails extends mixins(JhiDataUtils) {
   @Inject('unclassifiedService') private unclassifiedService: () => UnclassifiedService;
   @Inject('alertService') private alertService: () => AlertService;
 

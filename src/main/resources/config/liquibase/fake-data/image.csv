@@ -1,11 +1,11 @@
-id;code;path
-1;Cambridgeshire c;Dollar Saint-Honoré Front-line
-2;fuchsia disintermediate;des
-3;Buckinghamshire JSON;Krone Lepic
-4;Steel;Synergistic quantify Clothing
-5;vortals deliverables;Producteur
-6;Picardie port;empower Administrateur b
-7;groupware optical Salomon;flexibility
-8;Wooden;Israël Cambridgeshire
-9;Lempira Metal;optimize Cameroun
-10;navigate;deposit Coordinateur Portugal
+id;code;photo;photo_content_type
+1;Cambridgeshire c;../fake-data/blob/hipster.png;image/png
+2;Dollar Saint-Honoré Front-line;../fake-data/blob/hipster.png;image/png
+3;fuchsia disintermediate;../fake-data/blob/hipster.png;image/png
+4;des;../fake-data/blob/hipster.png;image/png
+5;Buckinghamshire JSON;../fake-data/blob/hipster.png;image/png
+6;Krone Lepic;../fake-data/blob/hipster.png;image/png
+7;Steel;../fake-data/blob/hipster.png;image/png
+8;Synergistic quantify Clothing;../fake-data/blob/hipster.png;image/png
+9;vortals deliverables;../fake-data/blob/hipster.png;image/png
+10;Producteur;../fake-data/blob/hipster.png;image/png

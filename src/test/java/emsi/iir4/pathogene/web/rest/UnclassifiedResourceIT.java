@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link UnclassifiedResource} REST controller.
@@ -32,8 +33,10 @@ class UnclassifiedResourceIT {
     private static final String DEFAULT_CODE = "AAAAAAAAAA";
     private static final String UPDATED_CODE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PATH = "AAAAAAAAAA";
-    private static final String UPDATED_PATH = "BBBBBBBBBB";
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/unclassifieds";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -59,7 +62,7 @@ class UnclassifiedResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Unclassified createEntity(EntityManager em) {
-        Unclassified unclassified = new Unclassified().code(DEFAULT_CODE).path(DEFAULT_PATH);
+        Unclassified unclassified = new Unclassified().code(DEFAULT_CODE).photo(DEFAULT_PHOTO).photoContentType(DEFAULT_PHOTO_CONTENT_TYPE);
         return unclassified;
     }
 
@@ -70,7 +73,7 @@ class UnclassifiedResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Unclassified createUpdatedEntity(EntityManager em) {
-        Unclassified unclassified = new Unclassified().code(UPDATED_CODE).path(UPDATED_PATH);
+        Unclassified unclassified = new Unclassified().code(UPDATED_CODE).photo(UPDATED_PHOTO).photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
         return unclassified;
     }
 
@@ -93,7 +96,8 @@ class UnclassifiedResourceIT {
         assertThat(unclassifiedList).hasSize(databaseSizeBeforeCreate + 1);
         Unclassified testUnclassified = unclassifiedList.get(unclassifiedList.size() - 1);
         assertThat(testUnclassified.getCode()).isEqualTo(DEFAULT_CODE);
-        assertThat(testUnclassified.getPath()).isEqualTo(DEFAULT_PATH);
+        assertThat(testUnclassified.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testUnclassified.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -127,7 +131,8 @@ class UnclassifiedResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(unclassified.getId().intValue())))
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
-            .andExpect(jsonPath("$.[*].path").value(hasItem(DEFAULT_PATH)));
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
     }
 
     @Test
@@ -143,7 +148,8 @@ class UnclassifiedResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(unclassified.getId().intValue()))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
-            .andExpect(jsonPath("$.path").value(DEFAULT_PATH));
+            .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)));
     }
 
     @Test
@@ -165,7 +171,7 @@ class UnclassifiedResourceIT {
         Unclassified updatedUnclassified = unclassifiedRepository.findById(unclassified.getId()).get();
         // Disconnect from session so that the updates on updatedUnclassified are not directly saved in db
         em.detach(updatedUnclassified);
-        updatedUnclassified.code(UPDATED_CODE).path(UPDATED_PATH);
+        updatedUnclassified.code(UPDATED_CODE).photo(UPDATED_PHOTO).photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restUnclassifiedMockMvc
             .perform(
@@ -180,7 +186,8 @@ class UnclassifiedResourceIT {
         assertThat(unclassifiedList).hasSize(databaseSizeBeforeUpdate);
         Unclassified testUnclassified = unclassifiedList.get(unclassifiedList.size() - 1);
         assertThat(testUnclassified.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testUnclassified.getPath()).isEqualTo(UPDATED_PATH);
+        assertThat(testUnclassified.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testUnclassified.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -251,7 +258,7 @@ class UnclassifiedResourceIT {
         Unclassified partialUpdatedUnclassified = new Unclassified();
         partialUpdatedUnclassified.setId(unclassified.getId());
 
-        partialUpdatedUnclassified.code(UPDATED_CODE).path(UPDATED_PATH);
+        partialUpdatedUnclassified.code(UPDATED_CODE).photo(UPDATED_PHOTO).photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restUnclassifiedMockMvc
             .perform(
@@ -266,7 +273,8 @@ class UnclassifiedResourceIT {
         assertThat(unclassifiedList).hasSize(databaseSizeBeforeUpdate);
         Unclassified testUnclassified = unclassifiedList.get(unclassifiedList.size() - 1);
         assertThat(testUnclassified.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testUnclassified.getPath()).isEqualTo(UPDATED_PATH);
+        assertThat(testUnclassified.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testUnclassified.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -281,7 +289,7 @@ class UnclassifiedResourceIT {
         Unclassified partialUpdatedUnclassified = new Unclassified();
         partialUpdatedUnclassified.setId(unclassified.getId());
 
-        partialUpdatedUnclassified.code(UPDATED_CODE).path(UPDATED_PATH);
+        partialUpdatedUnclassified.code(UPDATED_CODE).photo(UPDATED_PHOTO).photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restUnclassifiedMockMvc
             .perform(
@@ -296,7 +304,8 @@ class UnclassifiedResourceIT {
         assertThat(unclassifiedList).hasSize(databaseSizeBeforeUpdate);
         Unclassified testUnclassified = unclassifiedList.get(unclassifiedList.size() - 1);
         assertThat(testUnclassified.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testUnclassified.getPath()).isEqualTo(UPDATED_PATH);
+        assertThat(testUnclassified.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testUnclassified.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test

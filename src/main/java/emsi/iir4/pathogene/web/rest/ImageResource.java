@@ -126,8 +126,11 @@ public class ImageResource {
                 if (image.getCode() != null) {
                     existingImage.setCode(image.getCode());
                 }
-                if (image.getPath() != null) {
-                    existingImage.setPath(image.getPath());
+                if (image.getPhoto() != null) {
+                    existingImage.setPhoto(image.getPhoto());
+                }
+                if (image.getPhotoContentType() != null) {
+                    existingImage.setPhotoContentType(image.getPhotoContentType());
                 }
 
                 return existingImage;

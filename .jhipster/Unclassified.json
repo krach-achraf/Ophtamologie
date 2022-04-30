@@ -11,11 +11,13 @@
       "fieldValidateRules": ["unique"]
     },
     {
-      "fieldName": "path",
-      "fieldType": "String"
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "fluentMethods": true,
+  "incrementalChangelog": false,
   "jpaMetamodelFiltering": false,
   "name": "Unclassified",
   "pagination": "no",

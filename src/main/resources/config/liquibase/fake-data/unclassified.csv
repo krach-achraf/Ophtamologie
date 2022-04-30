@@ -1,11 +1,11 @@
-id;code;path
-1;cross-platform Computers;a Nicaragua benchmark
-2;Pastourelle Borders;Superviseur Dauphine de
-3;c invoice;Marcadet
-4;Verde;cross-platform
-5;schemas;parsing Borders programming
-6;Distributed;Generic Chat-qui-Pêche
-7;gold;Plastic
-8;web-enabled redundant RAM;Vaneau Agent whiteboard
-9;Assimilated best-of-breed reboot;Franche-Comté
-10;Inverse Bourgogne 24/365;Liban info-mediaries
+id;code;photo;photo_content_type
+1;cross-platform Computers;../fake-data/blob/hipster.png;image/png
+2;a Nicaragua benchmark;../fake-data/blob/hipster.png;image/png
+3;Pastourelle Borders;../fake-data/blob/hipster.png;image/png
+4;Superviseur Dauphine de;../fake-data/blob/hipster.png;image/png
+5;c invoice;../fake-data/blob/hipster.png;image/png
+6;Marcadet;../fake-data/blob/hipster.png;image/png
+7;Verde;../fake-data/blob/hipster.png;image/png
+8;cross-platform;../fake-data/blob/hipster.png;image/png
+9;schemas;../fake-data/blob/hipster.png;image/png
+10;parsing Borders programming;../fake-data/blob/hipster.png;image/png

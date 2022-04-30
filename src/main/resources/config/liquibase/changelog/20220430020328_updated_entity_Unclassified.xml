@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added columns to the entity Unclassified.
+    -->
+    <changeSet id="20220430020328-1-add-columns" author="jhipster">
+        <addColumn tableName="unclassified">
+            <column name="photo" type="longblob"/>
+            <column name="photo_content_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <!--
+        Dropped columns to the entity Unclassified.
+    -->
+    <changeSet id="20220430020328-1-drop-columns" author="jhipster">
+        <dropColumn tableName="unclassified">
+            <column name="path"/>
+        </dropColumn>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+</databaseChangeLog>

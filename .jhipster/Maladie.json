@@ -16,6 +16,7 @@
     }
   ],
   "fluentMethods": true,
+  "incrementalChangelog": false,
   "jpaMetamodelFiltering": false,
   "name": "Maladie",
   "pagination": "no",
