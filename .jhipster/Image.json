@@ -1,0 +1,34 @@
+{
+  "applications": "*",
+  "changelogDate": "20220414225003",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "image",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    }
+  ],
+  "fluentMethods": true,
+  "incrementalChangelog": false,
+  "jpaMetamodelFiltering": false,
+  "name": "Image",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "stade",
+      "otherEntityRelationshipName": "image",
+      "relationshipName": "stade",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,24 @@
+{
+  "applications": "*",
+  "changelogDate": "20220414225000",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "compte",
+  "fields": [],
+  "fluentMethods": true,
+  "incrementalChangelog": false,
+  "jpaMetamodelFiltering": false,
+  "name": "Compte",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "compte",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "no"
+}

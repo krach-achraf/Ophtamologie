@@ -1,0 +1,172 @@
+import { Component, Vue, Inject } from 'vue-property-decorator';
+
+import dayjs from 'dayjs';
+import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
+
+import AlertService from '@/shared/alert/alert.service';
+
+import MaladieService from '@/entities/maladie/maladie.service';
+import { IMaladie } from '@/shared/model/maladie.model';
+
+import PatientService from '@/entities/patient/patient.service';
+import { IPatient } from '@/shared/model/patient.model';
+
+import VisiteService from '@/entities/visite/visite.service';
+import { IVisite } from '@/shared/model/visite.model';
+
+import { IDetection, Detection } from '@/shared/model/detection.model';
+import DetectionService from './detection.service';
+
+const validations: any = {
+  detection: {
+    image: {},
+    code: {},
+    validation: {},
+    stade: {},
+    date: {},
+    description: {},
+  },
+};
+
+@Component({
+  validations,
+})
+export default class DetectionUpdate extends Vue {
+  @Inject('detectionService') private detectionService: () => DetectionService;
+  @Inject('alertService') private alertService: () => AlertService;
+
+  public detection: IDetection = new Detection();
+
+  @Inject('maladieService') private maladieService: () => MaladieService;
+
+  public maladies: IMaladie[] = [];
+
+  @Inject('patientService') private patientService: () => PatientService;
+
+  public patients: IPatient[] = [];
+
+  @Inject('visiteService') private visiteService: () => VisiteService;
+
+  public visites: IVisite[] = [];
+  public isSaving = false;
+  public currentLanguage = '';
+
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (to.params.detectionId) {
+        vm.retrieveDetection(to.params.detectionId);
+      }
+      vm.initRelationships();
+    });
+  }
+
+  created(): void {
+    this.currentLanguage = this.$store.getters.currentLanguage;
+    this.$store.watch(
+      () => this.$store.getters.currentLanguage,
+      () => {
+        this.currentLanguage = this.$store.getters.currentLanguage;
+      }
+    );
+  }
+
+  public save(): void {
+    this.isSaving = true;
+    if (this.detection.id) {
+      this.detectionService()
+        .update(this.detection)
+        .then(param => {
+          this.isSaving = false;
+          this.$router.go(-1);
+          const message = 'A Detection is updated with identifier ' + param.id;
+          return this.$root.$bvToast.toast(message.toString(), {
+            toaster: 'b-toaster-top-center',
+            title: 'Info',
+            variant: 'info',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(error => {
+          this.isSaving = false;
+          this.alertService().showHttpError(this, error.response);
+        });
+    } else {
+      this.detectionService()
+        .create(this.detection)
+        .then(param => {
+          this.isSaving = false;
+          this.$router.go(-1);
+          const message = 'A Detection is created with identifier ' + param.id;
+          this.$root.$bvToast.toast(message.toString(), {
+            toaster: 'b-toaster-top-center',
+            title: 'Success',
+            variant: 'success',
+            solid: true,
+            autoHideDelay: 5000,
+          });
+        })
+        .catch(error => {
+          this.isSaving = false;
+          this.alertService().showHttpError(this, error.response);
+        });
+    }
+  }
+
+  public convertDateTimeFromServer(date: Date): string {
+    if (date && dayjs(date).isValid()) {
+      return dayjs(date).format(DATE_TIME_LONG_FORMAT);
+    }
+    return null;
+  }
+
+  public updateInstantField(field, event) {
+    if (event.target.value) {
+      this.detection[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.detection[field] = null;
+    }
+  }
+
+  public updateZonedDateTimeField(field, event) {
+    if (event.target.value) {
+      this.detection[field] = dayjs(event.target.value, DATE_TIME_LONG_FORMAT);
+    } else {
+      this.detection[field] = null;
+    }
+  }
+
+  public retrieveDetection(detectionId): void {
+    this.detectionService()
+      .find(detectionId)
+      .then(res => {
+        res.date = new Date(res.date);
+        this.detection = res;
+      })
+      .catch(error => {
+        this.alertService().showHttpError(this, error.response);
+      });
+  }
+
+  public previousState(): void {
+    this.$router.go(-1);
+  }
+
+  public initRelationships(): void {
+    this.maladieService()
+      .retrieve()
+      .then(res => {
+        this.maladies = res.data;
+      });
+    this.patientService()
+      .retrieve()
+      .then(res => {
+        this.patients = res.data;
+      });
+    this.visiteService()
+      .retrieve()
+      .then(res => {
+        this.visites = res.data;
+      });
+  }
+}

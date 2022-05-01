@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20220414225001",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "maladie",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "incrementalChangelog": false,
+  "jpaMetamodelFiltering": false,
+  "name": "Maladie",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "detection",
+      "otherEntityRelationshipName": "maladie",
+      "ownerSide": false,
+      "relationshipName": "detection",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "patient",
+      "otherEntityRelationshipName": "maladie",
+      "relationshipName": "patient",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "stade",
+      "otherEntityRelationshipName": "maladie",
+      "relationshipName": "stade",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "unclassified",
+      "otherEntityRelationshipName": "maladie",
+      "relationshipName": "unclassified",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

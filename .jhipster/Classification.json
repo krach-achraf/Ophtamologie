@@ -1,0 +1,45 @@
+{
+  "applications": "*",
+  "changelogDate": "20220414225002",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "classification",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "score",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "incrementalChangelog": false,
+  "jpaMetamodelFiltering": false,
+  "name": "Classification",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "medecin",
+      "otherEntityRelationshipName": "classification",
+      "relationshipName": "medecin",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "stade",
+      "otherEntityRelationshipName": "classification",
+      "relationshipName": "stade",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "unclassified",
+      "otherEntityRelationshipName": "classification",
+      "relationshipName": "unclassified",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

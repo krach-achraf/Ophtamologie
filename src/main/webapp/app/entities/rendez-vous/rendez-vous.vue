@@ -1,0 +1,128 @@
+<template>
+  <!-- added by krach achraf -->
+  <div>
+    <h2 id="page-heading" data-cy="RendezVousHeading">
+      <span id="rendez-vous-heading">Rendez Vous</span>
+    </h2>
+    <hr>
+
+    <!-- Fullcalendar -->
+    <FullCalendar :options="calendarOptions"/>
+    <!-- end Fullcalendar -->
+
+    <!-- modal create rdv -->
+    <b-modal ref="createEntity" id="createEntity">
+      <span slot="modal-title"
+      ><span id="pathogeneApp.rendezVous.create.question"
+             data-cy="rendezVousCreateDialogHeading">Entrez les détails</span></span
+      >
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-control-label" for="rendez-vous-code">Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="code"
+            id="rendez-vous-code"
+            data-cy="code"
+            :class="{ valid: !$v.rendezVous.code.$invalid, invalid: $v.rendezVous.code.$invalid }"
+            v-model="$v.rendezVous.code.$model"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-control-label">Patient</label>
+          <select class="form-control" id="rendez-vous-patient" data-cy="patient" name="patient" v-model="idPatient">
+            <option
+              v-for="patient in patients"
+              :key="patient.id"
+              v-bind:value="patient.id"
+            >
+              {{ patient.nom }} {{ patient.prenom }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-control-label" for="rendez-vous-medecin">Medecin</label>
+          <select class="form-control" id="rendez-vous-medecin" data-cy="medecin" name="medecin" v-model="idMedecin">
+            <option
+              v-for="medecin in medecins"
+              :key="medecin.id"
+              v-bind:value="medecin.id"
+            >
+              {{ medecin.nom }} {{ medecin.prenom }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div slot="modal-footer">
+        <button type="button" class="btn btn-secondary" v-on:click="closeCreateDialog()">Annuler</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="jhi-confirm-create-rendezVous"
+          data-cy="entityConfirmCreateButton"
+          v-on:click="save()"
+        >
+          Sauvegarder
+        </button>
+      </div>
+    </b-modal>
+    <!-- end modal create rdv -->
+
+    <!-- modal delete rdv -->
+    <b-modal ref="removeEntity" id="removeEntity">
+      <span slot="modal-title"
+      ><span id="pathogeneApp.rendezVous.delete.question" data-cy="rendezVousDeleteDialogHeading">Confirmation de l'annulation</span></span
+      >
+      <div class="modal-body">
+        <p id="jhi-delete-rendezVous-heading">Vous etes sur?</p>
+      </div>
+      <div slot="modal-footer">
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="jhi-confirm-delete-rendezVous"
+          data-cy="entityConfirmDeleteButton"
+          v-on:click="removeRendezVous()"
+        >
+          Annuler
+        </button>
+      </div>
+    </b-modal>
+    <!-- end modal delete rdv -->
+
+    <!-- modal valid or delete rdv -->
+    <b-modal ref="valideOrRemoveEntity" id="valideOrRemoveEntity">
+      <span slot="modal-title"
+      ><span id="pathogeneApp.rendezVous.valide.question" data-cy="rendezVousDeleteOrValidDialogHeading">Choisissez l'operation</span></span
+      >
+      <div slot="modal-footer">
+        <button type="button" class="btn btn-secondary" v-on:click="closeValidOrRemoveDialog()">Quitter</button>.<button
+        type="button"
+        class="btn btn-info"
+        id="jhi-confirm-validOrdelete-rendezVous"
+        data-cy="entityConfirmDeleteButton"
+        v-on:click="validRendezVous()"
+      >
+        Valider
+      </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="jhi-confirm-remove-rendezVous"
+          data-cy="entityConfirmDeleteButton"
+          v-on:click="removeRendezVous()"
+        >
+          Annuler
+        </button>
+
+      </div>
+    </b-modal>
+    <!-- end modal valid or delete rdv -->
+
+  </div>
+  <!-- end -->
+</template>
+
+<script lang="ts" src="./rendez-vous.component.ts"></script>

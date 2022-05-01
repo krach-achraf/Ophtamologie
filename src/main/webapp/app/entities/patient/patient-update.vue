@@ -1,0 +1,195 @@
+<template>
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
+        <h2 id="pathogeneApp.patient.home.createOrEditLabel" data-cy="PatientCreateUpdateHeading">Create or edit a Patient</h2>
+        <div>
+          <div class="form-group" v-if="patient.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" v-model="patient.id" readonly />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-code">Code</label>
+            <input
+              type="text"
+              class="form-control"
+              name="code"
+              id="patient-code"
+              data-cy="code"
+              :class="{ valid: !$v.patient.code.$invalid, invalid: $v.patient.code.$invalid }"
+              v-model="$v.patient.code.$model"
+            />
+            <div v-if="$v.patient.code.$anyDirty && $v.patient.code.$invalid"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-nom">Nom</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nom"
+              id="patient-nom"
+              data-cy="nom"
+              :class="{ valid: !$v.patient.nom.$invalid, invalid: $v.patient.nom.$invalid }"
+              v-model="$v.patient.nom.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-prenom">Prenom</label>
+            <input
+              type="text"
+              class="form-control"
+              name="prenom"
+              id="patient-prenom"
+              data-cy="prenom"
+              :class="{ valid: !$v.patient.prenom.$invalid, invalid: $v.patient.prenom.$invalid }"
+              v-model="$v.patient.prenom.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-dateNaissance">Date Naissance</label>
+            <b-input-group class="mb-3">
+              <b-input-group-prepend>
+                <b-form-datepicker
+                  aria-controls="patient-dateNaissance"
+                  v-model="$v.patient.dateNaissance.$model"
+                  name="dateNaissance"
+                  class="form-control"
+                  :locale="currentLanguage"
+                  button-only
+                  today-button
+                  reset-button
+                  close-button
+                >
+                </b-form-datepicker>
+              </b-input-group-prepend>
+              <b-form-input
+                id="patient-dateNaissance"
+                data-cy="dateNaissance"
+                type="text"
+                class="form-control"
+                name="dateNaissance"
+                :class="{ valid: !$v.patient.dateNaissance.$invalid, invalid: $v.patient.dateNaissance.$invalid }"
+                v-model="$v.patient.dateNaissance.$model"
+              />
+            </b-input-group>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-adresse">Adresse</label>
+            <input
+              type="text"
+              class="form-control"
+              name="adresse"
+              id="patient-adresse"
+              data-cy="adresse"
+              :class="{ valid: !$v.patient.adresse.$invalid, invalid: $v.patient.adresse.$invalid }"
+              v-model="$v.patient.adresse.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-genre">Genre</label>
+            <select
+              class="form-control"
+              name="genre"
+              :class="{ valid: !$v.patient.genre.$invalid, invalid: $v.patient.genre.$invalid }"
+              v-model="$v.patient.genre.$model"
+              id="patient-genre"
+              data-cy="genre"
+            >
+              <option v-for="genre in genreValues" :key="genre" v-bind:value="genre">{{ genre }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-telephone">Telephone</label>
+            <input
+              type="text"
+              class="form-control"
+              name="telephone"
+              id="patient-telephone"
+              data-cy="telephone"
+              :class="{ valid: !$v.patient.telephone.$invalid, invalid: $v.patient.telephone.$invalid }"
+              v-model="$v.patient.telephone.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-poids">Poids</label>
+            <input
+              type="number"
+              class="form-control"
+              name="poids"
+              id="patient-poids"
+              data-cy="poids"
+              :class="{ valid: !$v.patient.poids.$invalid, invalid: $v.patient.poids.$invalid }"
+              v-model.number="$v.patient.poids.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-taille">Taille</label>
+            <input
+              type="number"
+              class="form-control"
+              name="taille"
+              id="patient-taille"
+              data-cy="taille"
+              :class="{ valid: !$v.patient.taille.$invalid, invalid: $v.patient.taille.$invalid }"
+              v-model.number="$v.patient.taille.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-compte">Compte</label>
+            <select class="form-control" id="patient-compte" data-cy="compte" name="compte" v-model="patient.compte">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="patient.compte && compteOption.id === patient.compte.id ? patient.compte : compteOption"
+                v-for="compteOption in comptes"
+                :key="compteOption.id"
+              >
+                {{ compteOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-secretaire">Secretaire</label>
+            <select class="form-control" id="patient-secretaire" data-cy="secretaire" name="secretaire" v-model="patient.secretaire">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="patient.secretaire && secretaireOption.id === patient.secretaire.id ? patient.secretaire : secretaireOption"
+                v-for="secretaireOption in secretaires"
+                :key="secretaireOption.id"
+              >
+                {{ secretaireOption.id }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-maladie">Maladie</label>
+            <select class="form-control" id="patient-maladie" data-cy="maladie" name="maladie" v-model="patient.maladie">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="patient.maladie && maladieOption.id === patient.maladie.id ? patient.maladie : maladieOption"
+                v-for="maladieOption in maladies"
+                :key="maladieOption.id"
+              >
+                {{ maladieOption.id }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">
+            <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
+          </button>
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            :disabled="$v.patient.$invalid || isSaving"
+            class="btn btn-primary"
+          >
+            <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+<script lang="ts" src="./patient-update.component.ts"></script>

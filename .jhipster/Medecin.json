@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20220414224954",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "medecin",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
+    },
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numEmp",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prenom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "admin",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "expertLevel",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "incrementalChangelog": false,
+  "jpaMetamodelFiltering": false,
+  "name": "Medecin",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "compte",
+      "otherEntityRelationshipName": "medecin",
+      "ownerSide": true,
+      "relationshipName": "compte",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "secretaire",
+      "otherEntityRelationshipName": "medecin",
+      "relationshipName": "secretaire",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
