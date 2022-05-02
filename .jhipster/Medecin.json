@@ -55,6 +55,18 @@
       "otherEntityRelationshipName": "medecin",
       "relationshipName": "secretaire",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "rendezVous",
+      "otherEntityRelationshipName": "medecin",
+      "relationshipName": "rendezVous",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "classification",
+      "otherEntityRelationshipName": "medecin",
+      "relationshipName": "classification",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

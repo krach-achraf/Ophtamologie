@@ -12,6 +12,10 @@ import MedecinService from '@/entities/medecin/medecin.service';
 import UserService from '@/entities/user/user.service';
 
 import SecretaireService from '@/entities/secretaire/secretaire.service';
+
+import RendezVousService from '@/entities/rendez-vous/rendez-vous.service';
+
+import ClassificationService from '@/entities/classification/classification.service';
 import AlertService from '@/shared/alert/alert.service';
 
 const localVue = createLocalVue();
@@ -48,6 +52,16 @@ describe('Component Tests', () => {
 
           secretaireService: () =>
             sinon.createStubInstance<SecretaireService>(SecretaireService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          rendezVousService: () =>
+            sinon.createStubInstance<RendezVousService>(RendezVousService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          classificationService: () =>
+            sinon.createStubInstance<ClassificationService>(ClassificationService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },

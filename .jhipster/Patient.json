@@ -80,6 +80,12 @@
       "otherEntityRelationshipName": "patient",
       "relationshipName": "detection",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "rendezVous",
+      "otherEntityRelationshipName": "patient",
+      "relationshipName": "rendezVous",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

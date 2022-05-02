@@ -82,7 +82,7 @@ enum Genre {
 }
 
 relationship OneToOne {
-	Visite{rendezVous} to RendezVous
+	Visite to RendezVous
 	Medecin{user} to User
 	Secretaire{user} to User
 	Patient{user} to User
@@ -91,18 +91,18 @@ relationship OneToOne {
 }
 
 relationship ManyToOne {
-	 Detection to Patient
-     Patient to Secretaire
-     Patient to Maladie
-     Medecin to Secretaire
-     RendezVous{patient} to Patient
-	 RendezVous{medecin} to Medecin
-     Classification{medecin} to Medecin
-     Classification{stade} to Stade
-     Classification to Unclassified
-     Image to Stade
-     Stade to Maladie
-     Unclassified to Maladie  
+	Detection to Patient
+     	Patient to Secretaire
+     	Patient to Maladie
+	Medecin to Secretaire
+    	RendezVous to Patient
+	RendezVous to Medecin
+    	Classification to Medecin
+     	Classification to Stade
+    	Classification to Unclassified
+     	Image to Stade
+     	Stade to Maladie
+     	Unclassified to Maladie  
 }
 
 

@@ -16,6 +16,9 @@ import { IMaladie } from '@/shared/model/maladie.model';
 import DetectionService from '@/entities/detection/detection.service';
 import { IDetection } from '@/shared/model/detection.model';
 
+import RendezVousService from '@/entities/rendez-vous/rendez-vous.service';
+import { IRendezVous } from '@/shared/model/rendez-vous.model';
+
 import { IPatient, Patient } from '@/shared/model/patient.model';
 import PatientService from './patient.service';
 import { Genre } from '@/shared/model/enumerations/genre.model';
@@ -59,6 +62,10 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
   @Inject('detectionService') private detectionService: () => DetectionService;
 
   public detections: IDetection[] = [];
+
+  @Inject('rendezVousService') private rendezVousService: () => RendezVousService;
+
+  public rendezVous: IRendezVous[] = [];
   public genreValues: string[] = Object.keys(Genre);
   public isSaving = false;
   public currentLanguage = '';
@@ -174,6 +181,11 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
       .retrieve()
       .then(res => {
         this.detections = res.data;
+      });
+    this.rendezVousService()
+      .retrieve()
+      .then(res => {
+        this.rendezVous = res.data;
       });
   }
 }

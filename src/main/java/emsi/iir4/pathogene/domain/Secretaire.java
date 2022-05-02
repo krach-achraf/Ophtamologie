@@ -48,11 +48,11 @@ public class Secretaire implements Serializable {
     private User user;
 
     @OneToMany(mappedBy = "secretaire")
-    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
     private Set<Patient> patients = new HashSet<>();
 
     @OneToMany(mappedBy = "secretaire")
-    @JsonIgnoreProperties(value = { "user", "secretaire" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "rendezVous", "classifications" }, allowSetters = true)
     private Set<Medecin> medecins = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

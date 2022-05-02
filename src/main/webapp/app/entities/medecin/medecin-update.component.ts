@@ -10,6 +10,12 @@ import UserService from '@/entities/user/user.service';
 import SecretaireService from '@/entities/secretaire/secretaire.service';
 import { ISecretaire } from '@/shared/model/secretaire.model';
 
+import RendezVousService from '@/entities/rendez-vous/rendez-vous.service';
+import { IRendezVous } from '@/shared/model/rendez-vous.model';
+
+import ClassificationService from '@/entities/classification/classification.service';
+import { IClassification } from '@/shared/model/classification.model';
+
 import { IMedecin, Medecin } from '@/shared/model/medecin.model';
 import MedecinService from './medecin.service';
 
@@ -41,6 +47,14 @@ export default class MedecinUpdate extends mixins(JhiDataUtils) {
   @Inject('secretaireService') private secretaireService: () => SecretaireService;
 
   public secretaires: ISecretaire[] = [];
+
+  @Inject('rendezVousService') private rendezVousService: () => RendezVousService;
+
+  public rendezVous: IRendezVous[] = [];
+
+  @Inject('classificationService') private classificationService: () => ClassificationService;
+
+  public classifications: IClassification[] = [];
   public isSaving = false;
   public currentLanguage = '';
 
@@ -145,6 +159,16 @@ export default class MedecinUpdate extends mixins(JhiDataUtils) {
       .retrieve()
       .then(res => {
         this.secretaires = res.data;
+      });
+    this.rendezVousService()
+      .retrieve()
+      .then(res => {
+        this.rendezVous = res.data;
+      });
+    this.classificationService()
+      .retrieve()
+      .then(res => {
+        this.classifications = res.data;
       });
   }
 }

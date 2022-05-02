@@ -2,6 +2,8 @@ package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -51,6 +53,14 @@ public class Medecin implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "user", "patients", "medecins" }, allowSetters = true)
     private Secretaire secretaire;
+
+    @OneToMany(mappedBy = "medecin")
+    @JsonIgnoreProperties(value = { "patient", "medecin", "visite" }, allowSetters = true)
+    private Set<RendezVous> rendezVous = new HashSet<>();
+
+    @OneToMany(mappedBy = "medecin")
+    @JsonIgnoreProperties(value = { "medecin", "stade", "unclassified" }, allowSetters = true)
+    private Set<Classification> classifications = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -194,6 +204,68 @@ public class Medecin implements Serializable {
 
     public Medecin secretaire(Secretaire secretaire) {
         this.setSecretaire(secretaire);
+        return this;
+    }
+
+    public Set<RendezVous> getRendezVous() {
+        return this.rendezVous;
+    }
+
+    public void setRendezVous(Set<RendezVous> rendezVous) {
+        if (this.rendezVous != null) {
+            this.rendezVous.forEach(i -> i.setMedecin(null));
+        }
+        if (rendezVous != null) {
+            rendezVous.forEach(i -> i.setMedecin(this));
+        }
+        this.rendezVous = rendezVous;
+    }
+
+    public Medecin rendezVous(Set<RendezVous> rendezVous) {
+        this.setRendezVous(rendezVous);
+        return this;
+    }
+
+    public Medecin addRendezVous(RendezVous rendezVous) {
+        this.rendezVous.add(rendezVous);
+        rendezVous.setMedecin(this);
+        return this;
+    }
+
+    public Medecin removeRendezVous(RendezVous rendezVous) {
+        this.rendezVous.remove(rendezVous);
+        rendezVous.setMedecin(null);
+        return this;
+    }
+
+    public Set<Classification> getClassifications() {
+        return this.classifications;
+    }
+
+    public void setClassifications(Set<Classification> classifications) {
+        if (this.classifications != null) {
+            this.classifications.forEach(i -> i.setMedecin(null));
+        }
+        if (classifications != null) {
+            classifications.forEach(i -> i.setMedecin(this));
+        }
+        this.classifications = classifications;
+    }
+
+    public Medecin classifications(Set<Classification> classifications) {
+        this.setClassifications(classifications);
+        return this;
+    }
+
+    public Medecin addClassification(Classification classification) {
+        this.classifications.add(classification);
+        classification.setMedecin(this);
+        return this;
+    }
+
+    public Medecin removeClassification(Classification classification) {
+        this.classifications.remove(classification);
+        classification.setMedecin(null);
         return this;
     }
 

@@ -11,6 +11,8 @@ import StadeService from '@/entities/stade/stade.service';
 
 import MaladieService from '@/entities/maladie/maladie.service';
 
+import ClassificationService from '@/entities/classification/classification.service';
+
 import ImageService from '@/entities/image/image.service';
 import AlertService from '@/shared/alert/alert.service';
 
@@ -46,6 +48,11 @@ describe('Component Tests', () => {
 
           maladieService: () =>
             sinon.createStubInstance<MaladieService>(MaladieService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          classificationService: () =>
+            sinon.createStubInstance<ClassificationService>(ClassificationService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
 

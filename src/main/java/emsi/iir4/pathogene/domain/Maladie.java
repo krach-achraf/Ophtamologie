@@ -33,11 +33,11 @@ public class Maladie implements Serializable {
     private Detection detection;
 
     @OneToMany(mappedBy = "maladie")
-    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
     private Set<Patient> patients = new HashSet<>();
 
     @OneToMany(mappedBy = "maladie")
-    @JsonIgnoreProperties(value = { "maladie", "images" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "maladie", "classifications", "images" }, allowSetters = true)
     private Set<Stade> stades = new HashSet<>();
 
     @OneToMany(mappedBy = "maladie")

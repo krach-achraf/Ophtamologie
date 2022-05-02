@@ -48,7 +48,7 @@ public class Detection implements Serializable {
     private Maladie maladie;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
     private Patient patient;
 
     @JsonIgnoreProperties(value = { "rendezVous", "detection" }, allowSetters = true)

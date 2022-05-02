@@ -16,6 +16,8 @@ import SecretaireService from '@/entities/secretaire/secretaire.service';
 import MaladieService from '@/entities/maladie/maladie.service';
 
 import DetectionService from '@/entities/detection/detection.service';
+
+import RendezVousService from '@/entities/rendez-vous/rendez-vous.service';
 import AlertService from '@/shared/alert/alert.service';
 
 const localVue = createLocalVue();
@@ -62,6 +64,11 @@ describe('Component Tests', () => {
 
           detectionService: () =>
             sinon.createStubInstance<DetectionService>(DetectionService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          rendezVousService: () =>
+            sinon.createStubInstance<RendezVousService>(RendezVousService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },

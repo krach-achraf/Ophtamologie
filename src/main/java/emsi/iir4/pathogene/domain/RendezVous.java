@@ -30,12 +30,16 @@ public class RendezVous implements Serializable {
     private String status;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
     private Patient patient;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "secretaire" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "rendezVous", "classifications" }, allowSetters = true)
     private Medecin medecin;
+
+    @JsonIgnoreProperties(value = { "rendezVous", "detection" }, allowSetters = true)
+    @OneToOne(mappedBy = "rendezVous")
+    private Visite visite;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -114,6 +118,25 @@ public class RendezVous implements Serializable {
 
     public RendezVous medecin(Medecin medecin) {
         this.setMedecin(medecin);
+        return this;
+    }
+
+    public Visite getVisite() {
+        return this.visite;
+    }
+
+    public void setVisite(Visite visite) {
+        if (this.visite != null) {
+            this.visite.setRendezVous(null);
+        }
+        if (visite != null) {
+            visite.setRendezVous(this);
+        }
+        this.visite = visite;
+    }
+
+    public RendezVous visite(Visite visite) {
+        this.setVisite(visite);
         return this;
     }
 
