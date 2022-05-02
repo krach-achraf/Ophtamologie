@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link MedecinResource} REST controller.
@@ -46,6 +47,11 @@ class MedecinResourceIT {
 
     private static final Integer DEFAULT_EXPERT_LEVEL = 1;
     private static final Integer UPDATED_EXPERT_LEVEL = 2;
+
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/medecins";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -77,7 +83,9 @@ class MedecinResourceIT {
             .numEmp(DEFAULT_NUM_EMP)
             .prenom(DEFAULT_PRENOM)
             .admin(DEFAULT_ADMIN)
-            .expertLevel(DEFAULT_EXPERT_LEVEL);
+            .expertLevel(DEFAULT_EXPERT_LEVEL)
+            .photo(DEFAULT_PHOTO)
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE);
         return medecin;
     }
 
@@ -94,7 +102,9 @@ class MedecinResourceIT {
             .numEmp(UPDATED_NUM_EMP)
             .prenom(UPDATED_PRENOM)
             .admin(UPDATED_ADMIN)
-            .expertLevel(UPDATED_EXPERT_LEVEL);
+            .expertLevel(UPDATED_EXPERT_LEVEL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
         return medecin;
     }
 
@@ -122,6 +132,8 @@ class MedecinResourceIT {
         assertThat(testMedecin.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testMedecin.getAdmin()).isEqualTo(DEFAULT_ADMIN);
         assertThat(testMedecin.getExpertLevel()).isEqualTo(DEFAULT_EXPERT_LEVEL);
+        assertThat(testMedecin.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testMedecin.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -159,7 +171,9 @@ class MedecinResourceIT {
             .andExpect(jsonPath("$.[*].numEmp").value(hasItem(DEFAULT_NUM_EMP)))
             .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM)))
             .andExpect(jsonPath("$.[*].admin").value(hasItem(DEFAULT_ADMIN.booleanValue())))
-            .andExpect(jsonPath("$.[*].expertLevel").value(hasItem(DEFAULT_EXPERT_LEVEL)));
+            .andExpect(jsonPath("$.[*].expertLevel").value(hasItem(DEFAULT_EXPERT_LEVEL)))
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
     }
 
     @Test
@@ -179,7 +193,9 @@ class MedecinResourceIT {
             .andExpect(jsonPath("$.numEmp").value(DEFAULT_NUM_EMP))
             .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM))
             .andExpect(jsonPath("$.admin").value(DEFAULT_ADMIN.booleanValue()))
-            .andExpect(jsonPath("$.expertLevel").value(DEFAULT_EXPERT_LEVEL));
+            .andExpect(jsonPath("$.expertLevel").value(DEFAULT_EXPERT_LEVEL))
+            .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)));
     }
 
     @Test
@@ -207,7 +223,9 @@ class MedecinResourceIT {
             .numEmp(UPDATED_NUM_EMP)
             .prenom(UPDATED_PRENOM)
             .admin(UPDATED_ADMIN)
-            .expertLevel(UPDATED_EXPERT_LEVEL);
+            .expertLevel(UPDATED_EXPERT_LEVEL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restMedecinMockMvc
             .perform(
@@ -227,6 +245,8 @@ class MedecinResourceIT {
         assertThat(testMedecin.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testMedecin.getAdmin()).isEqualTo(UPDATED_ADMIN);
         assertThat(testMedecin.getExpertLevel()).isEqualTo(UPDATED_EXPERT_LEVEL);
+        assertThat(testMedecin.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testMedecin.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -317,6 +337,8 @@ class MedecinResourceIT {
         assertThat(testMedecin.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testMedecin.getAdmin()).isEqualTo(UPDATED_ADMIN);
         assertThat(testMedecin.getExpertLevel()).isEqualTo(DEFAULT_EXPERT_LEVEL);
+        assertThat(testMedecin.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testMedecin.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -337,7 +359,9 @@ class MedecinResourceIT {
             .numEmp(UPDATED_NUM_EMP)
             .prenom(UPDATED_PRENOM)
             .admin(UPDATED_ADMIN)
-            .expertLevel(UPDATED_EXPERT_LEVEL);
+            .expertLevel(UPDATED_EXPERT_LEVEL)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restMedecinMockMvc
             .perform(
@@ -357,6 +381,8 @@ class MedecinResourceIT {
         assertThat(testMedecin.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testMedecin.getAdmin()).isEqualTo(UPDATED_ADMIN);
         assertThat(testMedecin.getExpertLevel()).isEqualTo(UPDATED_EXPERT_LEVEL);
+        assertThat(testMedecin.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testMedecin.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test

@@ -9,7 +9,7 @@ import SecretaireUpdateComponent from '@/entities/secretaire/secretaire-update.v
 import SecretaireClass from '@/entities/secretaire/secretaire-update.component';
 import SecretaireService from '@/entities/secretaire/secretaire.service';
 
-import CompteService from '@/entities/compte/compte.service';
+import UserService from '@/entities/user/user.service';
 
 import PatientService from '@/entities/patient/patient.service';
 
@@ -46,10 +46,7 @@ describe('Component Tests', () => {
           secretaireService: () => secretaireServiceStub,
           alertService: () => new AlertService(),
 
-          compteService: () =>
-            sinon.createStubInstance<CompteService>(CompteService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
+          userService: () => new UserService(),
 
           patientService: () =>
             sinon.createStubInstance<PatientService>(PatientService, {

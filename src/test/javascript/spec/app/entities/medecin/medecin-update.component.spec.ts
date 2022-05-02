@@ -9,7 +9,7 @@ import MedecinUpdateComponent from '@/entities/medecin/medecin-update.vue';
 import MedecinClass from '@/entities/medecin/medecin-update.component';
 import MedecinService from '@/entities/medecin/medecin.service';
 
-import CompteService from '@/entities/compte/compte.service';
+import UserService from '@/entities/user/user.service';
 
 import SecretaireService from '@/entities/secretaire/secretaire.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -44,10 +44,7 @@ describe('Component Tests', () => {
           medecinService: () => medecinServiceStub,
           alertService: () => new AlertService(),
 
-          compteService: () =>
-            sinon.createStubInstance<CompteService>(CompteService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
+          userService: () => new UserService(),
 
           secretaireService: () =>
             sinon.createStubInstance<SecretaireService>(SecretaireService, {

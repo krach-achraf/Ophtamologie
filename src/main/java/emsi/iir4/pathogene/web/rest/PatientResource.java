@@ -152,6 +152,12 @@ public class PatientResource {
                 if (patient.getTaille() != null) {
                     existingPatient.setTaille(patient.getTaille());
                 }
+                if (patient.getPhoto() != null) {
+                    existingPatient.setPhoto(patient.getPhoto());
+                }
+                if (patient.getPhotoContentType() != null) {
+                    existingPatient.setPhotoContentType(patient.getPhotoContentType());
+                }
 
                 return existingPatient;
             })

@@ -14,7 +14,10 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="image" type="varchar(255)">
+            <column name="photo" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="photo_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="code" type="varchar(255)">
@@ -60,7 +63,8 @@
                   tableName="detection"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="image" type="string"/>
+            <column name="photo" type="blob"/>
+            <column name="photo_content_type" type="string"/>
             <column name="code" type="string"/>
             <column name="validation" type="boolean"/>
             <column name="stade" type="string"/>

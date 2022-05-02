@@ -36,17 +36,23 @@ public class Secretaire implements Serializable {
     @Column(name = "admin")
     private Boolean admin;
 
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
+
     @OneToOne
     @JoinColumn(unique = true)
-    private Compte compte;
+    private User user;
 
     @OneToMany(mappedBy = "secretaire")
-    @JsonIgnoreProperties(value = { "compte", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections" }, allowSetters = true)
     private Set<Patient> patients = new HashSet<>();
 
     @OneToMany(mappedBy = "secretaire")
-    @JsonIgnoreProperties(value = { "compte", "secretaire" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire" }, allowSetters = true)
     private Set<Medecin> medecins = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -129,16 +135,42 @@ public class Secretaire implements Serializable {
         this.admin = admin;
     }
 
-    public Compte getCompte() {
-        return this.compte;
+    public byte[] getPhoto() {
+        return this.photo;
     }
 
-    public void setCompte(Compte compte) {
-        this.compte = compte;
+    public Secretaire photo(byte[] photo) {
+        this.setPhoto(photo);
+        return this;
     }
 
-    public Secretaire compte(Compte compte) {
-        this.setCompte(compte);
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Secretaire photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Secretaire user(User user) {
+        this.setUser(user);
         return this;
     }
 
@@ -233,6 +265,8 @@ public class Secretaire implements Serializable {
             ", numEmp='" + getNumEmp() + "'" +
             ", prenom='" + getPrenom() + "'" +
             ", admin='" + getAdmin() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

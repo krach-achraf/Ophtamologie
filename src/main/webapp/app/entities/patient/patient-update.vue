@@ -135,15 +135,60 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="patient-compte">Compte</label>
-            <select class="form-control" id="patient-compte" data-cy="compte" name="compte" v-model="patient.compte">
+            <label class="form-control-label" for="patient-photo">Photo</label>
+            <div>
+              <img
+                v-bind:src="'data:' + patient.photoContentType + ';base64,' + patient.photo"
+                style="max-height: 100px"
+                v-if="patient.photo"
+                alt="patient image"
+              />
+              <div v-if="patient.photo" class="form-text text-danger clearfix">
+                <span class="pull-left">{{ patient.photoContentType }}, {{ byteSize(patient.photo) }}</span>
+                <button
+                  type="button"
+                  v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                  class="btn btn-secondary btn-xs pull-right"
+                >
+                  <font-awesome-icon icon="times"></font-awesome-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                ref="file_photo"
+                id="file_photo"
+                data-cy="photo"
+                v-on:change="setFileData($event, patient, 'photo', true)"
+                accept="image/*"
+              />
+            </div>
+            <input
+              type="hidden"
+              class="form-control"
+              name="photo"
+              id="patient-photo"
+              data-cy="photo"
+              :class="{ valid: !$v.patient.photo.$invalid, invalid: $v.patient.photo.$invalid }"
+              v-model="$v.patient.photo.$model"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="photoContentType"
+              id="patient-photoContentType"
+              v-model="patient.photoContentType"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="patient-user">User</label>
+            <select class="form-control" id="patient-user" data-cy="user" name="user" v-model="patient.user">
               <option v-bind:value="null"></option>
               <option
-                v-bind:value="patient.compte && compteOption.id === patient.compte.id ? patient.compte : compteOption"
-                v-for="compteOption in comptes"
-                :key="compteOption.id"
+                v-bind:value="patient.user && userOption.id === patient.user.id ? patient.user : userOption"
+                v-for="userOption in users"
+                :key="userOption.id"
               >
-                {{ compteOption.id }}
+                {{ userOption.id }}
               </option>
             </select>
           </div>

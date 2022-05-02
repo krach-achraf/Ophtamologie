@@ -33,7 +33,8 @@
             <th scope="row"><span>Num Emp</span></th>
             <th scope="row"><span>Prenom</span></th>
             <th scope="row"><span>Admin</span></th>
-            <th scope="row"><span>Compte</span></th>
+            <th scope="row"><span>Photo</span></th>
+            <th scope="row"><span>User</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -48,11 +49,17 @@
             <td>{{ secretaire.prenom }}</td>
             <td>{{ secretaire.admin }}</td>
             <td>
-              <div v-if="secretaire.compte">
-                <router-link :to="{ name: 'CompteView', params: { compteId: secretaire.compte.id } }">{{
-                  secretaire.compte.id
-                }}</router-link>
-              </div>
+              <a v-if="secretaire.photo" v-on:click="openFile(secretaire.photoContentType, secretaire.photo)">
+                <img
+                  v-bind:src="'data:' + secretaire.photoContentType + ';base64,' + secretaire.photo"
+                  style="max-height: 30px"
+                  alt="secretaire image"
+                />
+              </a>
+              <span v-if="secretaire.photo">{{ secretaire.photoContentType }}, {{ byteSize(secretaire.photo) }}</span>
+            </td>
+            <td>
+              {{ secretaire.user ? secretaire.user.id : '' }}
             </td>
             <td class="text-right">
               <div class="btn-group">

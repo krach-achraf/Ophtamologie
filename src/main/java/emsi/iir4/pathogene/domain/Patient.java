@@ -51,13 +51,19 @@ public class Patient implements Serializable {
     @Column(name = "taille")
     private Double taille;
 
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
+
     @OneToOne
     @JoinColumn(unique = true)
-    private Compte compte;
+    private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "compte", "patients", "medecins" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "patients", "medecins" }, allowSetters = true)
     private Secretaire secretaire;
 
     @ManyToOne
@@ -200,16 +206,42 @@ public class Patient implements Serializable {
         this.taille = taille;
     }
 
-    public Compte getCompte() {
-        return this.compte;
+    public byte[] getPhoto() {
+        return this.photo;
     }
 
-    public void setCompte(Compte compte) {
-        this.compte = compte;
+    public Patient photo(byte[] photo) {
+        this.setPhoto(photo);
+        return this;
     }
 
-    public Patient compte(Compte compte) {
-        this.setCompte(compte);
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Patient photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Patient user(User user) {
+        this.setUser(user);
         return this;
     }
 
@@ -303,6 +335,8 @@ public class Patient implements Serializable {
             ", telephone='" + getTelephone() + "'" +
             ", poids=" + getPoids() +
             ", taille=" + getTaille() +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

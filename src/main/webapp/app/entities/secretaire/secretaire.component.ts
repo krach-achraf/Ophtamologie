@@ -1,6 +1,9 @@
+import { mixins } from 'vue-class-component';
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { ISecretaire } from '@/shared/model/secretaire.model';
+
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import SecretaireService from './secretaire.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -8,7 +11,7 @@ import AlertService from '@/shared/alert/alert.service';
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class Secretaire extends Vue {
+export default class Secretaire extends mixins(JhiDataUtils) {
   @Inject('secretaireService') private secretaireService: () => SecretaireService;
   @Inject('alertService') private alertService: () => AlertService;
 

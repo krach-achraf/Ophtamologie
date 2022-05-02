@@ -30,11 +30,11 @@ public class RendezVous implements Serializable {
     private String status;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "compte", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections" }, allowSetters = true)
     private Patient patient;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "compte", "secretaire" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire" }, allowSetters = true)
     private Medecin medecin;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

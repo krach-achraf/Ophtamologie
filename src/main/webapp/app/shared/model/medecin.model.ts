@@ -1,4 +1,4 @@
-import { ICompte } from '@/shared/model/compte.model';
+import { IUser } from '@/shared/model/user.model';
 import { ISecretaire } from '@/shared/model/secretaire.model';
 
 export interface IMedecin {
@@ -9,7 +9,9 @@ export interface IMedecin {
   prenom?: string | null;
   admin?: boolean | null;
   expertLevel?: number | null;
-  compte?: ICompte | null;
+  photoContentType?: string | null;
+  photo?: string | null;
+  user?: IUser | null;
   secretaire?: ISecretaire | null;
 }
 
@@ -22,7 +24,9 @@ export class Medecin implements IMedecin {
     public prenom?: string | null,
     public admin?: boolean | null,
     public expertLevel?: number | null,
-    public compte?: ICompte | null,
+    public photoContentType?: string | null,
+    public photo?: string | null,
+    public user?: IUser | null,
     public secretaire?: ISecretaire | null
   ) {
     this.admin = this.admin ?? false;

@@ -1,4 +1,7 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import dayjs from 'dayjs';
 import { DATE_TIME_LONG_FORMAT } from '@/shared/date/filters';
@@ -19,7 +22,7 @@ import DetectionService from './detection.service';
 
 const validations: any = {
   detection: {
-    image: {},
+    photo: {},
     code: {},
     validation: {},
     stade: {},
@@ -31,7 +34,7 @@ const validations: any = {
 @Component({
   validations,
 })
-export default class DetectionUpdate extends Vue {
+export default class DetectionUpdate extends mixins(JhiDataUtils) {
   @Inject('detectionService') private detectionService: () => DetectionService;
   @Inject('alertService') private alertService: () => AlertService;
 
@@ -150,6 +153,20 @@ export default class DetectionUpdate extends Vue {
 
   public previousState(): void {
     this.$router.go(-1);
+  }
+
+  public clearInputImage(field, fieldContentType, idInput): void {
+    if (this.detection && field && fieldContentType) {
+      if (Object.prototype.hasOwnProperty.call(this.detection, field)) {
+        this.detection[field] = null;
+      }
+      if (Object.prototype.hasOwnProperty.call(this.detection, fieldContentType)) {
+        this.detection[fieldContentType] = null;
+      }
+      if (idInput) {
+        (<any>this).$refs[idInput] = null;
+      }
+    }
   }
 
   public initRelationships(): void {

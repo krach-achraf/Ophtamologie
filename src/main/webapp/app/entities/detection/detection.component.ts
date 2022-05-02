@@ -1,6 +1,9 @@
+import { mixins } from 'vue-class-component';
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { IDetection } from '@/shared/model/detection.model';
+
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import DetectionService from './detection.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -8,7 +11,7 @@ import AlertService from '@/shared/alert/alert.service';
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class Detection extends Vue {
+export default class Detection extends mixins(JhiDataUtils) {
   @Inject('detectionService') private detectionService: () => DetectionService;
   @Inject('alertService') private alertService: () => AlertService;
 

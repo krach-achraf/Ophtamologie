@@ -41,8 +41,14 @@
             <column name="taille" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="compte_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_patient__compte_id" />
+            <column name="photo" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="photo_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_patient__user_id" />
             </column>
             <column name="secretaire_id" type="bigint">
                 <constraints nullable="true" />
@@ -80,6 +86,8 @@
             <column name="telephone" type="string"/>
             <column name="poids" type="numeric"/>
             <column name="taille" type="numeric"/>
+            <column name="photo" type="blob"/>
+            <column name="photo_content_type" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

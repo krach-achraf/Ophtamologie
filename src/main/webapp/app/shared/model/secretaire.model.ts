@@ -1,4 +1,4 @@
-import { ICompte } from '@/shared/model/compte.model';
+import { IUser } from '@/shared/model/user.model';
 import { IPatient } from '@/shared/model/patient.model';
 import { IMedecin } from '@/shared/model/medecin.model';
 
@@ -9,7 +9,9 @@ export interface ISecretaire {
   numEmp?: string | null;
   prenom?: string | null;
   admin?: boolean | null;
-  compte?: ICompte | null;
+  photoContentType?: string | null;
+  photo?: string | null;
+  user?: IUser | null;
   patients?: IPatient[] | null;
   medecins?: IMedecin[] | null;
 }
@@ -22,7 +24,9 @@ export class Secretaire implements ISecretaire {
     public numEmp?: string | null,
     public prenom?: string | null,
     public admin?: boolean | null,
-    public compte?: ICompte | null,
+    public photoContentType?: string | null,
+    public photo?: string | null,
+    public user?: IUser | null,
     public patients?: IPatient[] | null,
     public medecins?: IMedecin[] | null
   ) {

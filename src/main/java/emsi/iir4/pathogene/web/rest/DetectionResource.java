@@ -127,8 +127,11 @@ public class DetectionResource {
         Optional<Detection> result = detectionRepository
             .findById(detection.getId())
             .map(existingDetection -> {
-                if (detection.getImage() != null) {
-                    existingDetection.setImage(detection.getImage());
+                if (detection.getPhoto() != null) {
+                    existingDetection.setPhoto(detection.getPhoto());
+                }
+                if (detection.getPhotoContentType() != null) {
+                    existingDetection.setPhotoContentType(detection.getPhotoContentType());
                 }
                 if (detection.getCode() != null) {
                     existingDetection.setCode(detection.getCode());

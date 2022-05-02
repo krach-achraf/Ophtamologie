@@ -26,12 +26,12 @@
       "Detection",
       "RendezVous",
       "Visite",
-      "Compte",
       "Maladie",
       "Classification",
       "Image",
       "Unclassified",
-      "Stade"
+      "Stade",
+      "Compte"
     ],
     "entitySuffix": "",
     "incrementalChangelog": true,

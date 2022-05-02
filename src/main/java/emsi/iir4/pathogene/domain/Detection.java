@@ -20,8 +20,12 @@ public class Detection implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "image")
-    private String image;
+    @Lob
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
 
     @Column(name = "code", unique = true)
     private String code;
@@ -44,7 +48,7 @@ public class Detection implements Serializable {
     private Maladie maladie;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "compte", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections" }, allowSetters = true)
     private Patient patient;
 
     @JsonIgnoreProperties(value = { "rendezVous", "detection" }, allowSetters = true)
@@ -66,17 +70,30 @@ public class Detection implements Serializable {
         this.id = id;
     }
 
-    public String getImage() {
-        return this.image;
+    public byte[] getPhoto() {
+        return this.photo;
     }
 
-    public Detection image(String image) {
-        this.setImage(image);
+    public Detection photo(byte[] photo) {
+        this.setPhoto(photo);
         return this;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Detection photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
     }
 
     public String getCode() {
@@ -213,7 +230,8 @@ public class Detection implements Serializable {
     public String toString() {
         return "Detection{" +
             "id=" + getId() +
-            ", image='" + getImage() + "'" +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             ", code='" + getCode() + "'" +
             ", validation='" + getValidation() + "'" +
             ", stade='" + getStade() + "'" +

@@ -1,11 +1,14 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import { ISecretaire } from '@/shared/model/secretaire.model';
 import SecretaireService from './secretaire.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component
-export default class SecretaireDetails extends Vue {
+export default class SecretaireDetails extends mixins(JhiDataUtils) {
   @Inject('secretaireService') private secretaireService: () => SecretaireService;
   @Inject('alertService') private alertService: () => AlertService;
 

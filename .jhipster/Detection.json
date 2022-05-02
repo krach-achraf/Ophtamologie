@@ -6,8 +6,9 @@
   "entityTableName": "detection",
   "fields": [
     {
-      "fieldName": "image",
-      "fieldType": "String"
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     },
     {
       "fieldName": "code",

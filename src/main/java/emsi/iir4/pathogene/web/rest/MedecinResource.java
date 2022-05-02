@@ -143,6 +143,12 @@ public class MedecinResource {
                 if (medecin.getExpertLevel() != null) {
                     existingMedecin.setExpertLevel(medecin.getExpertLevel());
                 }
+                if (medecin.getPhoto() != null) {
+                    existingMedecin.setPhoto(medecin.getPhoto());
+                }
+                if (medecin.getPhotoContentType() != null) {
+                    existingMedecin.setPhotoContentType(medecin.getPhotoContentType());
+                }
 
                 return existingMedecin;
             })

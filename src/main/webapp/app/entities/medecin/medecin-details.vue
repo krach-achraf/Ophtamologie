@@ -41,12 +41,25 @@
             <span>{{ medecin.expertLevel }}</span>
           </dd>
           <dt>
-            <span>Compte</span>
+            <span>Photo</span>
           </dt>
           <dd>
-            <div v-if="medecin.compte">
-              <router-link :to="{ name: 'CompteView', params: { compteId: medecin.compte.id } }">{{ medecin.compte.id }}</router-link>
+            <div v-if="medecin.photo">
+              <a v-on:click="openFile(medecin.photoContentType, medecin.photo)">
+                <img
+                  v-bind:src="'data:' + medecin.photoContentType + ';base64,' + medecin.photo"
+                  style="max-width: 100%"
+                  alt="medecin image"
+                />
+              </a>
+              {{ medecin.photoContentType }}, {{ byteSize(medecin.photo) }}
             </div>
+          </dd>
+          <dt>
+            <span>User</span>
+          </dt>
+          <dd>
+            {{ medecin.user ? medecin.user.id : '' }}
           </dd>
           <dt>
             <span>Secretaire</span>

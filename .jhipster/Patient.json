@@ -42,6 +42,11 @@
     {
       "fieldName": "taille",
       "fieldType": "Double"
+    },
+    {
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "fluentMethods": true,
@@ -52,10 +57,10 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "compte",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "patient",
       "ownerSide": true,
-      "relationshipName": "compte",
+      "relationshipName": "user",
       "relationshipType": "one-to-one"
     },
     {

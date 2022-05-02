@@ -70,15 +70,60 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="secretaire-compte">Compte</label>
-            <select class="form-control" id="secretaire-compte" data-cy="compte" name="compte" v-model="secretaire.compte">
+            <label class="form-control-label" for="secretaire-photo">Photo</label>
+            <div>
+              <img
+                v-bind:src="'data:' + secretaire.photoContentType + ';base64,' + secretaire.photo"
+                style="max-height: 100px"
+                v-if="secretaire.photo"
+                alt="secretaire image"
+              />
+              <div v-if="secretaire.photo" class="form-text text-danger clearfix">
+                <span class="pull-left">{{ secretaire.photoContentType }}, {{ byteSize(secretaire.photo) }}</span>
+                <button
+                  type="button"
+                  v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                  class="btn btn-secondary btn-xs pull-right"
+                >
+                  <font-awesome-icon icon="times"></font-awesome-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                ref="file_photo"
+                id="file_photo"
+                data-cy="photo"
+                v-on:change="setFileData($event, secretaire, 'photo', true)"
+                accept="image/*"
+              />
+            </div>
+            <input
+              type="hidden"
+              class="form-control"
+              name="photo"
+              id="secretaire-photo"
+              data-cy="photo"
+              :class="{ valid: !$v.secretaire.photo.$invalid, invalid: $v.secretaire.photo.$invalid }"
+              v-model="$v.secretaire.photo.$model"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="photoContentType"
+              id="secretaire-photoContentType"
+              v-model="secretaire.photoContentType"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="secretaire-user">User</label>
+            <select class="form-control" id="secretaire-user" data-cy="user" name="user" v-model="secretaire.user">
               <option v-bind:value="null"></option>
               <option
-                v-bind:value="secretaire.compte && compteOption.id === secretaire.compte.id ? secretaire.compte : compteOption"
-                v-for="compteOption in comptes"
-                :key="compteOption.id"
+                v-bind:value="secretaire.user && userOption.id === secretaire.user.id ? secretaire.user : userOption"
+                v-for="userOption in users"
+                :key="userOption.id"
               >
-                {{ compteOption.id }}
+                {{ userOption.id }}
               </option>
             </select>
           </div>

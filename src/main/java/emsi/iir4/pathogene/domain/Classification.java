@@ -26,7 +26,7 @@ public class Classification implements Serializable {
     private Boolean score;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "compte", "secretaire" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire" }, allowSetters = true)
     private Medecin medecin;
 
     @ManyToOne
