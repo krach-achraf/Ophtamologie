@@ -5,7 +5,10 @@ import emsi.iir4.pathogene.domain.Medecin;
 import emsi.iir4.pathogene.domain.Patient;
 import emsi.iir4.pathogene.domain.RendezVous;
 import emsi.iir4.pathogene.domain.User;
+import emsi.iir4.pathogene.repository.MedecinRepository;
+import emsi.iir4.pathogene.repository.PatientRepository;
 import emsi.iir4.pathogene.repository.RendezVousRepository;
+import emsi.iir4.pathogene.repository.SecretaireRepository;
 import emsi.iir4.pathogene.repository.UserRepository;
 import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.service.MailService;
@@ -104,6 +107,9 @@ public class UserResource {
     private final RendezVousRepository rendezVousRepository;
 
     private final AccountResource accountResource;
+    private final PatientRepository patientRepository;
+    private final SecretaireRepository secretaireRepository;
+    private final MedecinRepository medecinRepository;
 
     private final MailService mailService;
 
@@ -112,29 +118,42 @@ public class UserResource {
         UserRepository userRepository,
         MailService mailService,
         RendezVousRepository rendezVousRepository,
-        AccountResource accountResource
+        AccountResource accountResource,
+        PatientRepository patientRepository,
+        SecretaireRepository secretaireRepository,
+        MedecinRepository medecinRepository
     ) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.rendezVousRepository = rendezVousRepository;
         this.accountResource = accountResource;
+        this.patientRepository = patientRepository;
+        this.secretaireRepository = secretaireRepository;
+        this.medecinRepository = medecinRepository;
     }
 
-    // @GetMapping("/users/Patients")
-    // @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.MEDECIN + "\",\"" +
-    // AuthoritiesConstants.ADMIN + "\")")
-    // public Set<Patient> getPatients() {
-    // Set<Patient> patients = new HashSet<>();
-    // for (User user : AccountResource.getCurrentUser().) {
-    // if (user instanceof Patient) {
-    // patients.add((Patient) user);
-    // }
-    // }
-    // Set<RendezVous> rdvs = rendezVousRepository.findByMedecinId();
-    // patients.addAll(rdvs.stream().map(RendezVous::getPatient).collect(Collectors.toSet()));
-    // return patients;
-    // }
+    @GetMapping("/medecin/patients")
+    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.MEDECIN + "\",\"" + AuthoritiesConstants.ADMIN + "\")")
+    public Set<Patient> getPatients() {
+        Set<Patient> patients = new HashSet<>();
+        if ((medecinRepository.findByUserId(accountResource.getAccount().getId())).isPresent()) {
+            Set<RendezVous> rdvs = rendezVousRepository.findByMedecin_UserId(accountResource.getAccount().getId());
+            patients.addAll(rdvs.stream().map(RendezVous::getPatient).collect(Collectors.toSet()));
+        }
+        return patients;
+    }
+
+    @GetMapping("/patient/medecins")
+    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.PATIENT + "\",\"" + AuthoritiesConstants.ADMIN + "\")")
+    public Set<Medecin> getMedecins() {
+        Set<Medecin> medecins = new HashSet<>();
+        if ((patientRepository.findByUserId(accountResource.getAccount().getId())).isPresent()) {
+            Set<RendezVous> rdvs = rendezVousRepository.findByPatient_UserId(accountResource.getAccount().getId());
+            medecins.addAll(rdvs.stream().map(RendezVous::getMedecin).collect(Collectors.toSet()));
+        }
+        return medecins;
+    }
 
     /**
      * {@code POST  /admin/users} : Creates a new user.
