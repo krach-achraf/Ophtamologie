@@ -30,6 +30,21 @@
               <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.id }}</router-link>
             </div>
           </dd>
+          <dt>
+            <span>Photo</span>
+          </dt>
+          <dd>
+            <div v-if="stade.images">
+              <a v-on:click="openFile(stade.images[0].photoContentType, stade.images[0].photo)">
+                <img
+                  v-bind:src="'data:' + stade.images[0].photoContentType + ';base64,' + stade.images[0].photo"
+                  style="max-width: 100%"
+                  alt="stade.images[0] stade.images[0]"
+                />
+              </a>
+              {{ stade.images[0].photoContentType }}, {{ byteSize(stade.images[0].photo) }}
+            </div>
+          </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>

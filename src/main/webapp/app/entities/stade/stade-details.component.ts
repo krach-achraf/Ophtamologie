@@ -3,9 +3,11 @@ import { Component, Vue, Inject } from 'vue-property-decorator';
 import { IStade } from '@/shared/model/stade.model';
 import StadeService from './stade.service';
 import AlertService from '@/shared/alert/alert.service';
+import JhiDataUtils from '@/shared/data/data-utils.service';
+import { mixins } from 'vue-class-component';
 
 @Component
-export default class StadeDetails extends Vue {
+export default class StadeDetails extends mixins(JhiDataUtils) {
   @Inject('stadeService') private stadeService: () => StadeService;
   @Inject('alertService') private alertService: () => AlertService;
 
