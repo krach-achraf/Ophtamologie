@@ -1,6 +1,7 @@
 package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -54,8 +55,8 @@ public class Medecin implements Serializable {
     @JsonIgnoreProperties(value = { "user", "patients", "medecins" }, allowSetters = true)
     private Secretaire secretaire;
 
-    @OneToMany(mappedBy = "medecin")
-    @JsonIgnoreProperties(value = { "patient", "medecin", "visite" }, allowSetters = true)
+    @OneToMany(mappedBy = "medecin", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<RendezVous> rendezVous = new HashSet<>();
 
     @OneToMany(mappedBy = "medecin")

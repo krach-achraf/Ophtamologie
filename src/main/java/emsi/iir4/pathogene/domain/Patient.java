@@ -1,6 +1,7 @@
 package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import emsi.iir4.pathogene.domain.enumeration.Genre;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -74,8 +75,8 @@ public class Patient implements Serializable {
     @JsonIgnoreProperties(value = { "maladie", "patient", "visite" }, allowSetters = true)
     private Set<Detection> detections = new HashSet<>();
 
-    @OneToMany(mappedBy = "patient")
-    @JsonIgnoreProperties(value = { "patient", "medecin", "visite" }, allowSetters = true)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<RendezVous> rendezVous = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
