@@ -47,27 +47,22 @@ import tech.jhipster.web.util.ResponseUtil;
  * collection of authorities.
  * <p>
  * For a normal use-case, it would be better to have an eager relationship
- * between User and Authority,
- * and send everything to the client side: there would be no View Model and DTO,
- * a lot less code, and an outer-join
- * which would be good for performance.
+ * between User and Authority, and send everything to the client side: there
+ * would be no View Model and DTO, a lot less code, and an outer-join which
+ * would be good for performance.
  * <p>
  * We use a View Model and a DTO for 3 reasons:
  * <ul>
  * <li>We want to keep a lazy association between the user and the authorities,
- * because people will
- * quite often do relationships with the user, and we don't want them to get the
- * authorities all
- * the time for nothing (for performance reasons). This is the #1 goal: we
- * should not impact our users'
- * application because of this use-case.</li>
+ * because people will quite often do relationships with the user, and we don't
+ * want them to get the authorities all the time for nothing (for performance
+ * reasons). This is the #1 goal: we should not impact our users' application
+ * because of this use-case.</li>
  * <li>Not having an outer join causes n+1 requests to the database. This is not
- * a real issue as
- * we have by default a second-level cache. This means on the first HTTP call we
- * do the n+1 requests,
- * but then all authorities come from the cache, so in fact it's much better
- * than doing an outer join
- * (which will get lots of data from the database, for each HTTP call).</li>
+ * a real issue as we have by default a second-level cache. This means on the
+ * first HTTP call we do the n+1 requests, but then all authorities come from
+ * the cache, so in fact it's much better than doing an outer join (which will
+ * get lots of data from the database, for each HTTP call).</li>
  * <li>As this manages users, for security reasons, we'd rather have a DTO
  * layer.</li>
  * </ul>
@@ -104,63 +99,19 @@ public class UserResource {
 
     private final UserRepository userRepository;
 
-    private final RendezVousRepository rendezVousRepository;
-
-    private final AccountResource accountResource;
-    private final PatientRepository patientRepository;
-    private final SecretaireRepository secretaireRepository;
-    private final MedecinRepository medecinRepository;
-
     private final MailService mailService;
 
-    public UserResource(
-        UserService userService,
-        UserRepository userRepository,
-        MailService mailService,
-        RendezVousRepository rendezVousRepository,
-        AccountResource accountResource,
-        PatientRepository patientRepository,
-        SecretaireRepository secretaireRepository,
-        MedecinRepository medecinRepository
-    ) {
+    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
-        this.rendezVousRepository = rendezVousRepository;
-        this.accountResource = accountResource;
-        this.patientRepository = patientRepository;
-        this.secretaireRepository = secretaireRepository;
-        this.medecinRepository = medecinRepository;
-    }
-
-    @GetMapping("/medecin/patients")
-    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.MEDECIN + "\",\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Set<Patient> getPatients() {
-        Set<Patient> patients = new HashSet<>();
-        if ((medecinRepository.findByUserId(accountResource.getAccount().getId())).isPresent()) {
-            Set<RendezVous> rdvs = rendezVousRepository.findByMedecin_UserId(accountResource.getAccount().getId());
-            patients.addAll(rdvs.stream().map(RendezVous::getPatient).collect(Collectors.toSet()));
-        }
-        return patients;
-    }
-
-    @GetMapping("/patient/medecins")
-    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.PATIENT + "\",\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Set<Medecin> getMedecins() {
-        Set<Medecin> medecins = new HashSet<>();
-        if ((patientRepository.findByUserId(accountResource.getAccount().getId())).isPresent()) {
-            Set<RendezVous> rdvs = rendezVousRepository.findByPatient_UserId(accountResource.getAccount().getId());
-            medecins.addAll(rdvs.stream().map(RendezVous::getMedecin).collect(Collectors.toSet()));
-        }
-        return medecins;
     }
 
     /**
      * {@code POST  /admin/users} : Creates a new user.
      * <p>
      * Creates a new user if the login and email are not already used, and sends an
-     * mail with an activation link.
-     * The user needs to be activated on creation.
+     * mail with an activation link. The user needs to be activated on creation.
      *
      * @param userDTO the user to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
@@ -206,7 +157,7 @@ public class UserResource {
      *                                   already in use.
      */
     @PutMapping("/users")
-    //AuthoritiesConstants.ADMIN
+    // AuthoritiesConstants.ADMIN
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<AdminUserDTO> updateUser(@Valid @RequestBody AdminUserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
