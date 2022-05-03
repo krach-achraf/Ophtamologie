@@ -25,9 +25,12 @@ const validations: any = {
     nom: {},
     numEmp: {},
     prenom: {},
-    admin: {},
     expertLevel: {},
     photo: {},
+    type: {},
+    nbrPatients: {},
+    rating: {},
+    description: {},
   },
 };
 

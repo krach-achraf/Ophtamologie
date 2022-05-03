@@ -29,12 +29,6 @@
             <span>{{ medecin.prenom }}</span>
           </dd>
           <dt>
-            <span>Admin</span>
-          </dt>
-          <dd>
-            <span>{{ medecin.admin }}</span>
-          </dd>
-          <dt>
             <span>Expert Level</span>
           </dt>
           <dd>
@@ -54,6 +48,30 @@
               </a>
               {{ medecin.photoContentType }}, {{ byteSize(medecin.photo) }}
             </div>
+          </dd>
+          <dt>
+            <span>Type</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.type }}</span>
+          </dd>
+          <dt>
+            <span>Nbr Patients</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.nbrPatients }}</span>
+          </dd>
+          <dt>
+            <span>Rating</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.rating }}</span>
+          </dd>
+          <dt>
+            <span>Description</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.description }}</span>
           </dd>
           <dt>
             <span>User</span>

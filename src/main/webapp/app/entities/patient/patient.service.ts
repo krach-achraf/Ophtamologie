@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { IPatient } from '@/shared/model/patient.model';
-import {rejects} from "assert";
 
 const baseApiUrl = 'api/patients';
 
@@ -83,6 +82,4 @@ export default class PatientService {
         });
     });
   }
-
-
 }

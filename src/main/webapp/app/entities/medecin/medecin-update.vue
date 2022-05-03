@@ -58,18 +58,6 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="medecin-admin">Admin</label>
-            <input
-              type="checkbox"
-              class="form-check"
-              name="admin"
-              id="medecin-admin"
-              data-cy="admin"
-              :class="{ valid: !$v.medecin.admin.$invalid, invalid: $v.medecin.admin.$invalid }"
-              v-model="$v.medecin.admin.$model"
-            />
-          </div>
-          <div class="form-group">
             <label class="form-control-label" for="medecin-expertLevel">Expert Level</label>
             <input
               type="number"
@@ -124,6 +112,54 @@
               name="photoContentType"
               id="medecin-photoContentType"
               v-model="medecin.photoContentType"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="medecin-type">Type</label>
+            <input
+              type="text"
+              class="form-control"
+              name="type"
+              id="medecin-type"
+              data-cy="type"
+              :class="{ valid: !$v.medecin.type.$invalid, invalid: $v.medecin.type.$invalid }"
+              v-model="$v.medecin.type.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="medecin-nbrPatients">Nbr Patients</label>
+            <input
+              type="number"
+              class="form-control"
+              name="nbrPatients"
+              id="medecin-nbrPatients"
+              data-cy="nbrPatients"
+              :class="{ valid: !$v.medecin.nbrPatients.$invalid, invalid: $v.medecin.nbrPatients.$invalid }"
+              v-model.number="$v.medecin.nbrPatients.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="medecin-rating">Rating</label>
+            <input
+              type="number"
+              class="form-control"
+              name="rating"
+              id="medecin-rating"
+              data-cy="rating"
+              :class="{ valid: !$v.medecin.rating.$invalid, invalid: $v.medecin.rating.$invalid }"
+              v-model.number="$v.medecin.rating.$model"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" for="medecin-description">Description</label>
+            <input
+              type="text"
+              class="form-control"
+              name="description"
+              id="medecin-description"
+              data-cy="description"
+              :class="{ valid: !$v.medecin.description.$invalid, invalid: $v.medecin.description.$invalid }"
+              v-model="$v.medecin.description.$model"
             />
           </div>
           <div class="form-group">

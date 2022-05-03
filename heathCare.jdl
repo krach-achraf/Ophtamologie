@@ -1,13 +1,14 @@
-
-
 entity Medecin   {
    code String unique,
 	nom String,
     numEmp String,
     prenom String,
-	admin Boolean ,
     expertLevel Integer,
     photo ImageBlob,
+    type String,
+    nbrPatients Integer,
+    rating Integer,
+    description String,
     }
 entity Secretaire   {
    code String unique,
@@ -38,7 +39,7 @@ entity Detection {
     stade String,
     date ZonedDateTime,
     description String
-    
+
 }
 
 entity  RendezVous{
@@ -102,7 +103,7 @@ relationship ManyToOne {
     	Classification to Unclassified
      	Image to Stade
      	Stade to Maladie
-     	Unclassified to Maladie  
+     	Unclassified to Maladie
 }
 
 
