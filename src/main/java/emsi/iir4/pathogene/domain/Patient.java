@@ -53,6 +53,7 @@ public class Patient implements Serializable {
     private Double taille;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "photo")
     private byte[] photo;
 

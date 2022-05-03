@@ -41,6 +41,7 @@ public class Medecin implements Serializable {
     private Integer expertLevel;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "photo")
     private byte[] photo;
 

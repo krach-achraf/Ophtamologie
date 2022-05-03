@@ -140,21 +140,28 @@ public class AccountResource {
         if (
             userDTO.getAuthorities().contains(AuthoritiesConstants.MEDECIN) && medecinRepository.findByUserId(userDTO.getId()).isPresent()
         ) {
-            userDTO.setMedecin(medecinRepository.findByUserId(userDTO.getId()).get());
-        }
-
-        if (
-            userDTO.getAuthorities().contains(AuthoritiesConstants.PATIENT) && patientRepository.findByUserId(userDTO.getId()).isPresent()
-        ) {
-            userDTO.setPatient(patientRepository.findByUserId(userDTO.getId()).get());
+            if (userDTO.getId() == medecinRepository.findByUserId(userDTO.getId()).get().getUser().getId()) {
+                userDTO.setMedecin(medecinRepository.findByUserId(userDTO.getId()).get());
+            }
         }
 
         if (
             userDTO.getAuthorities().contains(AuthoritiesConstants.SECRETAIRE) &&
             secretaireRepository.findByUserId(userDTO.getId()).isPresent()
         ) {
-            userDTO.setSecretaire(secretaireRepository.findByUserId(userDTO.getId()).get());
+            if (userDTO.getId() == secretaireRepository.findByUserId(userDTO.getId()).get().getUser().getId()) {
+                userDTO.setSecretaire(secretaireRepository.findByUserId(userDTO.getId()).get());
+            }
         }
+
+        if (
+            userDTO.getAuthorities().contains(AuthoritiesConstants.PATIENT) && patientRepository.findByUserId(userDTO.getId()).isPresent()
+        ) {
+            if (userDTO.getId() == patientRepository.findByUserId(userDTO.getId()).get().getUser().getId()) {
+                userDTO.setPatient(patientRepository.findByUserId(userDTO.getId()).get());
+            }
+        }
+
         return userDTO;
     }
 
