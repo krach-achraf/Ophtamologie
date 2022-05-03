@@ -131,10 +131,31 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public AdminUserDTO getAccount() {
-        return userService
-            .getUserWithAuthorities()
-            .map(AdminUserDTO::new)
-            .orElseThrow(() -> new AccountResourceException("User could not be found"));
+        AdminUserDTO userDTO = new AdminUserDTO();
+        userDTO =
+            userService
+                .getUserWithAuthorities()
+                .map(AdminUserDTO::new)
+                .orElseThrow(() -> new AccountResourceException("User could not be found"));
+        if (
+            userDTO.getAuthorities().contains(AuthoritiesConstants.MEDECIN) && medecinRepository.findByUserId(userDTO.getId()).isPresent()
+        ) {
+            userDTO.setMedecin(medecinRepository.findByUserId(userDTO.getId()).get());
+        }
+
+        if (
+            userDTO.getAuthorities().contains(AuthoritiesConstants.PATIENT) && patientRepository.findByUserId(userDTO.getId()).isPresent()
+        ) {
+            userDTO.setPatient(patientRepository.findByUserId(userDTO.getId()).get());
+        }
+
+        if (
+            userDTO.getAuthorities().contains(AuthoritiesConstants.SECRETAIRE) &&
+            secretaireRepository.findByUserId(userDTO.getId()).isPresent()
+        ) {
+            userDTO.setSecretaire(secretaireRepository.findByUserId(userDTO.getId()).get());
+        }
+        return userDTO;
     }
 
     @GetMapping("/medecin/patients")

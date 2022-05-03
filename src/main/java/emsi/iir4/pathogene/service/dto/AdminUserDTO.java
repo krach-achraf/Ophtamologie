@@ -2,6 +2,9 @@ package emsi.iir4.pathogene.service.dto;
 
 import emsi.iir4.pathogene.config.Constants;
 import emsi.iir4.pathogene.domain.Authority;
+import emsi.iir4.pathogene.domain.Medecin;
+import emsi.iir4.pathogene.domain.Patient;
+import emsi.iir4.pathogene.domain.Secretaire;
 import emsi.iir4.pathogene.domain.User;
 import java.time.Instant;
 import java.util.Set;
@@ -48,6 +51,10 @@ public class AdminUserDTO {
 
     private Set<String> authorities;
 
+    private Patient patient;
+    private Medecin medecin;
+    private Secretaire secretaire;
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -66,6 +73,25 @@ public class AdminUserDTO {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+    }
+
+    public AdminUserDTO(User user, Patient patient, Medecin medecin, Secretaire secretaire) {
+        this.id = user.getId();
+        this.login = user.getLogin();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.activated = user.isActivated();
+        this.imageUrl = user.getImageUrl();
+        this.langKey = user.getLangKey();
+        this.createdBy = user.getCreatedBy();
+        this.createdDate = user.getCreatedDate();
+        this.lastModifiedBy = user.getLastModifiedBy();
+        this.lastModifiedDate = user.getLastModifiedDate();
+        this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+        this.patient = patient;
+        this.medecin = medecin;
+        this.secretaire = secretaire;
     }
 
     public Long getId() {
@@ -170,6 +196,30 @@ public class AdminUserDTO {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Medecin getMedecin() {
+        return medecin;
+    }
+
+    public void setMedecin(Medecin medecin) {
+        this.medecin = medecin;
+    }
+
+    public Secretaire getSecretaire() {
+        return secretaire;
+    }
+
+    public void setSecretaire(Secretaire secretaire) {
+        this.secretaire = secretaire;
     }
 
     // prettier-ignore
