@@ -5,6 +5,7 @@ import StadeService from './stade.service';
 import AlertService from '@/shared/alert/alert.service';
 import JhiDataUtils from '@/shared/data/data-utils.service';
 import { mixins } from 'vue-class-component';
+import { IImage } from '@/shared/model/image.model';
 
 @Component
 export default class StadeDetails extends mixins(JhiDataUtils) {
@@ -12,6 +13,7 @@ export default class StadeDetails extends mixins(JhiDataUtils) {
   @Inject('alertService') private alertService: () => AlertService;
 
   public stade: IStade = {};
+  public images: IImage[] = [];
 
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -26,6 +28,7 @@ export default class StadeDetails extends mixins(JhiDataUtils) {
       .find(stadeId)
       .then(res => {
         this.stade = res;
+        this.images = res.images;
       })
       .catch(error => {
         this.alertService().showHttpError(this, error.response);

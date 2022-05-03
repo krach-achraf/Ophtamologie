@@ -48,7 +48,7 @@
             </td>
             <td>
               <div v-if="image.stade">
-                <router-link :to="{ name: 'StadeView', params: { stadeId: image.stade.id } }">{{ image.stade.id }}</router-link>
+                <router-link :to="{ name: 'StadeView', params: { stadeId: image.stade.id } }">{{ image.stade.code }}</router-link>
               </div>
             </td>
             <td class="text-right">

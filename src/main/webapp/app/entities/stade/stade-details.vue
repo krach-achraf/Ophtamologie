@@ -27,7 +27,7 @@
           </dt>
           <dd>
             <div v-if="stade.maladie">
-              <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.id }}</router-link>
+              <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.id }} </router-link>
             </div>
           </dd>
           <dt>
@@ -46,6 +46,42 @@
             </div>
           </dd>
         </dl>
+
+        <div v-if="images && images.length > 0">
+          <br />
+          <h2 id="page-heading" data-cy="ImageHeading">
+            <span id="image-heading">Images</span>
+          </h2>
+
+          <div class="table-responsive">
+            <table class="table table-striped" aria-describedby="stades">
+              <thead>
+                <tr>
+                  <th scope="row"><span>ID</span></th>
+                  <th scope="row"><span>Code</span></th>
+                  <th scope="row"><span>Photo</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="image in images" :key="image.id" data-cy="entityTable">
+                  <td>{{ image.id }}</td>
+                  <td>{{ image.code }}</td>
+                  <td>
+                    <a v-if="image.photo" v-on:click="openFile(image.photoContentType, image.photo)">
+                      <img
+                        v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo"
+                        style="max-height: 30px"
+                        alt="image image"
+                      />
+                    </a>
+                    <span v-if="image.photo">{{ image.photoContentType }}, {{ byteSize(image.photo) }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>
         </button>
