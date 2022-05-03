@@ -138,7 +138,7 @@ public class AccountResource {
     }
 
     @GetMapping("/medecin/patients")
-    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.MEDECIN + "\",\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.MEDECIN + "','" + AuthoritiesConstants.ADMIN + "')")
     public Set<Patient> getPatients() {
         Set<Patient> patients = new HashSet<>();
         if ((medecinRepository.findByUserId(getAccount().getId())).isPresent()) {
@@ -149,8 +149,9 @@ public class AccountResource {
     }
 
     @GetMapping("/patient/medecins")
-    @PreAuthorize("hasAnyRole(\"" + AuthoritiesConstants.PATIENT + "\",\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.PATIENT + "','" + AuthoritiesConstants.ADMIN + "')")
     public Set<Medecin> getMedecins() {
+        System.out.println();
         Set<Medecin> medecins = new HashSet<>();
         if ((patientRepository.findByUserId(getAccount().getId())).isPresent()) {
             Set<RendezVous> rdvs = rendezVousRepository.findByPatient_UserId(getAccount().getId());
