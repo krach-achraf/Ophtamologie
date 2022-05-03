@@ -1,6 +1,6 @@
 <template>
-  <!-- added by krach achraf -->
   <div>
+    <!-- bouttons pour affiches mes medecins et les patients -->
     <h2 id="page-heading" data-cy="RendezVousHeading">
       <span id="rendez-vous-heading">Rendez Vous</span>
       <div class="d-flex justify-content-end">
@@ -26,6 +26,8 @@
         </router-link>
       </div>
     </h2>
+    <!-- end bouttons pour affiches mes medecins et les patients -->
+
     <hr>
 
     <!-- Fullcalendar -->
@@ -51,7 +53,7 @@
             v-model="$v.rendezVous.code.$model"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="isSecretaire()">
           <label class="form-control-label">Patient</label>
           <select class="form-control" id="rendez-vous-patient" data-cy="patient" name="patient" v-model="idPatient">
             <option
@@ -144,7 +146,6 @@
     <!-- end modal valid or delete rdv -->
 
   </div>
-  <!-- end -->
 </template>
 
 <script lang="ts" src="./rendez-vous.component.ts"></script>
