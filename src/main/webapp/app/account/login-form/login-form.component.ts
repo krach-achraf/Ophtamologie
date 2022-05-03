@@ -33,6 +33,10 @@ export default class LoginForm extends Vue {
             localStorage.removeItem('jhi-authenticationToken');
           }
         }
+        axios.get('api/account')
+          .then(res => {
+            sessionStorage.setItem('user-info', JSON.stringify(res.data));
+          })
         this.authenticationError = false;
         this.$root.$emit('bv::hide::modal', 'login-page');
         this.accountService().retrieveAccount();
