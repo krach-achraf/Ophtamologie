@@ -13,6 +13,7 @@ import {IPatient} from "@/shared/model/patient.model";
 import MedecinService from "@/entities/medecin/medecin.service";
 import {IMedecin} from "@/shared/model/medecin.model";
 import AccountService from "@/account/account.service";
+import {refreshStorage} from '@/helpers/Helper';
 
 const validations: any = {
   rendezVous: {
@@ -80,8 +81,6 @@ export default class RendezVouss extends Vue {
       this.retrieveAllRendezVousMedecin();
     } else if (this.isPatient()) {
       this.calendarOptions.editable = false;
-      let patient = JSON.parse(sessionStorage.getItem('user-info'));
-      this.patient = patient.patient;
       this.retrieveAllRendezVousPatient();
     }
     this.retrievePatientsMedecins();
@@ -158,6 +157,9 @@ export default class RendezVouss extends Vue {
   // recuperer tous les rdvs d'un patient
   public async retrieveAllRendezVousPatient() {
     try {
+      await refreshStorage();
+      let patient = JSON.parse(sessionStorage.getItem('user-info'));
+      this.patient = patient.patient;
       this.idRdv = null;
       this.idMedecin = null;
       this.calendarOptions.events = [];
