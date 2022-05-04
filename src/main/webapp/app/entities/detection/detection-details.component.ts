@@ -1,11 +1,14 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import { IDetection } from '@/shared/model/detection.model';
 import DetectionService from './detection.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component
-export default class DetectionDetails extends Vue {
+export default class DetectionDetails extends mixins(JhiDataUtils) {
   @Inject('detectionService') private detectionService: () => DetectionService;
   @Inject('alertService') private alertService: () => AlertService;
 

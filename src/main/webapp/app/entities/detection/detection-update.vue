@@ -9,15 +9,48 @@
             <input type="text" class="form-control" id="id" name="id" v-model="detection.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="detection-image">Image</label>
+            <label class="form-control-label" for="detection-photo">Photo</label>
+            <div>
+              <img
+                v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
+                style="max-height: 100px"
+                v-if="detection.photo"
+                alt="detection image"
+              />
+              <div v-if="detection.photo" class="form-text text-danger clearfix">
+                <span class="pull-left">{{ detection.photoContentType }}, {{ byteSize(detection.photo) }}</span>
+                <button
+                  type="button"
+                  v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                  class="btn btn-secondary btn-xs pull-right"
+                >
+                  <font-awesome-icon icon="times"></font-awesome-icon>
+                </button>
+              </div>
+              <input
+                type="file"
+                ref="file_photo"
+                id="file_photo"
+                data-cy="photo"
+                v-on:change="setFileData($event, detection, 'photo', true)"
+                accept="image/*"
+              />
+            </div>
             <input
-              type="text"
+              type="hidden"
               class="form-control"
-              name="image"
-              id="detection-image"
-              data-cy="image"
-              :class="{ valid: !$v.detection.image.$invalid, invalid: $v.detection.image.$invalid }"
-              v-model="$v.detection.image.$model"
+              name="photo"
+              id="detection-photo"
+              data-cy="photo"
+              :class="{ valid: !$v.detection.photo.$invalid, invalid: $v.detection.photo.$invalid }"
+              v-model="$v.detection.photo.$model"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="photoContentType"
+              id="detection-photoContentType"
+              v-model="detection.photoContentType"
             />
           </div>
           <div class="form-group">

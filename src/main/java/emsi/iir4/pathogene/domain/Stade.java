@@ -1,6 +1,7 @@
 package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,7 +36,11 @@ public class Stade implements Serializable {
     private Maladie maladie;
 
     @OneToMany(mappedBy = "stade")
-    @JsonIgnoreProperties(value = { "stade" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "medecin", "stade", "unclassified" }, allowSetters = true)
+    private Set<Classification> classifications = new HashSet<>();
+
+    @OneToMany(mappedBy = "stade", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Image> images = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -105,6 +110,37 @@ public class Stade implements Serializable {
         return this;
     }
 
+    public Set<Classification> getClassifications() {
+        return this.classifications;
+    }
+
+    public void setClassifications(Set<Classification> classifications) {
+        if (this.classifications != null) {
+            this.classifications.forEach(i -> i.setStade(null));
+        }
+        if (classifications != null) {
+            classifications.forEach(i -> i.setStade(this));
+        }
+        this.classifications = classifications;
+    }
+
+    public Stade classifications(Set<Classification> classifications) {
+        this.setClassifications(classifications);
+        return this;
+    }
+
+    public Stade addClassification(Classification classification) {
+        this.classifications.add(classification);
+        classification.setStade(this);
+        return this;
+    }
+
+    public Stade removeClassification(Classification classification) {
+        this.classifications.remove(classification);
+        classification.setStade(null);
+        return this;
+    }
+
     public Set<Image> getImages() {
         return this.images;
     }
@@ -136,7 +172,8 @@ public class Stade implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
 
     @Override
     public boolean equals(Object o) {
@@ -151,7 +188,8 @@ public class Stade implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
@@ -159,10 +197,10 @@ public class Stade implements Serializable {
     @Override
     public String toString() {
         return "Stade{" +
-            "id=" + getId() +
-            ", code='" + getCode() + "'" +
-            ", level='" + getLevel() + "'" +
-            ", description='" + getDescription() + "'" +
-            "}";
+                "id=" + getId() +
+                ", code='" + getCode() + "'" +
+                ", level='" + getLevel() + "'" +
+                ", description='" + getDescription() + "'" +
+                "}";
     }
 }

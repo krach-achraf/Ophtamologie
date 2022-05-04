@@ -1,4 +1,5 @@
 import { IMaladie } from '@/shared/model/maladie.model';
+import { IClassification } from '@/shared/model/classification.model';
 import { IImage } from '@/shared/model/image.model';
 
 export interface IStade {
@@ -7,6 +8,7 @@ export interface IStade {
   level?: string | null;
   description?: string | null;
   maladie?: IMaladie | null;
+  classifications?: IClassification[] | null;
   images?: IImage[] | null;
 }
 
@@ -17,6 +19,7 @@ export class Stade implements IStade {
     public level?: string | null,
     public description?: string | null,
     public maladie?: IMaladie | null,
+    public classifications?: IClassification[] | null,
     public images?: IImage[] | null
   ) {}
 }

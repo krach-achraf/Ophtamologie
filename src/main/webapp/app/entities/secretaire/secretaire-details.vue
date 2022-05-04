@@ -35,12 +35,25 @@
             <span>{{ secretaire.admin }}</span>
           </dd>
           <dt>
-            <span>Compte</span>
+            <span>Photo</span>
           </dt>
           <dd>
-            <div v-if="secretaire.compte">
-              <router-link :to="{ name: 'CompteView', params: { compteId: secretaire.compte.id } }">{{ secretaire.compte.id }}</router-link>
+            <div v-if="secretaire.photo">
+              <a v-on:click="openFile(secretaire.photoContentType, secretaire.photo)">
+                <img
+                  v-bind:src="'data:' + secretaire.photoContentType + ';base64,' + secretaire.photo"
+                  style="max-width: 100%"
+                  alt="secretaire image"
+                />
+              </a>
+              {{ secretaire.photoContentType }}, {{ byteSize(secretaire.photo) }}
             </div>
+          </dd>
+          <dt>
+            <span>User</span>
+          </dt>
+          <dd>
+            {{ secretaire.user ? secretaire.user.id : '' }}
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

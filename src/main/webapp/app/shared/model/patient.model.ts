@@ -1,7 +1,8 @@
-import { ICompte } from '@/shared/model/compte.model';
+import { IUser } from '@/shared/model/user.model';
 import { ISecretaire } from '@/shared/model/secretaire.model';
 import { IMaladie } from '@/shared/model/maladie.model';
 import { IDetection } from '@/shared/model/detection.model';
+import { IRendezVous } from '@/shared/model/rendez-vous.model';
 
 import { Genre } from '@/shared/model/enumerations/genre.model';
 export interface IPatient {
@@ -15,10 +16,13 @@ export interface IPatient {
   telephone?: string | null;
   poids?: number | null;
   taille?: number | null;
-  compte?: ICompte | null;
+  photoContentType?: string | null;
+  photo?: string | null;
+  user?: IUser | null;
   secretaire?: ISecretaire | null;
   maladie?: IMaladie | null;
   detections?: IDetection[] | null;
+  rendezVous?: IRendezVous[] | null;
 }
 
 export class Patient implements IPatient {
@@ -33,9 +37,12 @@ export class Patient implements IPatient {
     public telephone?: string | null,
     public poids?: number | null,
     public taille?: number | null,
-    public compte?: ICompte | null,
+    public photoContentType?: string | null,
+    public photo?: string | null,
+    public user?: IUser | null,
     public secretaire?: ISecretaire | null,
     public maladie?: IMaladie | null,
-    public detections?: IDetection[] | null
+    public detections?: IDetection[] | null,
+    public rendezVous?: IRendezVous[] | null
   ) {}
 }

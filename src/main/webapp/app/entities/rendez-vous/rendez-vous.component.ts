@@ -12,6 +12,7 @@ import PatientService from "@/entities/patient/patient.service";
 import {IPatient} from "@/shared/model/patient.model";
 import MedecinService from "@/entities/medecin/medecin.service";
 import {IMedecin} from "@/shared/model/medecin.model";
+import AccountService from "@/account/account.service";
 
 const validations: any = {
   rendezVous: {
@@ -31,14 +32,16 @@ export default class RendezVouss extends Vue {
   @Inject('alertService') private alertService: () => AlertService;
   @Inject('patientService') private patientService: () => PatientService;
   @Inject('medecinService') private medecinService: () => MedecinService;
+  @Inject('accountService') private accountService: () => AccountService;
 
   public rendezVouss: IRendezVous[] = [];
-  public isFetching = false;
   public rendezVous: IRendezVous;
   public idPatient: number = null;
   public idMedecin: number = null;
   public patients: IPatient[] = [];
+  public patient: IPatient;
   public medecins: IMedecin[] = [];
+  public medecin: IMedecin;
   private idRdv: number = null;
 
   public calendarOptions = {
@@ -67,32 +70,124 @@ export default class RendezVouss extends Vue {
   };
 
   public mounted(): void {
-    this.retrieveAllRendezVouss();
+    if (this.isSecretaire()) {
+      this.retrieveAllRendezVouss();
+    } else if (this.isMedecin()) {
+      this.calendarOptions.selectable = false;
+      this.calendarOptions.editable = false;
+      let medecin = JSON.parse(sessionStorage.getItem('user-info'));
+      this.medecin = medecin.medecin;
+      this.retrieveAllRendezVousMedecin();
+    } else if (this.isPatient()) {
+      this.calendarOptions.editable = false;
+      let patient = JSON.parse(sessionStorage.getItem('user-info'));
+      this.patient = patient.patient;
+      this.retrieveAllRendezVousPatient();
+    }
     this.retrievePatientsMedecins();
   }
 
   // recuperer tous les rdvs
   public async retrieveAllRendezVouss() {
     try {
+      this.idRdv = null;
+      this.idPatient = null;
+      this.idMedecin = null;
       this.calendarOptions.events = [];
       this.rendezVous = new RendezVous();
       let ev = await this.rendezVousService().retrieve();
-      for (let i = 0; i < ev.data.length; i++) {
-        if (ev.data[i].status == "validé")
-          this.calendarOptions.events.push({
-            id: ev.data[i].id,
-            title: `M: ${ev.data[i].medecin.prenom} P: ${ev.data[i].patient.prenom}`,
-            start: ev.data[i].date,
-            color: "green"
-          })
-        else
-          this.calendarOptions.events.push({
-            id: ev.data[i].id,
-            title: `M: ${ev.data[i].medecin.prenom} P: ${ev.data[i].patient.prenom}`,
-            start: ev.data[i].date,
-            color: "orange"
-          })
+      this.rendezVouss = ev.data;
+      if (this.rendezVouss  != null) {
+        for (let i = 0; i < this.rendezVouss.length; i++) {
+          if (this.rendezVouss[i].status == "validé")
+            this.calendarOptions.events.push({
+              id: this.rendezVouss[i].id,
+              title: `M: ${this.rendezVouss[i].medecin.nom} P: ${this.rendezVouss[i].patient.nom}`,
+              start: this.rendezVouss[i].date,
+              color: "green"
+            })
+          else
+            this.calendarOptions.events.push({
+              id: this.rendezVouss[i].id,
+              title: `M: ${this.rendezVouss[i].medecin.nom} P: ${this.rendezVouss[i].patient.nom}`,
+              start: this.rendezVouss[i].date,
+              color: "orange"
+            })
+        }
       }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  // recuperer tous les rdvs d'un medecin
+  public async retrieveAllRendezVousMedecin() {
+    try {
+      this.calendarOptions.events = [];
+      this.rendezVouss = this.medecin.rendezVous
+      if (this.rendezVouss != null) {
+        for (let i = 0; i < this.rendezVouss.length; i++) {
+          if (this.rendezVouss[i].status == "validé")
+            this.calendarOptions.events.push({
+              id: this.rendezVouss[i].id,
+              title: `P: ${this.rendezVouss[i].patient.nom}`,
+              start: this.rendezVouss[i].date,
+              color: "green"
+            })
+          else
+            this.calendarOptions.events.push({
+              id: this.rendezVouss[i].id,
+              title: `P: ${this.rendezVouss[i].patient.nom}`,
+              start: this.rendezVouss[i].date,
+              color: "orange"
+            })
+        }
+      } else
+        this.$root.$bvToast.toast("Vous n'avez aucun rendez-vous", {
+          toaster: 'b-toaster-top-center',
+          title: 'Info',
+          variant: 'info',
+          solid: true,
+          autoHideDelay: 5000,
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  // recuperer tous les rdvs d'un patient
+  public async retrieveAllRendezVousPatient() {
+    try {
+      this.idRdv = null;
+      this.idMedecin = null;
+      this.calendarOptions.events = [];
+      this.rendezVous = new RendezVous();
+      this.rendezVouss = this.patient.rendezVous;
+      if (this.rendezVouss != null) {
+        for (let i = 0; i < this.rendezVouss.length; i++) {
+          if (this.rendezVouss[i].status == "validé")
+            this.calendarOptions.events.push({
+              id: this.rendezVouss[i].id,
+              title: `M: ${this.rendezVouss[i].medecin.nom}`,
+              start: this.rendezVouss[i].date,
+              color: "green"
+            })
+          else
+            this.calendarOptions.events.push({
+              id: this.rendezVouss[i].id,
+              title: `M: ${this.rendezVouss[i].medecin.nom}`,
+              start: this.rendezVouss[i].date,
+              color: "orange"
+            })
+        }
+      } else
+        this.$root.$bvToast.toast("Vous n'avez aucun rendez-vous", {
+          toaster: 'b-toaster-top-center',
+          title: 'Info',
+          variant: 'info',
+          solid: true,
+          autoHideDelay: 5000,
+        });
     } catch (e) {
       console.log(e);
     }
@@ -134,8 +229,15 @@ export default class RendezVouss extends Vue {
   // sauvegarder un rdv
   public async save() {
     try {
-      this.rendezVous.patient = await this.patientService().find(this.idPatient);
+      if(this.isPatient()){
+        this.rendezVous.patient = this.patient;
+        this.rendezVous.status = 'en attente';
+      }else if(this.isSecretaire()){
+        this.rendezVous.patient = await this.patientService().find(this.idPatient);
+        this.rendezVous.status = 'validé';
+      }
       this.rendezVous.medecin = await this.medecinService().find(this.idMedecin);
+      console.log(this.rendezVous);
       await this.rendezVousService().create(this.rendezVous);
       (<any>this.$refs.createEntity).hide();
       this.$root.$bvToast.toast('Rendez-vous ajouté avec success', {
@@ -145,7 +247,12 @@ export default class RendezVouss extends Vue {
         solid: true,
         autoHideDelay: 5000,
       });
-      this.retrieveAllRendezVouss();
+      if(this.isSecretaire())
+        this.retrieveAllRendezVouss();
+      else if(this.isPatient()){
+        this.rendezVouss.push(this.rendezVous);
+        this.retrieveAllRendezVousPatient();
+      }
     } catch (e) {
       console.log(e);
     }
@@ -185,7 +292,6 @@ export default class RendezVouss extends Vue {
     } catch (e) {
       console.log(e);
     }
-    this.idRdv = null;
     this.retrieveAllRendezVouss();
     this.closeDialog();
   }
@@ -193,17 +299,19 @@ export default class RendezVouss extends Vue {
   // evenement du click sur un rdv
   public eventClick(selectionInfo) {
     this.idRdv = selectionInfo.event.id;
-    if (selectionInfo.event.backgroundColor == 'green')
+    if (this.isSecretaire()) {
+      if (selectionInfo.event.backgroundColor == 'green')
+        (<any>this.$refs.removeEntity).show();
+      else if (selectionInfo.event.backgroundColor == 'orange')
+        (<any>this.$refs.valideOrRemoveEntity).show();
+    }else if(this.isPatient())
       (<any>this.$refs.removeEntity).show();
-    else if (selectionInfo.event.backgroundColor == 'orange')
-      (<any>this.$refs.valideOrRemoveEntity).show();
   }
 
   // evenement du selection d'un jour
   public selectDate(selectionInfo): void {
     if (this.validDate(selectionInfo.start)) {
       this.rendezVous.date = selectionInfo.start;
-      this.rendezVous.status = 'validé';
       (<any>this.$refs.createEntity).show();
     } else this.alertService().showError(this, 'Veuillez saisir une date convenable!')
   }
@@ -229,6 +337,18 @@ export default class RendezVouss extends Vue {
     if (day.length < 2)
       day = '0' + day;
     return [year, month, day].join('-');
+  }
+
+  public isMedecin(): boolean {
+    return this.accountService().userAuthorities[0] == 'MEDECIN';
+  }
+
+  public isPatient(): boolean {
+    return this.accountService().userAuthorities[0] == 'PATIENT';
+  }
+
+  public isSecretaire(): boolean {
+    return this.accountService().userAuthorities[0] == 'SECRETAIRE';
   }
 
   public closeDialog(): void {

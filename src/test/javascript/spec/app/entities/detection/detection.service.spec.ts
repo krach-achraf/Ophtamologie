@@ -33,7 +33,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new DetectionService();
       currentDate = new Date();
-      elemDefault = new Detection(123, 'AAAAAAA', 'AAAAAAA', false, 'AAAAAAA', currentDate, 'AAAAAAA');
+      elemDefault = new Detection(123, 'image/png', 'AAAAAAA', 'AAAAAAA', false, 'AAAAAAA', currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -96,7 +96,7 @@ describe('Service Tests', () => {
       it('should update a Detection', async () => {
         const returnedFromService = Object.assign(
           {
-            image: 'BBBBBB',
+            photo: 'BBBBBB',
             code: 'BBBBBB',
             validation: true,
             stade: 'BBBBBB',
@@ -133,7 +133,7 @@ describe('Service Tests', () => {
       it('should partial update a Detection', async () => {
         const patchObject = Object.assign(
           {
-            image: 'BBBBBB',
+            photo: 'BBBBBB',
             code: 'BBBBBB',
             stade: 'BBBBBB',
             date: dayjs(currentDate).format(DATE_TIME_FORMAT),
@@ -170,7 +170,7 @@ describe('Service Tests', () => {
       it('should return a list of Detection', async () => {
         const returnedFromService = Object.assign(
           {
-            image: 'BBBBBB',
+            photo: 'BBBBBB',
             code: 'BBBBBB',
             validation: true,
             stade: 'BBBBBB',

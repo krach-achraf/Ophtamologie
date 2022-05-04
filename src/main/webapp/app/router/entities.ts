@@ -72,6 +72,8 @@ const StadeUpdate = () => import('@/entities/stade/stade-update.vue');
 // prettier-ignore
 const StadeDetails = () => import('@/entities/stade/stade-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
+const PatientMedecins = () => import('@/entities/rendez-vous/medecins/patient-medecins.vue');
+const MedecinPatients = () => import('@/entities/rendez-vous/patients/medecin-patients.vue');
 
 export default {
   path: '/',
@@ -177,7 +179,19 @@ export default {
       path: 'rendez-vous',
       name: 'RendezVous',
       component: RendezVous,
-      meta: { authorities: [Authority.USER] },
+      meta: { authorities: [Authority.MEDECIN, Authority.PATIENT, Authority.SECRETAIRE] },
+    },
+    {
+      path: 'patient/medecins',
+      name: 'PatientMedecins',
+      component: PatientMedecins,
+      meta: { authorities: [Authority.PATIENT] },
+    },
+    {
+      path: 'medecin/patients',
+      name: 'MedecinPatients',
+      component: MedecinPatients,
+      meta: { authorities: [Authority.MEDECIN] },
     },
     {
       path: 'visite',

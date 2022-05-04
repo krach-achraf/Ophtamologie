@@ -1,7 +1,10 @@
 package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -31,20 +34,44 @@ public class Medecin implements Serializable {
     @Column(name = "prenom")
     private String prenom;
 
-    @Column(name = "admin")
-    private Boolean admin;
-
     @Column(name = "expert_level")
     private Integer expertLevel;
 
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "nbr_patients")
+    private Integer nbrPatients;
+
+    @Column(name = "rating")
+    private Integer rating;
+
+    @Column(name = "description")
+    private String description;
+
     @OneToOne
     @JoinColumn(unique = true)
-    private Compte compte;
+    private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "compte", "patients", "medecins" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "patients", "medecins" }, allowSetters = true)
     private Secretaire secretaire;
+
+    @OneToMany(mappedBy = "medecin", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Set<RendezVous> rendezVous = new HashSet<>();
+
+    @OneToMany(mappedBy = "medecin")
+    @JsonIgnoreProperties(value = { "medecin", "stade", "unclassified" }, allowSetters = true)
+    private Set<Classification> classifications = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -113,19 +140,6 @@ public class Medecin implements Serializable {
         this.prenom = prenom;
     }
 
-    public Boolean getAdmin() {
-        return this.admin;
-    }
-
-    public Medecin admin(Boolean admin) {
-        this.setAdmin(admin);
-        return this;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
-    }
-
     public Integer getExpertLevel() {
         return this.expertLevel;
     }
@@ -139,16 +153,94 @@ public class Medecin implements Serializable {
         this.expertLevel = expertLevel;
     }
 
-    public Compte getCompte() {
-        return this.compte;
+    public byte[] getPhoto() {
+        return this.photo;
     }
 
-    public void setCompte(Compte compte) {
-        this.compte = compte;
+    public Medecin photo(byte[] photo) {
+        this.setPhoto(photo);
+        return this;
     }
 
-    public Medecin compte(Compte compte) {
-        this.setCompte(compte);
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Medecin photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public Medecin type(String type) {
+        this.setType(type);
+        return this;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getNbrPatients() {
+        return this.nbrPatients;
+    }
+
+    public Medecin nbrPatients(Integer nbrPatients) {
+        this.setNbrPatients(nbrPatients);
+        return this;
+    }
+
+    public void setNbrPatients(Integer nbrPatients) {
+        this.nbrPatients = nbrPatients;
+    }
+
+    public Integer getRating() {
+        return this.rating;
+    }
+
+    public Medecin rating(Integer rating) {
+        this.setRating(rating);
+        return this;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Medecin description(String description) {
+        this.setDescription(description);
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Medecin user(User user) {
+        this.setUser(user);
         return this;
     }
 
@@ -162,6 +254,68 @@ public class Medecin implements Serializable {
 
     public Medecin secretaire(Secretaire secretaire) {
         this.setSecretaire(secretaire);
+        return this;
+    }
+
+    public Set<RendezVous> getRendezVous() {
+        return this.rendezVous;
+    }
+
+    public void setRendezVous(Set<RendezVous> rendezVous) {
+        if (this.rendezVous != null) {
+            this.rendezVous.forEach(i -> i.setMedecin(null));
+        }
+        if (rendezVous != null) {
+            rendezVous.forEach(i -> i.setMedecin(this));
+        }
+        this.rendezVous = rendezVous;
+    }
+
+    public Medecin rendezVous(Set<RendezVous> rendezVous) {
+        this.setRendezVous(rendezVous);
+        return this;
+    }
+
+    public Medecin addRendezVous(RendezVous rendezVous) {
+        this.rendezVous.add(rendezVous);
+        rendezVous.setMedecin(this);
+        return this;
+    }
+
+    public Medecin removeRendezVous(RendezVous rendezVous) {
+        this.rendezVous.remove(rendezVous);
+        rendezVous.setMedecin(null);
+        return this;
+    }
+
+    public Set<Classification> getClassifications() {
+        return this.classifications;
+    }
+
+    public void setClassifications(Set<Classification> classifications) {
+        if (this.classifications != null) {
+            this.classifications.forEach(i -> i.setMedecin(null));
+        }
+        if (classifications != null) {
+            classifications.forEach(i -> i.setMedecin(this));
+        }
+        this.classifications = classifications;
+    }
+
+    public Medecin classifications(Set<Classification> classifications) {
+        this.setClassifications(classifications);
+        return this;
+    }
+
+    public Medecin addClassification(Classification classification) {
+        this.classifications.add(classification);
+        classification.setMedecin(this);
+        return this;
+    }
+
+    public Medecin removeClassification(Classification classification) {
+        this.classifications.remove(classification);
+        classification.setMedecin(null);
         return this;
     }
 
@@ -193,8 +347,13 @@ public class Medecin implements Serializable {
             ", nom='" + getNom() + "'" +
             ", numEmp='" + getNumEmp() + "'" +
             ", prenom='" + getPrenom() + "'" +
-            ", admin='" + getAdmin() + "'" +
             ", expertLevel=" + getExpertLevel() +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
+            ", type='" + getType() + "'" +
+            ", nbrPatients=" + getNbrPatients() +
+            ", rating=" + getRating() +
+            ", description='" + getDescription() + "'" +
             "}";
     }
 }

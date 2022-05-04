@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link SecretaireResource} REST controller.
@@ -43,6 +44,11 @@ class SecretaireResourceIT {
 
     private static final Boolean DEFAULT_ADMIN = false;
     private static final Boolean UPDATED_ADMIN = true;
+
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/secretaires";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -73,7 +79,9 @@ class SecretaireResourceIT {
             .nom(DEFAULT_NOM)
             .numEmp(DEFAULT_NUM_EMP)
             .prenom(DEFAULT_PRENOM)
-            .admin(DEFAULT_ADMIN);
+            .admin(DEFAULT_ADMIN)
+            .photo(DEFAULT_PHOTO)
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE);
         return secretaire;
     }
 
@@ -89,7 +97,9 @@ class SecretaireResourceIT {
             .nom(UPDATED_NOM)
             .numEmp(UPDATED_NUM_EMP)
             .prenom(UPDATED_PRENOM)
-            .admin(UPDATED_ADMIN);
+            .admin(UPDATED_ADMIN)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
         return secretaire;
     }
 
@@ -116,6 +126,8 @@ class SecretaireResourceIT {
         assertThat(testSecretaire.getNumEmp()).isEqualTo(DEFAULT_NUM_EMP);
         assertThat(testSecretaire.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testSecretaire.getAdmin()).isEqualTo(DEFAULT_ADMIN);
+        assertThat(testSecretaire.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testSecretaire.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -152,7 +164,9 @@ class SecretaireResourceIT {
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
             .andExpect(jsonPath("$.[*].numEmp").value(hasItem(DEFAULT_NUM_EMP)))
             .andExpect(jsonPath("$.[*].prenom").value(hasItem(DEFAULT_PRENOM)))
-            .andExpect(jsonPath("$.[*].admin").value(hasItem(DEFAULT_ADMIN.booleanValue())));
+            .andExpect(jsonPath("$.[*].admin").value(hasItem(DEFAULT_ADMIN.booleanValue())))
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
     }
 
     @Test
@@ -171,7 +185,9 @@ class SecretaireResourceIT {
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
             .andExpect(jsonPath("$.numEmp").value(DEFAULT_NUM_EMP))
             .andExpect(jsonPath("$.prenom").value(DEFAULT_PRENOM))
-            .andExpect(jsonPath("$.admin").value(DEFAULT_ADMIN.booleanValue()));
+            .andExpect(jsonPath("$.admin").value(DEFAULT_ADMIN.booleanValue()))
+            .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)));
     }
 
     @Test
@@ -193,7 +209,14 @@ class SecretaireResourceIT {
         Secretaire updatedSecretaire = secretaireRepository.findById(secretaire.getId()).get();
         // Disconnect from session so that the updates on updatedSecretaire are not directly saved in db
         em.detach(updatedSecretaire);
-        updatedSecretaire.code(UPDATED_CODE).nom(UPDATED_NOM).numEmp(UPDATED_NUM_EMP).prenom(UPDATED_PRENOM).admin(UPDATED_ADMIN);
+        updatedSecretaire
+            .code(UPDATED_CODE)
+            .nom(UPDATED_NOM)
+            .numEmp(UPDATED_NUM_EMP)
+            .prenom(UPDATED_PRENOM)
+            .admin(UPDATED_ADMIN)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restSecretaireMockMvc
             .perform(
@@ -212,6 +235,8 @@ class SecretaireResourceIT {
         assertThat(testSecretaire.getNumEmp()).isEqualTo(UPDATED_NUM_EMP);
         assertThat(testSecretaire.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testSecretaire.getAdmin()).isEqualTo(UPDATED_ADMIN);
+        assertThat(testSecretaire.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testSecretaire.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -301,6 +326,8 @@ class SecretaireResourceIT {
         assertThat(testSecretaire.getNumEmp()).isEqualTo(DEFAULT_NUM_EMP);
         assertThat(testSecretaire.getPrenom()).isEqualTo(DEFAULT_PRENOM);
         assertThat(testSecretaire.getAdmin()).isEqualTo(UPDATED_ADMIN);
+        assertThat(testSecretaire.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testSecretaire.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -315,7 +342,14 @@ class SecretaireResourceIT {
         Secretaire partialUpdatedSecretaire = new Secretaire();
         partialUpdatedSecretaire.setId(secretaire.getId());
 
-        partialUpdatedSecretaire.code(UPDATED_CODE).nom(UPDATED_NOM).numEmp(UPDATED_NUM_EMP).prenom(UPDATED_PRENOM).admin(UPDATED_ADMIN);
+        partialUpdatedSecretaire
+            .code(UPDATED_CODE)
+            .nom(UPDATED_NOM)
+            .numEmp(UPDATED_NUM_EMP)
+            .prenom(UPDATED_PRENOM)
+            .admin(UPDATED_ADMIN)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restSecretaireMockMvc
             .perform(
@@ -334,6 +368,8 @@ class SecretaireResourceIT {
         assertThat(testSecretaire.getNumEmp()).isEqualTo(UPDATED_NUM_EMP);
         assertThat(testSecretaire.getPrenom()).isEqualTo(UPDATED_PRENOM);
         assertThat(testSecretaire.getAdmin()).isEqualTo(UPDATED_ADMIN);
+        assertThat(testSecretaire.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testSecretaire.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test

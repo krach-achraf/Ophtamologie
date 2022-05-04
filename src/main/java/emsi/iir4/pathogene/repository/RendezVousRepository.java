@@ -1,6 +1,7 @@
 package emsi.iir4.pathogene.repository;
 
 import emsi.iir4.pathogene.domain.RendezVous;
+import java.util.Set;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface RendezVousRepository extends JpaRepository<RendezVous, Long> {}
+public interface RendezVousRepository extends JpaRepository<RendezVous, Long> {
+    Set<RendezVous> findByPatient_UserId(Long id);
+
+    Set<RendezVous> findByMedecin_UserId(Long id);
+}

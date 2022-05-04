@@ -1,6 +1,7 @@
 package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import emsi.iir4.pathogene.domain.enumeration.Genre;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -51,13 +52,20 @@ public class Patient implements Serializable {
     @Column(name = "taille")
     private Double taille;
 
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "photo")
+    private byte[] photo;
+
+    @Column(name = "photo_content_type")
+    private String photoContentType;
+
     @OneToOne
     @JoinColumn(unique = true)
-    private Compte compte;
+    private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "compte", "patients", "medecins" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "patients", "medecins" }, allowSetters = true)
     private Secretaire secretaire;
 
     @ManyToOne
@@ -67,6 +75,10 @@ public class Patient implements Serializable {
     @OneToMany(mappedBy = "patient")
     @JsonIgnoreProperties(value = { "maladie", "patient", "visite" }, allowSetters = true)
     private Set<Detection> detections = new HashSet<>();
+
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Set<RendezVous> rendezVous = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -200,16 +212,42 @@ public class Patient implements Serializable {
         this.taille = taille;
     }
 
-    public Compte getCompte() {
-        return this.compte;
+    public byte[] getPhoto() {
+        return this.photo;
     }
 
-    public void setCompte(Compte compte) {
-        this.compte = compte;
+    public Patient photo(byte[] photo) {
+        this.setPhoto(photo);
+        return this;
     }
 
-    public Patient compte(Compte compte) {
-        this.setCompte(compte);
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoContentType() {
+        return this.photoContentType;
+    }
+
+    public Patient photoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+        return this;
+    }
+
+    public void setPhotoContentType(String photoContentType) {
+        this.photoContentType = photoContentType;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Patient user(User user) {
+        this.setUser(user);
         return this;
     }
 
@@ -270,6 +308,37 @@ public class Patient implements Serializable {
         return this;
     }
 
+    public Set<RendezVous> getRendezVous() {
+        return this.rendezVous;
+    }
+
+    public void setRendezVous(Set<RendezVous> rendezVous) {
+        if (this.rendezVous != null) {
+            this.rendezVous.forEach(i -> i.setPatient(null));
+        }
+        if (rendezVous != null) {
+            rendezVous.forEach(i -> i.setPatient(this));
+        }
+        this.rendezVous = rendezVous;
+    }
+
+    public Patient rendezVous(Set<RendezVous> rendezVous) {
+        this.setRendezVous(rendezVous);
+        return this;
+    }
+
+    public Patient addRendezVous(RendezVous rendezVous) {
+        this.rendezVous.add(rendezVous);
+        rendezVous.setPatient(this);
+        return this;
+    }
+
+    public Patient removeRendezVous(RendezVous rendezVous) {
+        this.rendezVous.remove(rendezVous);
+        rendezVous.setPatient(null);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -303,6 +372,8 @@ public class Patient implements Serializable {
             ", telephone='" + getTelephone() + "'" +
             ", poids=" + getPoids() +
             ", taille=" + getTaille() +
+            ", photo='" + getPhoto() + "'" +
+            ", photoContentType='" + getPhotoContentType() + "'" +
             "}";
     }
 }

@@ -5,10 +5,19 @@
         <h2 class="jh-entity-heading" data-cy="detectionDetailsHeading"><span>Detection</span> {{ detection.id }}</h2>
         <dl class="row jh-entity-details">
           <dt>
-            <span>Image</span>
+            <span>Photo</span>
           </dt>
           <dd>
-            <span>{{ detection.image }}</span>
+            <div v-if="detection.photo">
+              <a v-on:click="openFile(detection.photoContentType, detection.photo)">
+                <img
+                  v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
+                  style="max-width: 100%"
+                  alt="detection image"
+                />
+              </a>
+              {{ detection.photoContentType }}, {{ byteSize(detection.photo) }}
+            </div>
           </dd>
           <dt>
             <span>Code</span>

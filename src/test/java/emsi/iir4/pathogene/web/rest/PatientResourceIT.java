@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link PatientResource} REST controller.
@@ -59,6 +60,11 @@ class PatientResourceIT {
     private static final Double DEFAULT_TAILLE = 1D;
     private static final Double UPDATED_TAILLE = 2D;
 
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
+
     private static final String ENTITY_API_URL = "/api/patients";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -92,7 +98,9 @@ class PatientResourceIT {
             .genre(DEFAULT_GENRE)
             .telephone(DEFAULT_TELEPHONE)
             .poids(DEFAULT_POIDS)
-            .taille(DEFAULT_TAILLE);
+            .taille(DEFAULT_TAILLE)
+            .photo(DEFAULT_PHOTO)
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE);
         return patient;
     }
 
@@ -112,7 +120,9 @@ class PatientResourceIT {
             .genre(UPDATED_GENRE)
             .telephone(UPDATED_TELEPHONE)
             .poids(UPDATED_POIDS)
-            .taille(UPDATED_TAILLE);
+            .taille(UPDATED_TAILLE)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
         return patient;
     }
 
@@ -143,6 +153,8 @@ class PatientResourceIT {
         assertThat(testPatient.getTelephone()).isEqualTo(DEFAULT_TELEPHONE);
         assertThat(testPatient.getPoids()).isEqualTo(DEFAULT_POIDS);
         assertThat(testPatient.getTaille()).isEqualTo(DEFAULT_TAILLE);
+        assertThat(testPatient.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testPatient.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -183,7 +195,9 @@ class PatientResourceIT {
             .andExpect(jsonPath("$.[*].genre").value(hasItem(DEFAULT_GENRE.toString())))
             .andExpect(jsonPath("$.[*].telephone").value(hasItem(DEFAULT_TELEPHONE)))
             .andExpect(jsonPath("$.[*].poids").value(hasItem(DEFAULT_POIDS.doubleValue())))
-            .andExpect(jsonPath("$.[*].taille").value(hasItem(DEFAULT_TAILLE.doubleValue())));
+            .andExpect(jsonPath("$.[*].taille").value(hasItem(DEFAULT_TAILLE.doubleValue())))
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))));
     }
 
     @Test
@@ -206,7 +220,9 @@ class PatientResourceIT {
             .andExpect(jsonPath("$.genre").value(DEFAULT_GENRE.toString()))
             .andExpect(jsonPath("$.telephone").value(DEFAULT_TELEPHONE))
             .andExpect(jsonPath("$.poids").value(DEFAULT_POIDS.doubleValue()))
-            .andExpect(jsonPath("$.taille").value(DEFAULT_TAILLE.doubleValue()));
+            .andExpect(jsonPath("$.taille").value(DEFAULT_TAILLE.doubleValue()))
+            .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)));
     }
 
     @Test
@@ -237,7 +253,9 @@ class PatientResourceIT {
             .genre(UPDATED_GENRE)
             .telephone(UPDATED_TELEPHONE)
             .poids(UPDATED_POIDS)
-            .taille(UPDATED_TAILLE);
+            .taille(UPDATED_TAILLE)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restPatientMockMvc
             .perform(
@@ -260,6 +278,8 @@ class PatientResourceIT {
         assertThat(testPatient.getTelephone()).isEqualTo(UPDATED_TELEPHONE);
         assertThat(testPatient.getPoids()).isEqualTo(UPDATED_POIDS);
         assertThat(testPatient.getTaille()).isEqualTo(UPDATED_TAILLE);
+        assertThat(testPatient.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testPatient.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -358,6 +378,8 @@ class PatientResourceIT {
         assertThat(testPatient.getTelephone()).isEqualTo(DEFAULT_TELEPHONE);
         assertThat(testPatient.getPoids()).isEqualTo(DEFAULT_POIDS);
         assertThat(testPatient.getTaille()).isEqualTo(DEFAULT_TAILLE);
+        assertThat(testPatient.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testPatient.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
     }
 
     @Test
@@ -381,7 +403,9 @@ class PatientResourceIT {
             .genre(UPDATED_GENRE)
             .telephone(UPDATED_TELEPHONE)
             .poids(UPDATED_POIDS)
-            .taille(UPDATED_TAILLE);
+            .taille(UPDATED_TAILLE)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE);
 
         restPatientMockMvc
             .perform(
@@ -404,6 +428,8 @@ class PatientResourceIT {
         assertThat(testPatient.getTelephone()).isEqualTo(UPDATED_TELEPHONE);
         assertThat(testPatient.getPoids()).isEqualTo(UPDATED_POIDS);
         assertThat(testPatient.getTaille()).isEqualTo(UPDATED_TAILLE);
+        assertThat(testPatient.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testPatient.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
     }
 
     @Test

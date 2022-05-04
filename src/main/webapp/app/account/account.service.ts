@@ -26,6 +26,32 @@ export default class AccountService {
     });
   }
 
+  public retrieveMedecins(): Promise<any>{
+    return new Promise(resolve => {
+      axios
+        .get('api/patient/medecins')
+        .then(res => {
+          resolve(res);
+        })
+        .catch(() => {
+          resolve(false);
+        })
+    });
+  }
+
+  public retrievePatients(): Promise<any>{
+    return new Promise(resolve => {
+      axios
+        .get('api/medecin/patients')
+        .then(res => {
+          resolve(res);
+        })
+        .catch(() => {
+          resolve(false);
+        })
+    });
+  }
+
   public retrieveAccount(): Promise<boolean> {
     return new Promise(resolve => {
       axios
@@ -94,4 +120,6 @@ export default class AccountService {
     }
     return Promise.resolve(false);
   }
+
+
 }

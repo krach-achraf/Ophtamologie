@@ -137,11 +137,26 @@ public class MedecinResource {
                 if (medecin.getPrenom() != null) {
                     existingMedecin.setPrenom(medecin.getPrenom());
                 }
-                if (medecin.getAdmin() != null) {
-                    existingMedecin.setAdmin(medecin.getAdmin());
-                }
                 if (medecin.getExpertLevel() != null) {
                     existingMedecin.setExpertLevel(medecin.getExpertLevel());
+                }
+                if (medecin.getPhoto() != null) {
+                    existingMedecin.setPhoto(medecin.getPhoto());
+                }
+                if (medecin.getPhotoContentType() != null) {
+                    existingMedecin.setPhotoContentType(medecin.getPhotoContentType());
+                }
+                if (medecin.getType() != null) {
+                    existingMedecin.setType(medecin.getType());
+                }
+                if (medecin.getNbrPatients() != null) {
+                    existingMedecin.setNbrPatients(medecin.getNbrPatients());
+                }
+                if (medecin.getRating() != null) {
+                    existingMedecin.setRating(medecin.getRating());
+                }
+                if (medecin.getDescription() != null) {
+                    existingMedecin.setDescription(medecin.getDescription());
                 }
 
                 return existingMedecin;

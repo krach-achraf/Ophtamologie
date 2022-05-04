@@ -32,9 +32,13 @@
             <th scope="row"><span>Nom</span></th>
             <th scope="row"><span>Num Emp</span></th>
             <th scope="row"><span>Prenom</span></th>
-            <th scope="row"><span>Admin</span></th>
             <th scope="row"><span>Expert Level</span></th>
-            <th scope="row"><span>Compte</span></th>
+            <th scope="row"><span>Photo</span></th>
+            <th scope="row"><span>Type</span></th>
+            <th scope="row"><span>Nbr Patients</span></th>
+            <th scope="row"><span>Rating</span></th>
+            <th scope="row"><span>Description</span></th>
+            <th scope="row"><span>User</span></th>
             <th scope="row"><span>Secretaire</span></th>
             <th scope="row"></th>
           </tr>
@@ -48,12 +52,23 @@
             <td>{{ medecin.nom }}</td>
             <td>{{ medecin.numEmp }}</td>
             <td>{{ medecin.prenom }}</td>
-            <td>{{ medecin.admin }}</td>
             <td>{{ medecin.expertLevel }}</td>
             <td>
-              <div v-if="medecin.compte">
-                <router-link :to="{ name: 'CompteView', params: { compteId: medecin.compte.id } }">{{ medecin.compte.id }}</router-link>
-              </div>
+              <a v-if="medecin.photo" v-on:click="openFile(medecin.photoContentType, medecin.photo)">
+                <img
+                  v-bind:src="'data:' + medecin.photoContentType + ';base64,' + medecin.photo"
+                  style="max-height: 30px"
+                  alt="medecin image"
+                />
+              </a>
+              <span v-if="medecin.photo">{{ medecin.photoContentType }}, {{ byteSize(medecin.photo) }}</span>
+            </td>
+            <td>{{ medecin.type }}</td>
+            <td>{{ medecin.nbrPatients }}</td>
+            <td>{{ medecin.rating }}</td>
+            <td>{{ medecin.description }}</td>
+            <td>
+              {{ medecin.user ? medecin.user.id : '' }}
             </td>
             <td>
               <div v-if="medecin.secretaire">

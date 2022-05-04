@@ -1,9 +1,11 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import AlertService from '@/shared/alert/alert.service';
 
-import CompteService from '@/entities/compte/compte.service';
-import { ICompte } from '@/shared/model/compte.model';
+import UserService from '@/entities/user/user.service';
 
 import PatientService from '@/entities/patient/patient.service';
 import { IPatient } from '@/shared/model/patient.model';
@@ -21,21 +23,22 @@ const validations: any = {
     numEmp: {},
     prenom: {},
     admin: {},
+    photo: {},
   },
 };
 
 @Component({
   validations,
 })
-export default class SecretaireUpdate extends Vue {
+export default class SecretaireUpdate extends mixins(JhiDataUtils) {
   @Inject('secretaireService') private secretaireService: () => SecretaireService;
   @Inject('alertService') private alertService: () => AlertService;
 
   public secretaire: ISecretaire = new Secretaire();
 
-  @Inject('compteService') private compteService: () => CompteService;
+  @Inject('userService') private userService: () => UserService;
 
-  public comptes: ICompte[] = [];
+  public users: Array<any> = [];
 
   @Inject('patientService') private patientService: () => PatientService;
 
@@ -124,11 +127,25 @@ export default class SecretaireUpdate extends Vue {
     this.$router.go(-1);
   }
 
+  public clearInputImage(field, fieldContentType, idInput): void {
+    if (this.secretaire && field && fieldContentType) {
+      if (Object.prototype.hasOwnProperty.call(this.secretaire, field)) {
+        this.secretaire[field] = null;
+      }
+      if (Object.prototype.hasOwnProperty.call(this.secretaire, fieldContentType)) {
+        this.secretaire[fieldContentType] = null;
+      }
+      if (idInput) {
+        (<any>this).$refs[idInput] = null;
+      }
+    }
+  }
+
   public initRelationships(): void {
-    this.compteService()
+    this.userService()
       .retrieve()
       .then(res => {
-        this.comptes = res.data;
+        this.users = res.data;
       });
     this.patientService()
       .retrieve()

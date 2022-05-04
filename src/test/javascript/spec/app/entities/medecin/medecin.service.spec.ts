@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new MedecinService();
-      elemDefault = new Medecin(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', false, 0);
+      elemDefault = new Medecin(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 'image/png', 'AAAAAAA', 'AAAAAAA', 0, 0, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -85,8 +85,12 @@ describe('Service Tests', () => {
             nom: 'BBBBBB',
             numEmp: 'BBBBBB',
             prenom: 'BBBBBB',
-            admin: true,
             expertLevel: 1,
+            photo: 'BBBBBB',
+            type: 'BBBBBB',
+            nbrPatients: 1,
+            rating: 1,
+            description: 'BBBBBB',
           },
           elemDefault
         );
@@ -115,7 +119,9 @@ describe('Service Tests', () => {
           {
             code: 'BBBBBB',
             prenom: 'BBBBBB',
-            expertLevel: 1,
+            photo: 'BBBBBB',
+            type: 'BBBBBB',
+            rating: 1,
           },
           new Medecin()
         );
@@ -147,8 +153,12 @@ describe('Service Tests', () => {
             nom: 'BBBBBB',
             numEmp: 'BBBBBB',
             prenom: 'BBBBBB',
-            admin: true,
             expertLevel: 1,
+            photo: 'BBBBBB',
+            type: 'BBBBBB',
+            nbrPatients: 1,
+            rating: 1,
+            description: 'BBBBBB',
           },
           elemDefault
         );

@@ -1,6 +1,9 @@
+import { mixins } from 'vue-class-component';
 import { Component, Vue, Inject } from 'vue-property-decorator';
 import Vue2Filters from 'vue2-filters';
 import { IPatient } from '@/shared/model/patient.model';
+
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import PatientService from './patient.service';
 import AlertService from '@/shared/alert/alert.service';
@@ -8,7 +11,7 @@ import AlertService from '@/shared/alert/alert.service';
 @Component({
   mixins: [Vue2Filters.mixin],
 })
-export default class Patient extends Vue {
+export default class Patient extends mixins(JhiDataUtils) {
   @Inject('patientService') private patientService: () => PatientService;
   @Inject('alertService') private alertService: () => AlertService;
 

@@ -140,6 +140,12 @@ public class SecretaireResource {
                 if (secretaire.getAdmin() != null) {
                     existingSecretaire.setAdmin(secretaire.getAdmin());
                 }
+                if (secretaire.getPhoto() != null) {
+                    existingSecretaire.setPhoto(secretaire.getPhoto());
+                }
+                if (secretaire.getPhotoContentType() != null) {
+                    existingSecretaire.setPhotoContentType(secretaire.getPhotoContentType());
+                }
 
                 return existingSecretaire;
             })

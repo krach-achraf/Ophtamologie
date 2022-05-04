@@ -59,12 +59,25 @@
             <span>{{ patient.taille }}</span>
           </dd>
           <dt>
-            <span>Compte</span>
+            <span>Photo</span>
           </dt>
           <dd>
-            <div v-if="patient.compte">
-              <router-link :to="{ name: 'CompteView', params: { compteId: patient.compte.id } }">{{ patient.compte.id }}</router-link>
+            <div v-if="patient.photo">
+              <a v-on:click="openFile(patient.photoContentType, patient.photo)">
+                <img
+                  v-bind:src="'data:' + patient.photoContentType + ';base64,' + patient.photo"
+                  style="max-width: 100%"
+                  alt="patient image"
+                />
+              </a>
+              {{ patient.photoContentType }}, {{ byteSize(patient.photo) }}
             </div>
+          </dd>
+          <dt>
+            <span>User</span>
+          </dt>
+          <dd>
+            {{ patient.user ? patient.user.id : '' }}
           </dd>
           <dt>
             <span>Secretaire</span>

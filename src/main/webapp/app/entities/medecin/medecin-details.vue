@@ -29,24 +29,55 @@
             <span>{{ medecin.prenom }}</span>
           </dd>
           <dt>
-            <span>Admin</span>
-          </dt>
-          <dd>
-            <span>{{ medecin.admin }}</span>
-          </dd>
-          <dt>
             <span>Expert Level</span>
           </dt>
           <dd>
             <span>{{ medecin.expertLevel }}</span>
           </dd>
           <dt>
-            <span>Compte</span>
+            <span>Photo</span>
           </dt>
           <dd>
-            <div v-if="medecin.compte">
-              <router-link :to="{ name: 'CompteView', params: { compteId: medecin.compte.id } }">{{ medecin.compte.id }}</router-link>
+            <div v-if="medecin.photo">
+              <a v-on:click="openFile(medecin.photoContentType, medecin.photo)">
+                <img
+                  v-bind:src="'data:' + medecin.photoContentType + ';base64,' + medecin.photo"
+                  style="max-width: 100%"
+                  alt="medecin image"
+                />
+              </a>
+              {{ medecin.photoContentType }}, {{ byteSize(medecin.photo) }}
             </div>
+          </dd>
+          <dt>
+            <span>Type</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.type }}</span>
+          </dd>
+          <dt>
+            <span>Nbr Patients</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.nbrPatients }}</span>
+          </dd>
+          <dt>
+            <span>Rating</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.rating }}</span>
+          </dd>
+          <dt>
+            <span>Description</span>
+          </dt>
+          <dd>
+            <span>{{ medecin.description }}</span>
+          </dd>
+          <dt>
+            <span>User</span>
+          </dt>
+          <dd>
+            {{ medecin.user ? medecin.user.id : '' }}
           </dd>
           <dt>
             <span>Secretaire</span>

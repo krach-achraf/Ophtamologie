@@ -34,7 +34,20 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new PatientService();
       currentDate = new Date();
-      elemDefault = new Patient(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', Genre.Homme, 'AAAAAAA', 0, 0);
+      elemDefault = new Patient(
+        123,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        currentDate,
+        'AAAAAAA',
+        Genre.Homme,
+        'AAAAAAA',
+        0,
+        0,
+        'image/png',
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
@@ -106,6 +119,7 @@ describe('Service Tests', () => {
             telephone: 'BBBBBB',
             poids: 1,
             taille: 1,
+            photo: 'BBBBBB',
           },
           elemDefault
         );
@@ -182,6 +196,7 @@ describe('Service Tests', () => {
             telephone: 'BBBBBB',
             poids: 1,
             taille: 1,
+            photo: 'BBBBBB',
           },
           elemDefault
         );

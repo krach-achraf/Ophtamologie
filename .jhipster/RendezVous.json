@@ -37,6 +37,13 @@
       "otherEntityRelationshipName": "rendezVous",
       "relationshipName": "medecin",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "visite",
+      "otherEntityRelationshipName": "rendezVous",
+      "ownerSide": false,
+      "relationshipName": "visite",
+      "relationshipType": "one-to-one"
     }
   ],
   "service": "no"

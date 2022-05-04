@@ -1,6 +1,7 @@
 package emsi.iir4.pathogene.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -33,11 +34,11 @@ public class Maladie implements Serializable {
     private Detection detection;
 
     @OneToMany(mappedBy = "maladie")
-    @JsonIgnoreProperties(value = { "compte", "secretaire", "maladie", "detections" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
     private Set<Patient> patients = new HashSet<>();
 
-    @OneToMany(mappedBy = "maladie")
-    @JsonIgnoreProperties(value = { "maladie", "images" }, allowSetters = true)
+    @OneToMany(mappedBy = "maladie", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Stade> stades = new HashSet<>();
 
     @OneToMany(mappedBy = "maladie")

@@ -1,9 +1,11 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import AlertService from '@/shared/alert/alert.service';
 
-import CompteService from '@/entities/compte/compte.service';
-import { ICompte } from '@/shared/model/compte.model';
+import UserService from '@/entities/user/user.service';
 
 import SecretaireService from '@/entities/secretaire/secretaire.service';
 import { ISecretaire } from '@/shared/model/secretaire.model';
@@ -13,6 +15,9 @@ import { IMaladie } from '@/shared/model/maladie.model';
 
 import DetectionService from '@/entities/detection/detection.service';
 import { IDetection } from '@/shared/model/detection.model';
+
+import RendezVousService from '@/entities/rendez-vous/rendez-vous.service';
+import { IRendezVous } from '@/shared/model/rendez-vous.model';
 
 import { IPatient, Patient } from '@/shared/model/patient.model';
 import PatientService from './patient.service';
@@ -29,21 +34,22 @@ const validations: any = {
     telephone: {},
     poids: {},
     taille: {},
+    photo: {},
   },
 };
 
 @Component({
   validations,
 })
-export default class PatientUpdate extends Vue {
+export default class PatientUpdate extends mixins(JhiDataUtils) {
   @Inject('patientService') private patientService: () => PatientService;
   @Inject('alertService') private alertService: () => AlertService;
 
   public patient: IPatient = new Patient();
 
-  @Inject('compteService') private compteService: () => CompteService;
+  @Inject('userService') private userService: () => UserService;
 
-  public comptes: ICompte[] = [];
+  public users: Array<any> = [];
 
   @Inject('secretaireService') private secretaireService: () => SecretaireService;
 
@@ -56,6 +62,10 @@ export default class PatientUpdate extends Vue {
   @Inject('detectionService') private detectionService: () => DetectionService;
 
   public detections: IDetection[] = [];
+
+  @Inject('rendezVousService') private rendezVousService: () => RendezVousService;
+
+  public rendezVous: IRendezVous[] = [];
   public genreValues: string[] = Object.keys(Genre);
   public isSaving = false;
   public currentLanguage = '';
@@ -137,11 +147,25 @@ export default class PatientUpdate extends Vue {
     this.$router.go(-1);
   }
 
+  public clearInputImage(field, fieldContentType, idInput): void {
+    if (this.patient && field && fieldContentType) {
+      if (Object.prototype.hasOwnProperty.call(this.patient, field)) {
+        this.patient[field] = null;
+      }
+      if (Object.prototype.hasOwnProperty.call(this.patient, fieldContentType)) {
+        this.patient[fieldContentType] = null;
+      }
+      if (idInput) {
+        (<any>this).$refs[idInput] = null;
+      }
+    }
+  }
+
   public initRelationships(): void {
-    this.compteService()
+    this.userService()
       .retrieve()
       .then(res => {
-        this.comptes = res.data;
+        this.users = res.data;
       });
     this.secretaireService()
       .retrieve()
@@ -157,6 +181,11 @@ export default class PatientUpdate extends Vue {
       .retrieve()
       .then(res => {
         this.detections = res.data;
+      });
+    this.rendezVousService()
+      .retrieve()
+      .then(res => {
+        this.rendezVous = res.data;
       });
   }
 }

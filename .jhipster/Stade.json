@@ -33,6 +33,12 @@
       "relationshipType": "many-to-one"
     },
     {
+      "otherEntityName": "classification",
+      "otherEntityRelationshipName": "stade",
+      "relationshipName": "classification",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "image",
       "otherEntityRelationshipName": "stade",
       "relationshipName": "image",

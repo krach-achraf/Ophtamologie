@@ -29,7 +29,7 @@ describe('Service Tests', () => {
 
     beforeEach(() => {
       service = new SecretaireService();
-      elemDefault = new Secretaire(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', false);
+      elemDefault = new Secretaire(123, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', false, 'image/png', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -86,6 +86,7 @@ describe('Service Tests', () => {
             numEmp: 'BBBBBB',
             prenom: 'BBBBBB',
             admin: true,
+            photo: 'BBBBBB',
           },
           elemDefault
         );
@@ -146,6 +147,7 @@ describe('Service Tests', () => {
             numEmp: 'BBBBBB',
             prenom: 'BBBBBB',
             admin: true,
+            photo: 'BBBBBB',
           },
           elemDefault
         );

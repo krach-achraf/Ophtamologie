@@ -9,9 +9,13 @@ import MedecinUpdateComponent from '@/entities/medecin/medecin-update.vue';
 import MedecinClass from '@/entities/medecin/medecin-update.component';
 import MedecinService from '@/entities/medecin/medecin.service';
 
-import CompteService from '@/entities/compte/compte.service';
+import UserService from '@/entities/user/user.service';
 
 import SecretaireService from '@/entities/secretaire/secretaire.service';
+
+import RendezVousService from '@/entities/rendez-vous/rendez-vous.service';
+
+import ClassificationService from '@/entities/classification/classification.service';
 import AlertService from '@/shared/alert/alert.service';
 
 const localVue = createLocalVue();
@@ -44,13 +48,20 @@ describe('Component Tests', () => {
           medecinService: () => medecinServiceStub,
           alertService: () => new AlertService(),
 
-          compteService: () =>
-            sinon.createStubInstance<CompteService>(CompteService, {
-              retrieve: sinon.stub().resolves({}),
-            } as any),
+          userService: () => new UserService(),
 
           secretaireService: () =>
             sinon.createStubInstance<SecretaireService>(SecretaireService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          rendezVousService: () =>
+            sinon.createStubInstance<RendezVousService>(RendezVousService, {
+              retrieve: sinon.stub().resolves({}),
+            } as any),
+
+          classificationService: () =>
+            sinon.createStubInstance<ClassificationService>(ClassificationService, {
               retrieve: sinon.stub().resolves({}),
             } as any),
         },

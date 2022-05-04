@@ -1,11 +1,14 @@
-import { Component, Vue, Inject } from 'vue-property-decorator';
+import { Component, Inject } from 'vue-property-decorator';
+
+import { mixins } from 'vue-class-component';
+import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import { IPatient } from '@/shared/model/patient.model';
 import PatientService from './patient.service';
 import AlertService from '@/shared/alert/alert.service';
 
 @Component
-export default class PatientDetails extends Vue {
+export default class PatientDetails extends mixins(JhiDataUtils) {
   @Inject('patientService') private patientService: () => PatientService;
   @Inject('alertService') private alertService: () => AlertService;
 

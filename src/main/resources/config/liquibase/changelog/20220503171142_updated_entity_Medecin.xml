@@ -7,21 +7,23 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added columns to the entity Unclassified.
+        Added columns to the entity Medecin.
     -->
-    <changeSet id="20220430020328-1-add-columns" author="jhipster">
-        <addColumn tableName="unclassified">
-            <column name="photo" type="longblob"/>
-            <column name="photo_content_type" type="varchar(255)"/>
+    <changeSet id="20220503171142-1-add-columns" author="jhipster">
+        <addColumn tableName="medecin">
+            <column name="type" type="varchar(255)"/>
+            <column name="nbr_patients" type="integer"/>
+            <column name="rating" type="integer"/>
+            <column name="description" type="varchar(255)"/>
         </addColumn>
     </changeSet>
 
     <!--
-        Dropped columns to the entity Unclassified.
+        Dropped columns to the entity Medecin.
     -->
-    <changeSet id="20220430020328-1-drop-columns" author="jhipster">
-        <dropColumn tableName="unclassified">
-            <column name="path"/>
+    <changeSet id="20220503171142-1-drop-columns" author="jhipster">
+        <dropColumn tableName="medecin">
+            <column name="admin"/>
         </dropColumn>
     </changeSet>
 

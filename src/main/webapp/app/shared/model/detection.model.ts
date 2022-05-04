@@ -4,7 +4,8 @@ import { IVisite } from '@/shared/model/visite.model';
 
 export interface IDetection {
   id?: number;
-  image?: string | null;
+  photoContentType?: string | null;
+  photo?: string | null;
   code?: string | null;
   validation?: boolean | null;
   stade?: string | null;
@@ -18,7 +19,8 @@ export interface IDetection {
 export class Detection implements IDetection {
   constructor(
     public id?: number,
-    public image?: string | null,
+    public photoContentType?: string | null,
+    public photo?: string | null,
     public code?: string | null,
     public validation?: boolean | null,
     public stade?: string | null,

@@ -28,7 +28,7 @@
         <thead>
           <tr>
             <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>Image</span></th>
+            <th scope="row"><span>Photo</span></th>
             <th scope="row"><span>Code</span></th>
             <th scope="row"><span>Validation</span></th>
             <th scope="row"><span>Stade</span></th>
@@ -44,7 +44,16 @@
             <td>
               <router-link :to="{ name: 'DetectionView', params: { detectionId: detection.id } }">{{ detection.id }}</router-link>
             </td>
-            <td>{{ detection.image }}</td>
+            <td>
+              <a v-if="detection.photo" v-on:click="openFile(detection.photoContentType, detection.photo)">
+                <img
+                  v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
+                  style="max-height: 30px"
+                  alt="detection image"
+                />
+              </a>
+              <span v-if="detection.photo">{{ detection.photoContentType }}, {{ byteSize(detection.photo) }}</span>
+            </td>
             <td>{{ detection.code }}</td>
             <td>{{ detection.validation }}</td>
             <td>{{ detection.stade }}</td>
