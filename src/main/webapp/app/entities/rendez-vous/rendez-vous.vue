@@ -41,19 +41,8 @@
              data-cy="rendezVousCreateDialogHeading">Entrez les détails</span></span
       >
       <div class="modal-body">
+
         <div class="form-group">
-          <label class="form-control-label" for="rendez-vous-code">Code</label>
-          <input
-            type="text"
-            class="form-control"
-            name="code"
-            id="rendez-vous-code"
-            data-cy="code"
-            :class="{ valid: !$v.rendezVous.code.$invalid, invalid: $v.rendezVous.code.$invalid }"
-            v-model="$v.rendezVous.code.$model"
-          />
-        </div>
-        <div class="form-group" v-if="isSecretaire()">
           <label class="form-control-label">Patient</label>
           <select class="form-control" id="rendez-vous-patient" data-cy="patient" name="patient" v-model="idPatient">
             <option
@@ -79,7 +68,7 @@
         </div>
       </div>
       <div slot="modal-footer">
-        <button type="button" class="btn btn-secondary" v-on:click="closeCreateDialog()">Annuler</button>
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
         <button
           type="button"
           class="btn btn-primary"
@@ -122,7 +111,7 @@
       ><span id="pathogeneApp.rendezVous.valide.question" data-cy="rendezVousDeleteOrValidDialogHeading">Choisissez l'operation</span></span
       >
       <div slot="modal-footer">
-        <button type="button" class="btn btn-secondary" v-on:click="closeValidOrRemoveDialog()">Quitter</button>.<button
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>.<button
         type="button"
         class="btn btn-info"
         id="jhi-confirm-validOrdelete-rendezVous"

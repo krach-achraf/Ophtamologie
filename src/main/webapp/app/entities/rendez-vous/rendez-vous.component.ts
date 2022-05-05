@@ -13,17 +13,9 @@ import {IPatient} from "@/shared/model/patient.model";
 import MedecinService from "@/entities/medecin/medecin.service";
 import {IMedecin} from "@/shared/model/medecin.model";
 import AccountService from "@/account/account.service";
-import {refreshStorage} from '@/helpers/Helper';
-
-const validations: any = {
-  rendezVous: {
-    code: {},
-  },
-};
 
 @Component({
   mixins: [Vue2Filters.mixin],
-  validations,
   components: {
     FullCalendar
   }
@@ -35,15 +27,13 @@ export default class RendezVouss extends Vue {
   @Inject('medecinService') private medecinService: () => MedecinService;
   @Inject('accountService') private accountService: () => AccountService;
 
-  public rendezVouss: IRendezVous[] = [];
-  public rendezVous: IRendezVous;
-  public idPatient: number = null;
-  public idMedecin: number = null;
-  public patients: IPatient[] = [];
-  public patient: IPatient;
-  public medecins: IMedecin[] = [];
-  public medecin: IMedecin;
-  private idRdv: number = null;
+  private rendezVouss: IRendezVous[] = [];
+  private rendezVous: IRendezVous;
+  private idPatient: number = null;
+  private idMedecin: number = null;
+  private patients: IPatient[] = [];
+  private medecins: IMedecin[] = [];
+  private idRdv: number;
 
   public calendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -62,8 +52,8 @@ export default class RendezVouss extends Vue {
       list: "Liste",
     },
     hiddenDays: [0],
-    selectable: true,
-    editable: true,
+    selectable: false,
+    editable: false,
     events: [],
     select: this.selectDate,
     eventClick: this.eventClick,
@@ -72,18 +62,14 @@ export default class RendezVouss extends Vue {
 
   public mounted(): void {
     if (this.isSecretaire()) {
+      this.calendarOptions.selectable = true;
+      this.calendarOptions.editable = true;
       this.retrieveAllRendezVouss();
-    } else if (this.isMedecin()) {
-      this.calendarOptions.selectable = false;
-      this.calendarOptions.editable = false;
-      let medecin = JSON.parse(sessionStorage.getItem('user-info'));
-      this.medecin = medecin.medecin;
+      this.retrievePatientsMedecins();
+    } else if (this.isMedecin())
       this.retrieveAllRendezVousMedecin();
-    } else if (this.isPatient()) {
-      this.calendarOptions.editable = false;
+    else if (this.isPatient())
       this.retrieveAllRendezVousPatient();
-    }
-    this.retrievePatientsMedecins();
   }
 
   // recuperer tous les rdvs
@@ -96,7 +82,7 @@ export default class RendezVouss extends Vue {
       this.rendezVous = new RendezVous();
       let ev = await this.rendezVousService().retrieve();
       this.rendezVouss = ev.data;
-      if (this.rendezVouss  != null) {
+      if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
           if (this.rendezVouss[i].status == "validé")
             this.calendarOptions.events.push({
@@ -123,7 +109,8 @@ export default class RendezVouss extends Vue {
   public async retrieveAllRendezVousMedecin() {
     try {
       this.calendarOptions.events = [];
-      this.rendezVouss = this.medecin.rendezVous
+      let medecin = JSON.parse(sessionStorage.getItem('user-info'));
+      this.rendezVouss = medecin.medecin.rendezVous
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
           if (this.rendezVouss[i].status == "validé")
@@ -157,14 +144,9 @@ export default class RendezVouss extends Vue {
   // recuperer tous les rdvs d'un patient
   public async retrieveAllRendezVousPatient() {
     try {
-      await refreshStorage();
-      let patient = JSON.parse(sessionStorage.getItem('user-info'));
-      this.patient = patient.patient;
-      this.idRdv = null;
-      this.idMedecin = null;
       this.calendarOptions.events = [];
-      this.rendezVous = new RendezVous();
-      this.rendezVouss = this.patient.rendezVous;
+      let patient = JSON.parse(sessionStorage.getItem('user-info'));
+      this.rendezVouss = patient.patient.rendezVous;
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
           if (this.rendezVouss[i].status == "validé")
@@ -231,15 +213,10 @@ export default class RendezVouss extends Vue {
   // sauvegarder un rdv
   public async save() {
     try {
-      if(this.isPatient()){
-        this.rendezVous.patient = this.patient;
-        this.rendezVous.status = 'en attente';
-      }else if(this.isSecretaire()){
-        this.rendezVous.patient = await this.patientService().find(this.idPatient);
-        this.rendezVous.status = 'validé';
-      }
+      this.rendezVous.patient = await this.patientService().find(this.idPatient);
       this.rendezVous.medecin = await this.medecinService().find(this.idMedecin);
-      console.log(this.rendezVous);
+      this.rendezVous.status = 'validé';
+      this.rendezVous.code = 'code101'; //a change apres
       await this.rendezVousService().create(this.rendezVous);
       (<any>this.$refs.createEntity).hide();
       this.$root.$bvToast.toast('Rendez-vous ajouté avec success', {
@@ -249,12 +226,7 @@ export default class RendezVouss extends Vue {
         solid: true,
         autoHideDelay: 5000,
       });
-      if(this.isSecretaire())
-        this.retrieveAllRendezVouss();
-      else if(this.isPatient()){
-        this.rendezVouss.push(this.rendezVous);
-        this.retrieveAllRendezVousPatient();
-      }
+      this.retrieveAllRendezVouss();
     } catch (e) {
       console.log(e);
     }
@@ -266,7 +238,7 @@ export default class RendezVouss extends Vue {
       this.rendezVous = await this.rendezVousService().find(this.idRdv);
       this.rendezVous.status = 'validé';
       await this.rendezVousService().update(this.rendezVous);
-      (<any>this.$refs.valideOrRemoveEntity).hide();
+      this.closeDialog();
       this.$root.$bvToast.toast('Rendez-vous validé avec success', {
         toaster: 'b-toaster-top-center',
         title: 'Success',
@@ -300,14 +272,13 @@ export default class RendezVouss extends Vue {
 
   // evenement du click sur un rdv
   public eventClick(selectionInfo) {
-    this.idRdv = selectionInfo.event.id;
     if (this.isSecretaire()) {
+      this.idRdv = selectionInfo.event.id;
       if (selectionInfo.event.backgroundColor == 'green')
         (<any>this.$refs.removeEntity).show();
       else if (selectionInfo.event.backgroundColor == 'orange')
         (<any>this.$refs.valideOrRemoveEntity).show();
-    }else if(this.isPatient())
-      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   // evenement du selection d'un jour
@@ -320,25 +291,7 @@ export default class RendezVouss extends Vue {
 
   // verification de la validation d'une date choisit
   public validDate(date): boolean {
-    let newDate = new Date();
-    let dd = String(newDate.getDate()).padStart(2, '0');
-    let mm = String(newDate.getMonth() + 1).padStart(2, '0');
-    let yyyy = newDate.getFullYear();
-    let today = yyyy + '-' + mm + '-' + dd;
-    return this.formatDate(date) > today;
-  }
-
-  // formater la date pour la verification
-  public formatDate(date): String {
-    let d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
-    return [year, month, day].join('-');
+    return date > new Date();
   }
 
   public isMedecin(): boolean {
@@ -355,13 +308,7 @@ export default class RendezVouss extends Vue {
 
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
-  }
-
-  public closeCreateDialog(): void {
     (<any>this.$refs.createEntity).hide();
-  }
-
-  public closeValidOrRemoveDialog(): void {
     (<any>this.$refs.valideOrRemoveEntity).hide();
   }
 
