@@ -92,6 +92,7 @@ public class AccountResource {
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
+        patientRepository.save(new Patient().user(user).nom(user.getLastName()).prenom(user.getFirstName()));
     }
 
     /**

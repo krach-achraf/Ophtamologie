@@ -8,7 +8,7 @@ entity Medecin   {
     type String,
     nbrPatients Integer,
     rating Integer,
-    description String,
+    description TextBlob,
     }
 entity Secretaire   {
    code String unique,
