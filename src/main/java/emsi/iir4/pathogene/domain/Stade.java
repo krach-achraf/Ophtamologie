@@ -44,6 +44,9 @@ public class Stade implements Serializable {
     private Set<Image> images = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Stade() {
+        code("Stage-" + hashCode());
+    }
 
     public Long getId() {
         return this.id;

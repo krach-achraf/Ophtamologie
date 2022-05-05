@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 /**
  * A Patient.
@@ -81,6 +80,10 @@ public class Patient implements Serializable {
     private Set<RendezVous> rendezVous = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+    public Patient() {
+        code("Patient-" + hashCode());
+    }
 
     public Long getId() {
         return this.id;

@@ -37,6 +37,9 @@ public class Visite implements Serializable {
     private Detection detection;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Visite() {
+        code("Visite-" + hashCode());
+    }
 
     public Long getId() {
         return this.id;

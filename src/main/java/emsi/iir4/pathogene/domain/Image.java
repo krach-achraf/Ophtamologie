@@ -35,6 +35,10 @@ public class Image implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
+    public Image() {
+        code("Image-" + hashCode());
+    }
+
     public Long getId() {
         return this.id;
     }

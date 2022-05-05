@@ -40,6 +40,9 @@ public class Unclassified implements Serializable {
     private Set<Classification> classifications = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Unclassified() {
+        code("Unclassified-" + hashCode());
+    }
 
     public Long getId() {
         return this.id;
