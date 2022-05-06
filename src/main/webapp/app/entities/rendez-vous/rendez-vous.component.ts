@@ -82,21 +82,14 @@ export default class RendezVouss extends Vue {
       this.rendezVous = new RendezVous();
       let ev = await this.rendezVousService().retrieve();
       this.rendezVouss = ev.data;
+      console.log(this.rendezVouss);
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
-          if (this.rendezVouss[i].status == "validé")
+          if (this.rendezVouss[i].status == "pending")
             this.calendarOptions.events.push({
               id: this.rendezVouss[i].id,
               title: `M: ${this.rendezVouss[i].medecin.nom} P: ${this.rendezVouss[i].patient.nom}`,
               start: this.rendezVouss[i].date,
-              color: "green"
-            })
-          else
-            this.calendarOptions.events.push({
-              id: this.rendezVouss[i].id,
-              title: `M: ${this.rendezVouss[i].medecin.nom} P: ${this.rendezVouss[i].patient.nom}`,
-              start: this.rendezVouss[i].date,
-              color: "orange"
             })
         }
       }
@@ -111,21 +104,14 @@ export default class RendezVouss extends Vue {
       this.calendarOptions.events = [];
       let medecin = JSON.parse(sessionStorage.getItem('user-info'));
       this.rendezVouss = medecin.medecin.rendezVous
+      console.log(this.rendezVouss);
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
-          if (this.rendezVouss[i].status == "validé")
+          if (this.rendezVouss[i].status == "pending")
             this.calendarOptions.events.push({
               id: this.rendezVouss[i].id,
               title: `P: ${this.rendezVouss[i].patient.nom}`,
               start: this.rendezVouss[i].date,
-              color: "green"
-            })
-          else
-            this.calendarOptions.events.push({
-              id: this.rendezVouss[i].id,
-              title: `P: ${this.rendezVouss[i].patient.nom}`,
-              start: this.rendezVouss[i].date,
-              color: "orange"
             })
         }
       } else
@@ -149,20 +135,13 @@ export default class RendezVouss extends Vue {
       this.rendezVouss = patient.patient.rendezVous;
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
-          if (this.rendezVouss[i].status == "validé")
+          if (this.rendezVouss[i].status == "pending")
             this.calendarOptions.events.push({
               id: this.rendezVouss[i].id,
               title: `M: ${this.rendezVouss[i].medecin.nom}`,
               start: this.rendezVouss[i].date,
-              color: "green"
             })
-          else
-            this.calendarOptions.events.push({
-              id: this.rendezVouss[i].id,
-              title: `M: ${this.rendezVouss[i].medecin.nom}`,
-              start: this.rendezVouss[i].date,
-              color: "orange"
-            })
+
         }
       } else
         this.$root.$bvToast.toast("Vous n'avez aucun rendez-vous", {
@@ -215,7 +194,7 @@ export default class RendezVouss extends Vue {
     try {
       this.rendezVous.patient = await this.patientService().find(this.idPatient);
       this.rendezVous.medecin = await this.medecinService().find(this.idMedecin);
-      this.rendezVous.status = 'validé';
+      this.rendezVous.status = 'pending';
       this.rendezVous.code = 'code101'; //a change apres
       await this.rendezVousService().create(this.rendezVous);
       (<any>this.$refs.createEntity).hide();
@@ -274,10 +253,7 @@ export default class RendezVouss extends Vue {
   public eventClick(selectionInfo) {
     if (this.isSecretaire()) {
       this.idRdv = selectionInfo.event.id;
-      if (selectionInfo.event.backgroundColor == 'green')
-        (<any>this.$refs.removeEntity).show();
-      else if (selectionInfo.event.backgroundColor == 'orange')
-        (<any>this.$refs.valideOrRemoveEntity).show();
+      (<any>this.$refs.removeEntity).show();
     }
   }
 
@@ -309,7 +285,6 @@ export default class RendezVouss extends Vue {
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
     (<any>this.$refs.createEntity).hide();
-    (<any>this.$refs.valideOrRemoveEntity).hide();
   }
 
 }

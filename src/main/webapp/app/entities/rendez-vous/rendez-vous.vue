@@ -105,35 +105,6 @@
     </b-modal>
     <!-- end modal delete rdv -->
 
-    <!-- modal valid or delete rdv -->
-    <b-modal ref="valideOrRemoveEntity" id="valideOrRemoveEntity">
-      <span slot="modal-title"
-      ><span id="pathogeneApp.rendezVous.valide.question" data-cy="rendezVousDeleteOrValidDialogHeading">Choisissez l'operation</span></span
-      >
-      <div slot="modal-footer">
-        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>.<button
-        type="button"
-        class="btn btn-info"
-        id="jhi-confirm-validOrdelete-rendezVous"
-        data-cy="entityConfirmDeleteButton"
-        v-on:click="validRendezVous()"
-      >
-        Valider
-      </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="jhi-confirm-remove-rendezVous"
-          data-cy="entityConfirmDeleteButton"
-          v-on:click="removeRendezVous()"
-        >
-          Annuler
-        </button>
-
-      </div>
-    </b-modal>
-    <!-- end modal valid or delete rdv -->
-
   </div>
 </template>
 
