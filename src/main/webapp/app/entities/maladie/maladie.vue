@@ -42,18 +42,21 @@
             <td>{{ maladie.date }}</td>
             <td class="text-right">
               <div class="btn-group">
+
                 <router-link :to="{ name: 'MaladieView', params: { maladieId: maladie.id } }" custom v-slot="{ navigate }">
                   <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
                   </button>
                 </router-link>
+
                 <router-link :to="{ name: 'MaladieEdit', params: { maladieId: maladie.id } }" custom v-slot="{ navigate }">
                   <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline">Edit</span>
                   </button>
                 </router-link>
+
                 <b-button
                   v-on:click="prepareRemove(maladie)"
                   variant="danger"
@@ -64,6 +67,18 @@
                   <font-awesome-icon icon="times"></font-awesome-icon>
                   <span class="d-none d-md-inline">Delete</span>
                 </b-button>
+
+                <b-button
+                  v-on:click="prepareAffecte(maladie)"
+                  variant="success"
+                  class="btn btn-sm"
+                  data-cy="entityAffecteButton"
+                  v-b-modal.affecteEntity
+                >
+                  <font-awesome-icon icon="plus"></font-awesome-icon>
+                  <span class="d-none d-md-inline">Stade</span>
+                </b-button>
+
               </div>
             </td>
           </tr>
@@ -88,6 +103,46 @@
         >
           Delete
         </button>
+      </div>
+    </b-modal>
+
+    <b-modal ref="affecteEntity" id="affecteEntity">
+      <span slot="modal-title"
+      ><span id="pathogeneApp.maladie.affecte.question" data-cy="maladieAffecteDialogHeading">Choisissez le stade</span></span
+      >
+      <div class="modal-body">
+
+        <table class="table table-striped" aria-describedby="stades">
+          <thead>
+          <tr>
+            <th scope="row"><span>Code</span></th>
+            <th scope="row"><span>Level</span></th>
+            <th scope="row"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="stade in stades" :key="stade.id" data-cy="entityTable">
+            <td>{{ stade.code }}</td>
+            <td>{{ stade.level }}</td>
+            <td class="text-right">
+              <div class="btn-group">
+                <b-button
+                  v-on:click="affecteStade(stade)"
+                  variant="info"
+                  class="btn btn-sm"
+                  data-cy="entityAffectedButton"
+                >
+                  <span class="d-none d-md-inline">Chosisir</span>
+                </b-button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div slot="modal-footer">
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
       </div>
     </b-modal>
   </div>
