@@ -54,7 +54,8 @@ public class ClassificationResource {
         if (classification.getId() != null) {
             throw new BadRequestAlertException("A new classification cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        classification.setCode("CLS-" + classification.getClass().hashCode());
+
+        classification.setCode("CLS-" + classification.hashCode());
         Classification result = classificationRepository.save(classification);
         return ResponseEntity
             .created(new URI("/api/classifications/" + result.getId()))

@@ -57,10 +57,6 @@ public class Detection implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Detection() {
-        code("Detection-" + hashCode());
-    }
-
     public Long getId() {
         return this.id;
     }

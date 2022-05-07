@@ -53,7 +53,8 @@ public class ImageResource {
         if (image.getId() != null) {
             throw new BadRequestAlertException("A new image cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        image.setCode("IMG-" + image.getClass().hashCode());
+
+        image.setCode("IMG-" + image.hashCode());
         Image result = imageRepository.save(image);
         return ResponseEntity
             .created(new URI("/api/images/" + result.getId()))

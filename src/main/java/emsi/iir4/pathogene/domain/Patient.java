@@ -81,10 +81,6 @@ public class Patient implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Patient() {
-        code("Patient-" + hashCode());
-    }
-
     public Long getId() {
         return this.id;
     }

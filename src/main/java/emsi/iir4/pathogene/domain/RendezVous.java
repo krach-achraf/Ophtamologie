@@ -43,10 +43,6 @@ public class RendezVous implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public RendezVous() {
-        code("Appointement-" + hashCode());
-    }
-
     public Long getId() {
         return this.id;
     }

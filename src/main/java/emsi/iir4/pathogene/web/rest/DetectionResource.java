@@ -55,7 +55,7 @@ public class DetectionResource {
         if (detection.getId() != null) {
             throw new BadRequestAlertException("A new detection cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        detection.setCode("DET-" + detection.getClass().hashCode());
+        detection.setCode("DET-" + detection.hashCode());
         Detection result = detectionRepository.save(detection);
         return ResponseEntity
             .created(new URI("/api/detections/" + result.getId()))

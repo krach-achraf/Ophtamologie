@@ -53,7 +53,8 @@ public class UnclassifiedResource {
         if (unclassified.getId() != null) {
             throw new BadRequestAlertException("A new unclassified cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        unclassified.setCode("UNC-" + unclassified.getClass().hashCode());
+
+        unclassified.setCode("UNC-" + unclassified.hashCode());
         Unclassified result = unclassifiedRepository.save(unclassified);
         return ResponseEntity
             .created(new URI("/api/unclassifieds/" + result.getId()))

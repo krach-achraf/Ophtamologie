@@ -58,9 +58,6 @@ public class Secretaire implements Serializable {
     private Set<Medecin> medecins = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Secretaire() {
-        code("Secretary-" + hashCode());
-    }
 
     public Long getId() {
         return this.id;

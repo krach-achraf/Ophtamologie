@@ -39,10 +39,6 @@ public class Classification implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Classification() {
-        code("Classification-" + hashCode());
-    }
-
     public Long getId() {
         return this.id;
     }

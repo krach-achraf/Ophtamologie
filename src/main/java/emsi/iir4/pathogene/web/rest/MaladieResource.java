@@ -55,7 +55,7 @@ public class MaladieResource {
         if (maladie.getId() != null) {
             throw new BadRequestAlertException("A new maladie cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        maladie.setCode("MAL-" + maladie.getClass().hashCode());
+        maladie.setCode("MAL-" + maladie.hashCode());
         Maladie result = maladieRepository.save(maladie);
         return ResponseEntity
             .created(new URI("/api/maladies/" + result.getId()))

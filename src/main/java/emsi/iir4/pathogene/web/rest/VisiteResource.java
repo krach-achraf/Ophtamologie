@@ -53,7 +53,8 @@ public class VisiteResource {
         if (visite.getId() != null) {
             throw new BadRequestAlertException("A new visite cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        visite.setCode("VIS-" + visite.getClass().hashCode());
+
+        visite.setCode("VIS-" + visite.hashCode());
         Visite result = visiteRepository.save(visite);
         return ResponseEntity
             .created(new URI("/api/visites/" + result.getId()))
