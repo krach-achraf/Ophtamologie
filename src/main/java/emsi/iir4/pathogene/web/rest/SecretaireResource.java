@@ -1,10 +1,17 @@
 package emsi.iir4.pathogene.web.rest;
 
+import emsi.iir4.pathogene.domain.Patient;
 import emsi.iir4.pathogene.domain.Secretaire;
+import emsi.iir4.pathogene.domain.User;
+import emsi.iir4.pathogene.repository.PatientRepository;
 import emsi.iir4.pathogene.repository.SecretaireRepository;
+import emsi.iir4.pathogene.security.AuthoritiesConstants;
+import emsi.iir4.pathogene.service.UserService;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
+import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -14,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
@@ -36,8 +44,22 @@ public class SecretaireResource {
 
     private final SecretaireRepository secretaireRepository;
 
-    public SecretaireResource(SecretaireRepository secretaireRepository) {
+    private final PatientRepository patientRepository;
+
+    private final AccountResource accountResource;
+
+    private final UserService userService;
+
+    public SecretaireResource(
+        SecretaireRepository secretaireRepository,
+        PatientRepository patientRepository,
+        AccountResource accountResource,
+        UserService userService
+    ) {
         this.secretaireRepository = secretaireRepository;
+        this.patientRepository = patientRepository;
+        this.accountResource = accountResource;
+        this.userService = userService;
     }
 
     /**
@@ -58,6 +80,19 @@ public class SecretaireResource {
             .created(new URI("/api/secretaires/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("patient/register")
+    @PreAuthorize("hasAuthority('" + AuthoritiesConstants.SECRETAIRE + "')")
+    public Patient registerPatient(@Valid @RequestBody Patient patient, ManagedUserVM Puser) throws URISyntaxException {
+        log.debug("REST request to save Patient : {}", patient);
+        if (patient.getId() != null) {
+            throw new BadRequestAlertException("A new patient cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        patient.setSecretaire(accountResource.getAccount().getSecretaire());
+        User user = userService.registerUser(Puser, Puser.getPassword());
+        patient.setUser(user);
+        return patientRepository.save(patient);
     }
 
     /**

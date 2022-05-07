@@ -17,6 +17,7 @@ import emsi.iir4.pathogene.service.dto.AdminUserDTO;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import emsi.iir4.pathogene.web.rest.errors.EmailAlreadyUsedException;
 import emsi.iir4.pathogene.web.rest.errors.LoginAlreadyUsedException;
+import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -123,7 +124,7 @@ public class UserResource {
      */
     @PostMapping("/users")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public ResponseEntity<User> createUser(@Valid @RequestBody AdminUserDTO userDTO) throws URISyntaxException {
+    public ResponseEntity<User> createUser(@Valid @RequestBody ManagedUserVM userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
 
         if (userDTO.getId() != null) {

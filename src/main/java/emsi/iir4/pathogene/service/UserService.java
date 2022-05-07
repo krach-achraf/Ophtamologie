@@ -9,6 +9,7 @@ import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.security.SecurityUtils;
 import emsi.iir4.pathogene.service.dto.AdminUserDTO;
 import emsi.iir4.pathogene.service.dto.UserDTO;
+import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -132,7 +133,7 @@ public class UserService {
         return true;
     }
 
-    public User createUser(AdminUserDTO userDTO) {
+    public User createUser(ManagedUserVM userDTO) {
         User user = new User();
         user.setLogin(userDTO.getLogin().toLowerCase());
         user.setFirstName(userDTO.getFirstName());
@@ -146,7 +147,8 @@ public class UserService {
         } else {
             user.setLangKey(userDTO.getLangKey());
         }
-        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
+        // String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
+        String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
