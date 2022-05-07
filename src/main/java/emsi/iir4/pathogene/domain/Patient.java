@@ -251,6 +251,8 @@ public class Patient implements Serializable {
 
     public Patient user(User user) {
         this.setUser(user);
+        this.setNom(user.getLastName());
+        this.setPrenom(user.getFirstName());
         return this;
     }
 

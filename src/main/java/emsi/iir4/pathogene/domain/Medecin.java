@@ -48,6 +48,7 @@ public class Medecin implements Serializable {
     @Column(name = "type")
     private String type;
 
+    //these are very subject to change nbr of patients and ratings
     @Column(name = "nbr_patients")
     private Integer nbrPatients;
 
@@ -245,6 +246,8 @@ public class Medecin implements Serializable {
 
     public Medecin user(User user) {
         this.setUser(user);
+        this.setNom(user.getLastName());
+        this.setPrenom(user.getFirstName());
         return this;
     }
 

@@ -176,6 +176,8 @@ public class Secretaire implements Serializable {
 
     public Secretaire user(User user) {
         this.setUser(user);
+        this.setNom(user.getLastName());
+        this.setPrenom(user.getFirstName());
         return this;
     }
 
