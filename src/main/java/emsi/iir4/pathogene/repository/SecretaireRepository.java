@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SecretaireRepository extends JpaRepository<Secretaire, Long> {
     Optional<Secretaire> findByUserId(Long id);
+    Optional<Secretaire> findByUserLogin(String login);
 }

@@ -2,8 +2,14 @@ package emsi.iir4.pathogene.service;
 
 import emsi.iir4.pathogene.config.Constants;
 import emsi.iir4.pathogene.domain.Authority;
+import emsi.iir4.pathogene.domain.Medecin;
+import emsi.iir4.pathogene.domain.Patient;
+import emsi.iir4.pathogene.domain.Secretaire;
 import emsi.iir4.pathogene.domain.User;
 import emsi.iir4.pathogene.repository.AuthorityRepository;
+import emsi.iir4.pathogene.repository.MedecinRepository;
+import emsi.iir4.pathogene.repository.PatientRepository;
+import emsi.iir4.pathogene.repository.SecretaireRepository;
 import emsi.iir4.pathogene.repository.UserRepository;
 import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.security.SecurityUtils;
@@ -37,12 +43,28 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final MedecinRepository medecinRepository;
+
+    private final SecretaireRepository secretaireRepository;
+
+    private final PatientRepository patientRepository;
+
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        AuthorityRepository authorityRepository,
+        MedecinRepository medecinRepository,
+        SecretaireRepository secretaireRepository,
+        PatientRepository patientRepository
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.medecinRepository = medecinRepository;
+        this.secretaireRepository = secretaireRepository;
+        this.patientRepository = patientRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -205,6 +227,23 @@ public class UserService {
     }
 
     public void deleteUser(String login) {
+        //BuisnessLogic.deleteUser(login);
+        Optional<Medecin> medecin;
+        Optional<Patient> patient;
+        Optional<Secretaire> secretaire;
+        if ((medecin = medecinRepository.findByUserLogin(login)).isPresent()) {
+            medecin.get().setUser(null);
+            medecinRepository.save(medecin.get());
+        }
+        if ((patient = patientRepository.findByUserLogin(login)).isPresent()) {
+            patient.get().setUser(null);
+            patientRepository.save(patient.get());
+        }
+        if ((secretaire = secretaireRepository.findByUserLogin(login)).isPresent()) {
+            secretaire.get().setUser(null);
+            secretaireRepository.save(secretaire.get());
+        }
+
         userRepository
             .findOneByLogin(login)
             .ifPresent(user -> {

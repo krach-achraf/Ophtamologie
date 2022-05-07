@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
     Optional<Patient> findByUserId(Long id);
+    Optional<Patient> findByUserLogin(String login);
 }
