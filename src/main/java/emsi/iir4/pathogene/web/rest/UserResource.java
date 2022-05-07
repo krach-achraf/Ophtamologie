@@ -22,7 +22,6 @@ import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -132,7 +131,10 @@ public class UserResource {
         if (medecin.getId() != null) {
             throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", "idexists");
         }
-        User user = userService.registerUser(Puser, Puser.getPassword());
+        Puser.setAuthorities(new HashSet<>());
+        Puser.getAuthorities().add(AuthoritiesConstants.MEDECIN);
+        Puser.getAuthorities().add(AuthoritiesConstants.USER);
+        User user = userService.createUser(Puser);
         medecin.setUser(user);
         return medecinRepository.save(medecin);
     }
@@ -144,7 +146,10 @@ public class UserResource {
         if (patient.getId() != null) {
             throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", "idexists");
         }
-        User user = userService.registerUser(Puser, Puser.getPassword());
+        Puser.setAuthorities(new HashSet<>());
+        Puser.getAuthorities().add(AuthoritiesConstants.PATIENT);
+        Puser.getAuthorities().add(AuthoritiesConstants.USER);
+        User user = userService.createUser(Puser);
         patient.setUser(user);
         return patientRepository.save(patient);
     }
@@ -156,7 +161,10 @@ public class UserResource {
         if (secretaire.getId() != null) {
             throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", "idexists");
         }
-        User user = userService.registerUser(Puser, Puser.getPassword());
+        Puser.setAuthorities(new HashSet<>());
+        Puser.getAuthorities().add(AuthoritiesConstants.SECRETAIRE);
+        Puser.getAuthorities().add(AuthoritiesConstants.USER);
+        User user = userService.createUser(Puser);
         secretaire.setUser(user);
         return secretaireRepository.save(secretaire);
     }
