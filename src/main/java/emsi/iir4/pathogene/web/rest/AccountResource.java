@@ -73,6 +73,26 @@ public class AccountResource {
         this.medecinRepository = medecinRepository;
     }
 
+    @PutMapping("/account")
+    public void updateAccount(@RequestBody AdminUserDTO userDTO, @RequestBody PasswordChangeDTO passwordChangeDTO) {
+        String userLogin = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+        if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
+            throw new EmailAlreadyUsedException();
+        }
+        Optional<User> user = userRepository.findOneByLogin(userLogin);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("User could not be found");
+        }
+        if (isPasswordLengthInvalid(passwordChangeDTO.getNewPassword())) {
+            throw new InvalidPasswordException();
+        }
+        userService.updateUser(userDTO);
+        userService.changePassword(passwordChangeDTO.getCurrentPassword(), passwordChangeDTO.getNewPassword());
+    }
+
     /**
      * {@code POST  /register} : register the user.
      *
