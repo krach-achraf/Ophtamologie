@@ -53,6 +53,7 @@ public class MedecinResource {
         if (medecin.getId() != null) {
             throw new BadRequestAlertException("A new medecin cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        medecin.setCode("MED-" + medecin.getClass().hashCode());
         Medecin result = medecinRepository.save(medecin);
         return ResponseEntity
             .created(new URI("/api/medecins/" + result.getId()))

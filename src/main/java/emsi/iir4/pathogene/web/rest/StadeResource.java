@@ -53,6 +53,7 @@ public class StadeResource {
         if (stade.getId() != null) {
             throw new BadRequestAlertException("A new stade cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        stade.setCode("STD-" + stade.getClass().hashCode());
         Stade result = stadeRepository.save(stade);
         return ResponseEntity
             .created(new URI("/api/stades/" + result.getId()))

@@ -75,6 +75,7 @@ public class SecretaireResource {
         if (secretaire.getId() != null) {
             throw new BadRequestAlertException("A new secretaire cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        secretaire.setCode("SEC-" + secretaire.getClass().hashCode());
         Secretaire result = secretaireRepository.save(secretaire);
         return ResponseEntity
             .created(new URI("/api/secretaires/" + result.getId()))

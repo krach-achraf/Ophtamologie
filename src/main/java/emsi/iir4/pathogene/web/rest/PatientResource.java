@@ -53,6 +53,7 @@ public class PatientResource {
         if (patient.getId() != null) {
             throw new BadRequestAlertException("A new patient cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        patient.setCode("PAT-" + patient.getClass().hashCode());
         Patient result = patientRepository.save(patient);
         return ResponseEntity
             .created(new URI("/api/patients/" + result.getId()))

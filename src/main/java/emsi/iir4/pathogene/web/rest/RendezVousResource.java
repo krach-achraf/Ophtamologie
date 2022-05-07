@@ -55,6 +55,7 @@ public class RendezVousResource {
         if (rendezVous.getId() != null) {
             throw new BadRequestAlertException("A new rendezVous cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        rendezVous.setCode("RV-" + rendezVous.getClass().hashCode());
         RendezVous result = rendezVousRepository.save(rendezVous);
         return ResponseEntity
             .created(new URI("/api/rendez-vous/" + result.getId()))
