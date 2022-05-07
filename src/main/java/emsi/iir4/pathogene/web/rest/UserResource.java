@@ -4,6 +4,7 @@ import emsi.iir4.pathogene.config.Constants;
 import emsi.iir4.pathogene.domain.Medecin;
 import emsi.iir4.pathogene.domain.Patient;
 import emsi.iir4.pathogene.domain.RendezVous;
+import emsi.iir4.pathogene.domain.Secretaire;
 import emsi.iir4.pathogene.domain.User;
 import emsi.iir4.pathogene.repository.MedecinRepository;
 import emsi.iir4.pathogene.repository.PatientRepository;
@@ -100,12 +101,64 @@ public class UserResource {
 
     private final UserRepository userRepository;
 
+    private final MedecinRepository medecinRepository;
+
+    private final PatientRepository patientRepository;
+
+    private final SecretaireRepository secretaireRepository;
+
     private final MailService mailService;
 
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    public UserResource(
+        UserService userService,
+        UserRepository userRepository,
+        MailService mailService,
+        MedecinRepository medecinRepository,
+        PatientRepository patientRepository,
+        SecretaireRepository secretaireRepository
+    ) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.medecinRepository = medecinRepository;
+        this.patientRepository = patientRepository;
+        this.secretaireRepository = secretaireRepository;
+    }
+
+    @PostMapping("medecin/register")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public Medecin registerPatient(@Valid @RequestBody Medecin medecin, ManagedUserVM Puser) throws URISyntaxException {
+        log.debug("REST request to save Medecin : {}", medecin);
+        if (medecin.getId() != null) {
+            throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", "idexists");
+        }
+        User user = userService.registerUser(Puser, Puser.getPassword());
+        medecin.setUser(user);
+        return medecinRepository.save(medecin);
+    }
+
+    @PostMapping("patient/register")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public Patient registerPatient(@Valid @RequestBody Patient patient, ManagedUserVM Puser) throws URISyntaxException {
+        log.debug("REST request to save Patient : {}", patient);
+        if (patient.getId() != null) {
+            throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", "idexists");
+        }
+        User user = userService.registerUser(Puser, Puser.getPassword());
+        patient.setUser(user);
+        return patientRepository.save(patient);
+    }
+
+    @PostMapping("secretaire/register")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public Secretaire registerPatient(@Valid @RequestBody Secretaire secretaire, ManagedUserVM Puser) throws URISyntaxException {
+        log.debug("REST request to save Secretaire : {}", secretaire);
+        if (secretaire.getId() != null) {
+            throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", "idexists");
+        }
+        User user = userService.registerUser(Puser, Puser.getPassword());
+        secretaire.setUser(user);
+        return secretaireRepository.save(secretaire);
     }
 
     /**
