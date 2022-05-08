@@ -15,6 +15,7 @@ import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.service.MailService;
 import emsi.iir4.pathogene.service.UserService;
 import emsi.iir4.pathogene.service.dto.AdminUserDTO;
+import emsi.iir4.pathogene.service.dto.MedecinUserDTO;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import emsi.iir4.pathogene.web.rest.errors.EmailAlreadyUsedException;
 import emsi.iir4.pathogene.web.rest.errors.LoginAlreadyUsedException;
@@ -126,8 +127,11 @@ public class UserResource {
 
     @PostMapping("medecin/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Medecin registerPatient(@Valid @RequestBody Medecin medecin, @RequestBody ManagedUserVM Puser) throws URISyntaxException {
-        log.debug("REST request to save Medecin : {}", medecin);
+    public Medecin registerPatient(@Valid @RequestBody MedecinUserDTO medecindto) throws URISyntaxException {
+        log.debug("REST request to save Medecin : {}", medecindto);
+        Medecin medecin = medecindto.getMedecin();
+        ManagedUserVM Puser = medecindto.getUser();
+
         if (medecin.getId() != null) {
             throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", "idexists");
         }
