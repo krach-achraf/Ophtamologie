@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.validation.Valid;
@@ -55,7 +56,7 @@ public class MaladieResource {
         if (maladie.getId() != null) {
             throw new BadRequestAlertException("A new maladie cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        maladie.setCode("MAL-" + maladie.hashCode());
+        maladie.setCode("MAL-" + UUID.randomUUID().toString());
         Maladie result = maladieRepository.save(maladie);
         return ResponseEntity
             .created(new URI("/api/maladies/" + result.getId()))

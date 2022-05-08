@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.validation.Valid;
@@ -55,7 +56,7 @@ public class DetectionResource {
         if (detection.getId() != null) {
             throw new BadRequestAlertException("A new detection cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        detection.setCode("DET-" + detection.hashCode());
+        detection.setCode("DET-" + UUID.randomUUID().toString());
         Detection result = detectionRepository.save(detection);
         return ResponseEntity
             .created(new URI("/api/detections/" + result.getId()))

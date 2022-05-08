@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public class ClassificationResource {
             throw new BadRequestAlertException("A new classification cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        classification.setCode("CLS-" + classification.hashCode());
+        classification.setCode("CLS-" + UUID.randomUUID().toString());
         Classification result = classificationRepository.save(classification);
         return ResponseEntity
             .created(new URI("/api/classifications/" + result.getId()))

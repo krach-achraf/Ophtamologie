@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class VisiteResource {
             throw new BadRequestAlertException("A new visite cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        visite.setCode("VIS-" + visite.hashCode());
+        visite.setCode("VIS-" + UUID.randomUUID().toString());
         Visite result = visiteRepository.save(visite);
         return ResponseEntity
             .created(new URI("/api/visites/" + result.getId()))

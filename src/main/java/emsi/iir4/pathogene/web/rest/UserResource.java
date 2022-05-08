@@ -138,12 +138,12 @@ public class UserResource {
             throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", "idexists");
         }
         Puser.setAuthorities(new HashSet<>());
-
-        User user = userService.createUser(Puser);
         Puser.getAuthorities().add(AuthoritiesConstants.MEDECIN);
         Puser.getAuthorities().add(AuthoritiesConstants.USER);
+
+        User user = userService.createAdministeredUser(Puser);
         medecin.setUser(user);
-        medecin.setCode("MED-" + medecin.hashCode());
+        medecin.setCode("MED-" + UUID.randomUUID().toString());
         return medecinRepository.save(medecin);
     }
 
@@ -157,12 +157,11 @@ public class UserResource {
             throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", "idexists");
         }
         Puser.setAuthorities(new HashSet<>());
-
-        User user = userService.createUser(Puser);
         Puser.getAuthorities().add(AuthoritiesConstants.PATIENT);
         Puser.getAuthorities().add(AuthoritiesConstants.USER);
+        User user = userService.createAdministeredUser(Puser);
         patient.setUser(user);
-        patient.setCode("PAT-" + patient.hashCode());
+        patient.setCode("PAT-" + UUID.randomUUID().toString());
         return patientRepository.save(patient);
     }
 
@@ -177,11 +176,11 @@ public class UserResource {
         }
         Puser.setAuthorities(new HashSet<>());
 
-        User user = userService.createUser(Puser);
+        User user = userService.createAdministeredUser(Puser);
         Puser.getAuthorities().add(AuthoritiesConstants.SECRETAIRE);
         Puser.getAuthorities().add(AuthoritiesConstants.USER);
         secretaire.setUser(user);
-        secretaire.setCode("SEC-" + secretaire.hashCode());
+        secretaire.setCode("SEC-" + UUID.randomUUID().toString());
         return secretaireRepository.save(secretaire);
     }
 

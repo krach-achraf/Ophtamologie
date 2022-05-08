@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.validation.Valid;
@@ -56,7 +57,7 @@ public class RendezVousResource {
             throw new BadRequestAlertException("A new rendezVous cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        rendezVous.setCode("RV-" + rendezVous.hashCode());
+        rendezVous.setCode("RV-" + UUID.randomUUID().toString());
         RendezVous result = rendezVousRepository.save(rendezVous);
         return ResponseEntity
             .created(new URI("/api/rendez-vous/" + result.getId()))

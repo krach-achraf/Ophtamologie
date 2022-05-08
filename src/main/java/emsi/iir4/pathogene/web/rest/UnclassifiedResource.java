@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class UnclassifiedResource {
             throw new BadRequestAlertException("A new unclassified cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        unclassified.setCode("UNC-" + unclassified.hashCode());
+        unclassified.setCode("UNC-" + UUID.randomUUID().toString());
         Unclassified result = unclassifiedRepository.save(unclassified);
         return ResponseEntity
             .created(new URI("/api/unclassifieds/" + result.getId()))

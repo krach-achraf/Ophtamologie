@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -53,7 +54,7 @@ public class MedecinResource {
         if (medecin.getId() != null) {
             throw new BadRequestAlertException("A new medecin cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        medecin.setCode("MED-" + medecin.hashCode());
+        medecin.setCode("MED-" + UUID.randomUUID().toString());
         Medecin result = medecinRepository.save(medecin);
         return ResponseEntity
             .created(new URI("/api/medecins/" + result.getId()))

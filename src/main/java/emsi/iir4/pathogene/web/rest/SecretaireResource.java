@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -77,7 +78,7 @@ public class SecretaireResource {
             throw new BadRequestAlertException("A new secretaire cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        secretaire.setCode("SEC-" + secretaire.hashCode());
+        secretaire.setCode("SEC-" + UUID.randomUUID().toString());
         Secretaire result = secretaireRepository.save(secretaire);
         return ResponseEntity
             .created(new URI("/api/secretaires/" + result.getId()))
@@ -97,6 +98,7 @@ public class SecretaireResource {
         patient.setSecretaire(accountResource.getAccount().getSecretaire());
         User user = userService.registerUser(Puser, Puser.getPassword());
         patient.setUser(user);
+        patient.setCode("PAT-" + UUID.randomUUID().toString());
         return patientRepository.save(patient);
     }
 

@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -54,7 +55,7 @@ public class ImageResource {
             throw new BadRequestAlertException("A new image cannot already have an ID", ENTITY_NAME, "idexists");
         }
 
-        image.setCode("IMG-" + image.hashCode());
+        image.setCode("IMG-" + UUID.randomUUID().toString());
         Image result = imageRepository.save(image);
         return ResponseEntity
             .created(new URI("/api/images/" + result.getId()))
