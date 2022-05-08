@@ -8,8 +8,23 @@
           <font-awesome-icon icon="sync" :spin="isLoading"></font-awesome-icon> <span>Refresh List</span>
         </button>
         <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }">
-          <button @click="navigate" class="btn btn-primary jh-create-entity">
-            <font-awesome-icon icon="plus"></font-awesome-icon> <span>Create a new User</span>
+          <button @click="navigate" class="btn btn-primary jh-create-entity mr-2">
+            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New User</span>
+          </button>
+        </router-link>
+        <router-link custom v-slot="{ navigate }" :to="{ name: 'AddMedecins' }" v-if="isAdmin()">
+          <button @click="navigate" class="btn btn-dark jh-create-entity mr-2">
+            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Medecin</span>
+          </button>
+        </router-link>
+        <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }" v-if="isAdmin()">
+          <button @click="navigate" class="btn btn-dark jh-create-entity mr-2">
+            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Secretaire</span>
+          </button>
+        </router-link>
+        <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }" v-if="isSecretaire()">
+          <button @click="navigate" class="btn btn-dark jh-create-entity">
+            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Patient</span>
           </button>
         </router-link>
       </div>

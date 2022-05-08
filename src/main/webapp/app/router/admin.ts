@@ -8,31 +8,38 @@ const JhiConfigurationComponent = () => import('@/admin/configuration/configurat
 const JhiHealthComponent = () => import('@/admin/health/health.vue');
 const JhiLogsComponent = () => import('@/admin/logs/logs.vue');
 const JhiMetricsComponent = () => import('@/admin/metrics/metrics.vue');
+const AddMedecins = () => import('@/admin/user-management/medecins/add-medecins.vue');
 
 export default [
+  {
+    path: '/admin/add-medecin',
+    name: 'AddMedecins',
+    component: AddMedecins,
+    meta: { authorities: [Authority.ADMIN] },
+  },
   {
     path: '/admin/user-management',
     name: 'JhiUser',
     component: JhiUserManagementComponent,
-    meta: { authorities: [Authority.ADMIN] },
+    meta: { authorities: [Authority.ADMIN, Authority.SECRETAIRE] },
   },
   {
     path: '/admin/user-management/new',
     name: 'JhiUserCreate',
     component: JhiUserManagementEditComponent,
-    meta: { authorities: [Authority.ADMIN] },
+    meta: { authorities: [Authority.ADMIN, Authority.SECRETAIRE] },
   },
   {
     path: '/admin/user-management/:userId/edit',
     name: 'JhiUserEdit',
     component: JhiUserManagementEditComponent,
-    meta: { authorities: [Authority.ADMIN] },
+    meta: { authorities: [Authority.ADMIN, Authority.SECRETAIRE] },
   },
   {
     path: '/admin/user-management/:userId/view',
     name: 'JhiUserView',
     component: JhiUserManagementViewComponent,
-    meta: { authorities: [Authority.ADMIN] },
+    meta: { authorities: [Authority.ADMIN, Authority.SECRETAIRE] },
   },
   {
     path: '/admin/docs',
