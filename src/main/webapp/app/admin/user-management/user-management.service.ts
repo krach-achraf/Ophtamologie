@@ -1,7 +1,6 @@
 import axios from 'axios';
 import buildPaginationQueryOpts from '@/shared/sort/sorts';
-import {IUser} from '@/shared/model/user.model';
-import {IMedecin} from "@/shared/model/medecin.model";
+import { IUser } from '@/shared/model/user.model';
 
 export default class UserManagementService {
   public get(userId: number): Promise<any> {
@@ -10,10 +9,6 @@ export default class UserManagementService {
 
   public create(user: IUser): Promise<any> {
     return axios.post('api/admin/users', user);
-  }
-
-  public createMedecin(account: any): Promise<any> {
-    return axios.post('api/admin/medecin/register', account);
   }
 
   public update(user: IUser): Promise<any> {

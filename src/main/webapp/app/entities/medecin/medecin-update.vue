@@ -2,14 +2,25 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
-        <h2 id="pathogeneApp.medecin.home.createOrEditLabel" data-cy="MedecinCreateUpdateHeading">Create or edit a
-          Medecin</h2>
+        <h2 id="pathogeneApp.medecin.home.createOrEditLabel" data-cy="MedecinCreateUpdateHeading">Create or edit a Medecin</h2>
         <div>
           <div class="form-group" v-if="medecin.id">
             <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id" v-model="medecin.id" readonly/>
+            <input type="text" class="form-control" id="id" name="id" v-model="medecin.id" readonly />
           </div>
-
+          <div class="form-group">
+            <label class="form-control-label" for="medecin-code">Code</label>
+            <input
+              type="text"
+              class="form-control"
+              name="code"
+              id="medecin-code"
+              data-cy="code"
+              :class="{ valid: !$v.medecin.code.$invalid, invalid: $v.medecin.code.$invalid }"
+              v-model="$v.medecin.code.$model"
+            />
+            <div v-if="$v.medecin.code.$anyDirty && $v.medecin.code.$invalid"></div>
+          </div>
           <div class="form-group">
             <label class="form-control-label" for="medecin-nom">Nom</label>
             <input
@@ -22,43 +33,6 @@
               v-model="$v.medecin.nom.$model"
             />
           </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="medecin-prenom">Prenom</label>
-            <input
-              type="text"
-              class="form-control"
-              name="prenom"
-              id="medecin-prenom"
-              data-cy="prenom"
-              :class="{ valid: !$v.medecin.prenom.$invalid, invalid: $v.medecin.prenom.$invalid }"
-              v-model="$v.medecin.prenom.$model"
-            />
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label">Login</label>
-            <input
-              type="text"
-              class="form-control"
-              name="login"
-              :class="{ valid: !$v.user.login.$invalid, invalid: $v.user.login.$invalid }"
-              v-model="$v.user.login.$model"
-            />
-          </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="email">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              name="email"
-              :class="{ valid: !$v.user.email.$invalid, invalid: $v.user.email.$invalid }"
-              v-model="$v.user.email.$model"
-            />
-          </div>
-
           <div class="form-group">
             <label class="form-control-label" for="medecin-numEmp">Num Emp</label>
             <input
@@ -71,7 +45,18 @@
               v-model="$v.medecin.numEmp.$model"
             />
           </div>
-
+          <div class="form-group">
+            <label class="form-control-label" for="medecin-prenom">Prenom</label>
+            <input
+              type="text"
+              class="form-control"
+              name="prenom"
+              id="medecin-prenom"
+              data-cy="prenom"
+              :class="{ valid: !$v.medecin.prenom.$invalid, invalid: $v.medecin.prenom.$invalid }"
+              v-model="$v.medecin.prenom.$model"
+            />
+          </div>
           <div class="form-group">
             <label class="form-control-label" for="medecin-expertLevel">Expert Level</label>
             <input
@@ -84,7 +69,6 @@
               v-model.number="$v.medecin.expertLevel.$model"
             />
           </div>
-
           <div class="form-group">
             <label class="form-control-label" for="medecin-photo">Photo</label>
             <div>
@@ -130,7 +114,6 @@
               v-model="medecin.photoContentType"
             />
           </div>
-
           <div class="form-group">
             <label class="form-control-label" for="medecin-type">Type</label>
             <input
@@ -143,7 +126,6 @@
               v-model="$v.medecin.type.$model"
             />
           </div>
-
           <div class="form-group">
             <label class="form-control-label" for="medecin-nbrPatients">Nbr Patients</label>
             <input
@@ -156,7 +138,6 @@
               v-model.number="$v.medecin.nbrPatients.$model"
             />
           </div>
-
           <div class="form-group">
             <label class="form-control-label" for="medecin-rating">Rating</label>
             <input
@@ -169,7 +150,6 @@
               v-model.number="$v.medecin.rating.$model"
             />
           </div>
-
           <div class="form-group">
             <label class="form-control-label" for="medecin-description">Description</label>
             <input
@@ -182,49 +162,46 @@
               v-model="$v.medecin.description.$model"
             />
           </div>
-
+          <div class="form-group">
+            <label class="form-control-label" for="medecin-user">User</label>
+            <select class="form-control" id="medecin-user" data-cy="user" name="user" v-model="medecin.user">
+              <option v-bind:value="null"></option>
+              <option
+                v-bind:value="medecin.user && userOption.id === medecin.user.id ? medecin.user : userOption"
+                v-for="userOption in users"
+                :key="userOption.id"
+              >
+                {{ userOption.id }}
+              </option>
+            </select>
+          </div>
           <div class="form-group">
             <label class="form-control-label" for="medecin-secretaire">Secretaire</label>
-            <select class="form-control" id="medecin-secretaire" data-cy="secretaire" name="secretaire"
-                    v-model="medecin.secretaire">
+            <select class="form-control" id="medecin-secretaire" data-cy="secretaire" name="secretaire" v-model="medecin.secretaire">
               <option v-bind:value="null"></option>
               <option
                 v-bind:value="medecin.secretaire && secretaireOption.id === medecin.secretaire.id ? medecin.secretaire : secretaireOption"
                 v-for="secretaireOption in secretaires"
                 :key="secretaireOption.id"
               >
-                {{ secretaireOption.prenom }} {{ secretaireOption.nom }}
+                {{ secretaireOption.id }}
               </option>
             </select>
           </div>
-
-          <div class="form-group">
-            <label class="form-control-label" for="firstPassword">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="firstPassword"
-              name="password"
-              :class="{ valid: !$v.user.password.$invalid, invalid: $v.user.password.$invalid }"
-              v-model="$v.user.password.$model"
-              data-cy="firstPassword"
-            />
-          </div>
-          <div>
-            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary"
-                    v-on:click="previousState()">
-              <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
-            </button>
-            <button
-              type="submit"
-              id="save-entity"
-              data-cy="entityCreateSaveButton"
-              :disabled="$v.medecin.$invalid || isSaving"
-              class="btn btn-primary"
-            >
-              <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
-            </button>
-          </div>
+        </div>
+        <div>
+          <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">
+            <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
+          </button>
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            :disabled="$v.medecin.$invalid || isSaving"
+            class="btn btn-primary"
+          >
+            <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
+          </button>
         </div>
       </form>
     </div>
