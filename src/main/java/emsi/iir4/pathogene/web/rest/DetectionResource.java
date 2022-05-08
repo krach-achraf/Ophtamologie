@@ -3,6 +3,7 @@ package emsi.iir4.pathogene.web.rest;
 import emsi.iir4.pathogene.domain.Detection;
 import emsi.iir4.pathogene.domain.Unclassified;
 import emsi.iir4.pathogene.repository.DetectionRepository;
+import emsi.iir4.pathogene.repository.UnclassifiedRepository;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -44,14 +45,18 @@ public class DetectionResource {
 
     private final UnclassifiedResource unclassifiedResource;
 
+    private final UnclassifiedRepository unclassifiedRepository;
+
     public DetectionResource(
         DetectionRepository detectionRepository,
         MqController mqController,
-        UnclassifiedResource unclassifiedResource
+        UnclassifiedResource unclassifiedResource,
+        UnclassifiedRepository unclassifiedRepository
     ) {
         this.detectionRepository = detectionRepository;
         this.mqController = mqController;
         this.unclassifiedResource = unclassifiedResource;
+        this.unclassifiedRepository = unclassifiedRepository;
     }
 
     /**
@@ -67,14 +72,15 @@ public class DetectionResource {
         if (detection.getId() != null) {
             throw new BadRequestAlertException("A new detection cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Unclassified unclassified = new Unclassified()
-            .photo(detection.getPhoto())
-            .photoContentType(detection.getPhotoContentType())
-            .maladie(detection.getPatient().getMaladie());
-        unclassified = unclassifiedResource.createUnclassified(unclassified).getBody();
-        String oracle = mqController.send(unclassified.getId());
-        detection.setDescription(oracle);
+        //     Unclassified unclassified = new Unclassified()
+        //         .photo(detection.getPhoto())
+        //         .photoContentType(detection.getPhotoContentType()).code("DET-"+UUID.randomUUID().toString());
+        //   //  unclassified = unclassifiedResource.createUnclassified(unclassified).getBody();
+        //     unclassified = unclassifiedRepository.save(unclassified);
 
+        System.out.println(detection.getPhoto());
+        String oracle = mqController.send(detection.getPhoto());
+        detection.setDescription(oracle);
         detection.setCode("DET-" + UUID.randomUUID().toString());
         Detection result = detectionRepository.save(detection);
 
