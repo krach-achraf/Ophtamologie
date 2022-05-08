@@ -1,6 +1,7 @@
 package emsi.iir4.pathogene.web.rest;
 
 import emsi.iir4.pathogene.domain.Detection;
+import emsi.iir4.pathogene.domain.Unclassified;
 import emsi.iir4.pathogene.repository.DetectionRepository;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -39,8 +40,18 @@ public class DetectionResource {
 
     private final DetectionRepository detectionRepository;
 
-    public DetectionResource(DetectionRepository detectionRepository) {
+    private final MqController mqController;
+
+    private final UnclassifiedResource unclassifiedResource;
+
+    public DetectionResource(
+        DetectionRepository detectionRepository,
+        MqController mqController,
+        UnclassifiedResource unclassifiedResource
+    ) {
         this.detectionRepository = detectionRepository;
+        this.mqController = mqController;
+        this.unclassifiedResource = unclassifiedResource;
     }
 
     /**
@@ -56,8 +67,17 @@ public class DetectionResource {
         if (detection.getId() != null) {
             throw new BadRequestAlertException("A new detection cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Unclassified unclassified = new Unclassified()
+            .photo(detection.getPhoto())
+            .photoContentType(detection.getPhotoContentType())
+            .maladie(detection.getPatient().getMaladie());
+        unclassified = unclassifiedResource.createUnclassified(unclassified).getBody();
+        String oracle = mqController.send(unclassified.getId());
+        detection.setDescription(oracle);
+
         detection.setCode("DET-" + UUID.randomUUID().toString());
         Detection result = detectionRepository.save(detection);
+
         return ResponseEntity
             .created(new URI("/api/detections/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))

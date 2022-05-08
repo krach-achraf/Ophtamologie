@@ -1,25 +1,30 @@
 package emsi.iir4.pathogene.web.rest;
 
-import java.util.concurrent.CountDownLatch;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
+import java.math.BigInteger;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/mq")
+@RequestMapping("/api/mq")
 public class MqController {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    @Autowired
+    private RabbitTemplate template;
 
-    @GetMapping("/recieve")
-    public void receiveMessage(String message) {
-        System.out.println("Received <" + message + ">");
-        latch.countDown();
-    }
+    @Autowired
+    private DirectExchange exchange;
 
-    public CountDownLatch getLatch() {
-        return latch;
+    @PostMapping("/{id}")
+    public String send(@PathVariable Long id) {
+        System.out.println(" [x] Requesting classification.....");
+        System.out.println("from :" + exchange.getName());
+        byte[] response = (byte[]) template.convertSendAndReceive("", "rpc_queue", BigInteger.valueOf(id).toByteArray());
+        System.out.println("[x]" + new String(response));
+        return new String(response);
     }
 }
