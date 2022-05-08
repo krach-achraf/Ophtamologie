@@ -16,6 +16,8 @@ import emsi.iir4.pathogene.service.MailService;
 import emsi.iir4.pathogene.service.UserService;
 import emsi.iir4.pathogene.service.dto.AdminUserDTO;
 import emsi.iir4.pathogene.service.dto.MedecinUserDTO;
+import emsi.iir4.pathogene.service.dto.PatientUserDTO;
+import emsi.iir4.pathogene.service.dto.SecretaireUserDTO;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import emsi.iir4.pathogene.web.rest.errors.EmailAlreadyUsedException;
 import emsi.iir4.pathogene.web.rest.errors.LoginAlreadyUsedException;
@@ -147,8 +149,10 @@ public class UserResource {
 
     @PostMapping("patient/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Patient registerPatient(@Valid @RequestBody Patient patient, @RequestBody ManagedUserVM Puser) throws URISyntaxException {
-        log.debug("REST request to save Patient : {}", patient);
+    public Patient registerPatient(@Valid @RequestBody PatientUserDTO patientUserDTO) throws URISyntaxException {
+        log.debug("REST request to save Patient : {}", patientUserDTO);
+        Patient patient = patientUserDTO.getPatient();
+        ManagedUserVM Puser = patientUserDTO.getUser();
         if (patient.getId() != null) {
             throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", "idexists");
         }
@@ -164,9 +168,10 @@ public class UserResource {
 
     @PostMapping("secretaire/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Secretaire registerPatient(@Valid @RequestBody Secretaire secretaire, @RequestBody ManagedUserVM Puser)
-        throws URISyntaxException {
-        log.debug("REST request to save Secretaire : {}", secretaire);
+    public Secretaire registerPatient(@Valid @RequestBody SecretaireUserDTO secretaireUserDTO) throws URISyntaxException {
+        log.debug("REST request to save Secretaire : {}", secretaireUserDTO);
+        Secretaire secretaire = secretaireUserDTO.getSecretaire();
+        ManagedUserVM Puser = secretaireUserDTO.getUser();
         if (secretaire.getId() != null) {
             throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", "idexists");
         }

@@ -7,6 +7,7 @@ import emsi.iir4.pathogene.repository.PatientRepository;
 import emsi.iir4.pathogene.repository.SecretaireRepository;
 import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.service.UserService;
+import emsi.iir4.pathogene.service.dto.PatientUserDTO;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.net.URI;
@@ -86,8 +87,10 @@ public class SecretaireResource {
 
     @PostMapping("patient/register")
     @PreAuthorize("hasAuthority('" + AuthoritiesConstants.SECRETAIRE + "')")
-    public Patient registerPatient(@Valid @RequestBody Patient patient, ManagedUserVM Puser) throws URISyntaxException {
-        log.debug("REST request to save Patient : {}", patient);
+    public Patient registerPatient(@Valid @RequestBody PatientUserDTO patientUserDTO) throws URISyntaxException {
+        log.debug("REST request to save Patient : {}", patientUserDTO);
+        Patient patient = patientUserDTO.getPatient();
+        ManagedUserVM Puser = patientUserDTO.getUser();
         if (patient.getId() != null) {
             throw new BadRequestAlertException("A new patient cannot already have an ID", ENTITY_NAME, "idexists");
         }
