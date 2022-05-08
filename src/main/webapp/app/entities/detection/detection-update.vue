@@ -8,6 +8,7 @@
             <label for="id">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="detection.id" readonly />
           </div>
+
           <div class="form-group">
             <label class="form-control-label" for="detection-photo">Photo</label>
             <div>
@@ -53,19 +54,7 @@
               v-model="detection.photoContentType"
             />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="detection-code">Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="code"
-              id="detection-code"
-              data-cy="code"
-              :class="{ valid: !$v.detection.code.$invalid, invalid: $v.detection.code.$invalid }"
-              v-model="$v.detection.code.$model"
-            />
-            <div v-if="$v.detection.code.$anyDirty && $v.detection.code.$invalid"></div>
-          </div>
+
           <div class="form-group">
             <label class="form-control-label" for="detection-validation">Validation</label>
             <input
@@ -78,6 +67,7 @@
               v-model="$v.detection.validation.$model"
             />
           </div>
+
           <div class="form-group">
             <label class="form-control-label" for="detection-stade">Stade</label>
             <input
@@ -90,33 +80,7 @@
               v-model="$v.detection.stade.$model"
             />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="detection-date">Date</label>
-            <div class="d-flex">
-              <input
-                id="detection-date"
-                data-cy="date"
-                type="datetime-local"
-                class="form-control"
-                name="date"
-                :class="{ valid: !$v.detection.date.$invalid, invalid: $v.detection.date.$invalid }"
-                :value="convertDateTimeFromServer($v.detection.date.$model)"
-                @change="updateZonedDateTimeField('date', $event)"
-              />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" for="detection-description">Description</label>
-            <input
-              type="text"
-              class="form-control"
-              name="description"
-              id="detection-description"
-              data-cy="description"
-              :class="{ valid: !$v.detection.description.$invalid, invalid: $v.detection.description.$invalid }"
-              v-model="$v.detection.description.$model"
-            />
-          </div>
+
           <div class="form-group">
             <label class="form-control-label" for="detection-maladie">Maladie</label>
             <select class="form-control" id="detection-maladie" data-cy="maladie" name="maladie" v-model="detection.maladie">
@@ -126,10 +90,11 @@
                 v-for="maladieOption in maladies"
                 :key="maladieOption.id"
               >
-                {{ maladieOption.id }}
+                {{ maladieOption.code }}
               </option>
             </select>
           </div>
+
           <div class="form-group">
             <label class="form-control-label" for="detection-patient">Patient</label>
             <select class="form-control" id="detection-patient" data-cy="patient" name="patient" v-model="detection.patient">
@@ -139,11 +104,13 @@
                 v-for="patientOption in patients"
                 :key="patientOption.id"
               >
-                {{ patientOption.id }}
+                {{ patientOption.nom }} {{ patientOption.prenom }}
               </option>
             </select>
           </div>
+
         </div>
+
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">
             <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
@@ -160,6 +127,43 @@
         </div>
       </form>
     </div>
+
+    <b-modal ref="afficheEntity" id="afficheEntity">
+      <span slot="modal-title"
+      ><span id="pathogeneApp.detection.affiche.question" data-cy="detectionAfficheDialogHeading">Result AI</span></span
+      >
+      <div class="modal-body">
+
+        <dl class="row jh-entity-details">
+          <dt>
+            <span>Photo</span>
+          </dt>
+          <dd>
+            <div v-if="detection.photo">
+              <a v-on:click="openFile(detection.photoContentType, detection.photo)">
+                <img
+                  v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
+                  style="max-width: 100%"
+                  alt="patient image"
+                />
+              </a>
+              {{ detection.photoContentType }}, {{ byteSize(detection.photo) }}
+            </div>
+          </dd>
+          <dt>
+            <span>Description</span>
+          </dt>
+          <dd>
+            <span>{{ detection.description }}</span>
+          </dd>
+        </dl>
+
+      </div>
+      <div slot="modal-footer">
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>
+      </div>
+    </b-modal>
+
   </div>
 </template>
 <script lang="ts" src="./detection-update.component.ts"></script>

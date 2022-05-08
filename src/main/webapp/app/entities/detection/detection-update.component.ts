@@ -95,19 +95,15 @@ export default class DetectionUpdate extends mixins(JhiDataUtils) {
           this.alertService().showHttpError(this, error.response);
         });
     } else {
+      this.detection.date = new Date();
       this.detectionService()
         .create(this.detection)
         .then(param => {
           this.isSaving = false;
-          this.$router.go(-1);
-          const message = 'A Detection is created with identifier ' + param.id;
-          this.$root.$bvToast.toast(message.toString(), {
-            toaster: 'b-toaster-top-center',
-            title: 'Success',
-            variant: 'success',
-            solid: true,
-            autoHideDelay: 5000,
-          });
+          this.detection = param;
+          if (<any>this.$refs.afficheEntity) {
+            (<any>this.$refs.afficheEntity).show();
+          }
         })
         .catch(error => {
           this.isSaving = false;
@@ -186,4 +182,9 @@ export default class DetectionUpdate extends mixins(JhiDataUtils) {
         this.visites = res.data;
       });
   }
+
+  public closeDialog(): void {
+    (<any>this.$refs.afficheEntity).hide();
+  }
+
 }
