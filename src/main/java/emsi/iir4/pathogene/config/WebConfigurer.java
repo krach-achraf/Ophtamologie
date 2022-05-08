@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -81,6 +82,13 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
             return "";
         }
         return extractedPath.substring(0, extractionEndIndex);
+    }
+
+    @Bean
+    public StrictHttpFirewall httpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedPercent(true);
+        return firewall;
     }
 
     @Bean
