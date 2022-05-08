@@ -126,7 +126,7 @@ public class UserResource {
 
     @PostMapping("medecin/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Medecin registerPatient(@Valid @RequestBody Medecin medecin, ManagedUserVM Puser) throws URISyntaxException {
+    public Medecin registerPatient(@Valid @RequestBody Medecin medecin, @RequestBody ManagedUserVM Puser) throws URISyntaxException {
         log.debug("REST request to save Medecin : {}", medecin);
         if (medecin.getId() != null) {
             throw new BadRequestAlertException("A new Medecin cannot already have an ID", "Medecin", "idexists");
@@ -141,7 +141,7 @@ public class UserResource {
 
     @PostMapping("patient/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Patient registerPatient(@Valid @RequestBody Patient patient, ManagedUserVM Puser) throws URISyntaxException {
+    public Patient registerPatient(@Valid @RequestBody Patient patient, @RequestBody ManagedUserVM Puser) throws URISyntaxException {
         log.debug("REST request to save Patient : {}", patient);
         if (patient.getId() != null) {
             throw new BadRequestAlertException("A new Patient cannot already have an ID", "Patient", "idexists");
@@ -156,7 +156,8 @@ public class UserResource {
 
     @PostMapping("secretaire/register")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public Secretaire registerPatient(@Valid @RequestBody Secretaire secretaire, ManagedUserVM Puser) throws URISyntaxException {
+    public Secretaire registerPatient(@Valid @RequestBody Secretaire secretaire, @RequestBody ManagedUserVM Puser)
+        throws URISyntaxException {
         log.debug("REST request to save Secretaire : {}", secretaire);
         if (secretaire.getId() != null) {
             throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", "idexists");
