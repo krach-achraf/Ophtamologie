@@ -13,9 +13,19 @@ import {IPatient} from "@/shared/model/patient.model";
 import MedecinService from "@/entities/medecin/medecin.service";
 import {IMedecin} from "@/shared/model/medecin.model";
 import AccountService from "@/account/account.service";
+import {IVisite, Visite} from "@/shared/model/visite.model";
+import VisiteService from "@/entities/visite/visite.service";
+
+const validations: any = {
+  rendezVous: {
+    date: {},
+    heure: {}
+  },
+};
 
 @Component({
   mixins: [Vue2Filters.mixin],
+  validations,
   components: {
     FullCalendar
   }
@@ -26,9 +36,11 @@ export default class RendezVouss extends Vue {
   @Inject('patientService') private patientService: () => PatientService;
   @Inject('medecinService') private medecinService: () => MedecinService;
   @Inject('accountService') private accountService: () => AccountService;
+  @Inject('visiteService') private visiteService: () => VisiteService;
 
   private rendezVouss: IRendezVous[] = [];
   private rendezVous: IRendezVous;
+  private visite: IVisite;
   private idPatient: number = null;
   private idMedecin: number = null;
   private patients: IPatient[] = [];
@@ -82,7 +94,6 @@ export default class RendezVouss extends Vue {
       this.rendezVous = new RendezVous();
       let ev = await this.rendezVousService().retrieve();
       this.rendezVouss = ev.data;
-      console.log(this.rendezVouss);
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
           if (this.rendezVouss[i].status == "pending")
@@ -194,8 +205,9 @@ export default class RendezVouss extends Vue {
     try {
       this.rendezVous.patient = await this.patientService().find(this.idPatient);
       this.rendezVous.medecin = await this.medecinService().find(this.idMedecin);
+      let time = this.rendezVous.heure.split(':');
+      this.rendezVous.date.setHours(parseInt(time[0]), parseInt(time[1]));
       this.rendezVous.status = 'pending';
-      this.rendezVous.code = 'code101'; //a change apres
       await this.rendezVousService().create(this.rendezVous);
       (<any>this.$refs.createEntity).hide();
       this.$root.$bvToast.toast('Rendez-vous ajouté avec success', {
@@ -211,11 +223,11 @@ export default class RendezVouss extends Vue {
     }
   }
 
-  // valider un rdv
-  public async validRendezVous() {
+  // valider un rdv => visite
+  public async valideRendezVous() {
     try {
       this.rendezVous = await this.rendezVousService().find(this.idRdv);
-      this.rendezVous.status = 'validé';
+      this.rendezVous.status = 'passed';
       await this.rendezVousService().update(this.rendezVous);
       this.closeDialog();
       this.$root.$bvToast.toast('Rendez-vous validé avec success', {
@@ -225,6 +237,11 @@ export default class RendezVouss extends Vue {
         solid: true,
         autoHideDelay: 5000,
       });
+      this.visite = new Visite();
+      this.visite.rendezVous = this.rendezVous;
+      this.visite.date = this.rendezVous.date;
+      let res = await this.visiteService().create(this.visite);
+      console.log(res);
     } catch (e) {
       console.log(e);
     }
@@ -271,15 +288,15 @@ export default class RendezVouss extends Vue {
   }
 
   public isMedecin(): boolean {
-    return this.accountService().userAuthorities[0] == 'MEDECIN';
+    return this.accountService().userAuthorities.includes('MEDECIN');
   }
 
   public isPatient(): boolean {
-    return this.accountService().userAuthorities[0] == 'PATIENT';
+    return this.accountService().userAuthorities.includes('PATIENT');
   }
 
   public isSecretaire(): boolean {
-    return this.accountService().userAuthorities[0] == 'SECRETAIRE';
+    return this.accountService().userAuthorities.includes('SECRETAIRE');
   }
 
   public closeDialog(): void {

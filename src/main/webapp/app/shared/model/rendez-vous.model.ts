@@ -8,6 +8,7 @@ export interface IRendezVous {
   status?: string | null;
   patient?: IPatient | null;
   medecin?: IMedecin | null;
+  heure?: string | null;
 }
 
 export class RendezVous implements IRendezVous {
@@ -17,6 +18,7 @@ export class RendezVous implements IRendezVous {
     public code?: string | null,
     public status?: string | null,
     public patient?: IPatient | null,
-    public medecin?: IMedecin | null
+    public medecin?: IMedecin | null,
+    public heure?: string | null,
   ) {}
 }

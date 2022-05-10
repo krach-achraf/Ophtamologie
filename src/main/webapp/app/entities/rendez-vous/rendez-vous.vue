@@ -66,6 +66,13 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label for="appt">Heure</label>
+
+          <input type="time" id="appt" name="appt" min="08:30" max="18:30" class="form-control" v-model="$v.rendezVous.heure.$model">
+        </div>
+
       </div>
       <div slot="modal-footer">
         <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
@@ -85,13 +92,22 @@
     <!-- modal delete rdv -->
     <b-modal ref="removeEntity" id="removeEntity">
       <span slot="modal-title"
-      ><span id="pathogeneApp.rendezVous.delete.question" data-cy="rendezVousDeleteDialogHeading">Confirmation de l'annulation</span></span
+      ><span id="pathogeneApp.rendezVous.delete.question" data-cy="rendezVousDeleteDialogHeading">Choisissez l'operation</span></span
       >
       <div class="modal-body">
-        <p id="jhi-delete-rendezVous-heading">Vous etes sur?</p>
+
       </div>
       <div slot="modal-footer">
         <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>
+        <button
+          type="button"
+          class="btn btn-success"
+          id="jhi-confirm-vlaide-rendezVous"
+          data-cy="entityConfirmVaideButton"
+          v-on:click="valideRendezVous()"
+        >
+          Valider
+        </button>
         <button
           type="button"
           class="btn btn-primary"
