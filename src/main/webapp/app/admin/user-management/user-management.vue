@@ -17,7 +17,7 @@
             <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Medecin</span>
           </button>
         </router-link>
-        <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }" v-if="isAdmin()">
+        <router-link custom v-slot="{ navigate }" :to="{ name: 'AddSecretaires' }" v-if="isAdmin()">
           <button @click="navigate" class="btn btn-dark jh-create-entity mr-2">
             <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Secretaire</span>
           </button>

@@ -9,12 +9,19 @@ const JhiHealthComponent = () => import('@/admin/health/health.vue');
 const JhiLogsComponent = () => import('@/admin/logs/logs.vue');
 const JhiMetricsComponent = () => import('@/admin/metrics/metrics.vue');
 const AddMedecins = () => import('@/admin/user-management/medecins/add-medecins.vue');
+const AddSecretaires = () => import('@/admin/user-management/secretaires/add-secretaires.vue');
 
 export default [
   {
     path: '/admin/add-medecin',
     name: 'AddMedecins',
     component: AddMedecins,
+    meta: { authorities: [Authority.ADMIN] },
+  },
+  {
+    path: '/admin/add-secretaire',
+    name: 'AddSecretaires',
+    component: AddSecretaires,
     meta: { authorities: [Authority.ADMIN] },
   },
   {

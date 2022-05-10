@@ -15,6 +15,10 @@ export default class UserManagementService {
     return axios.post('api/admin/medecin/register', account);
   }
 
+  public createSecretaire(account: any): Promise<any> {
+    return axios.post('api/admin/secretaire/register', account);
+  }
+
   public update(user: IUser): Promise<any> {
     return axios.put('api/admin/users', user);
   }
