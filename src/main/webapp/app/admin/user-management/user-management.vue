@@ -61,8 +61,9 @@
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody v-if="users">
-          <tr v-for="user in users" :key="user.id" :id="user.login">
+
+        <tbody v-if="users && isAdmin()">
+          <tr v-for="user in users" :key="user.id" :id="user.login" v-if="!user.authorities.includes('PATIENT')">
             <td>
               <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }">{{ user.id }}</router-link>
             </td>
@@ -112,6 +113,59 @@
             </td>
           </tr>
         </tbody>
+
+        <tbody v-if="users && isSecretaire()">
+        <tr v-for="user in users" :key="user.id" :id="user.login" v-if="user.authorities.includes('PATIENT')">
+          <td>
+            <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }">{{ user.id }}</router-link>
+          </td>
+          <td>{{ user.login }}</td>
+          <td class="jhi-user-email">{{ user.email }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm deactivated" v-on:click="setActive(user, true)" v-if="!user.activated">
+              Deactivated
+            </button>
+            <button
+              class="btn btn-success btn-sm"
+              v-on:click="setActive(user, false)"
+              v-if="user.activated"
+              :disabled="username === user.login"
+            >
+              Activated
+            </button>
+          </td>
+
+          <td>
+            <div v-for="authority of user.authorities" :key="authority">
+              <span class="badge badge-info">{{ authority }}</span>
+            </div>
+          </td>
+          <td>{{ user.createdDate | formatDate }}</td>
+          <td>{{ user.lastModifiedBy }}</td>
+          <td>{{ user.lastModifiedDate | formatDate }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }" custom v-slot="{ navigate }">
+                <button @click="navigate" class="btn btn-info btn-sm details">
+                  <font-awesome-icon icon="eye"></font-awesome-icon>
+                  <span class="d-none d-md-inline">View</span>
+                </button>
+              </router-link>
+              <router-link :to="{ name: 'JhiUserEdit', params: { userId: user.login } }" custom v-slot="{ navigate }">
+                <button @click="navigate" class="btn btn-primary btn-sm edit">
+                  <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
+                  <span class="d-none d-md-inline">Edit</span>
+                </button>
+              </router-link>
+              <b-button v-on:click="prepareRemove(user)" variant="danger" class="btn btn-sm delete" :disabled="username === user.login">
+                <font-awesome-icon icon="times"></font-awesome-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </b-button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+
       </table>
       <b-modal ref="removeUser" id="removeUser" @ok="deleteUser()">
         <div class="modal-body">
