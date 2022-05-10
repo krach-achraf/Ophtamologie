@@ -5,10 +5,18 @@ import {IMaladie} from '@/shared/model/maladie.model';
 import MaladieService from './maladie.service';
 import AlertService from '@/shared/alert/alert.service';
 import StadeService from "@/entities/stade/stade.service";
-import {IStade} from "@/shared/model/stade.model";
+import {IStade, Stade} from "@/shared/model/stade.model";
+
+const validations: any = {
+  stade: {
+    level: {},
+    description: {},
+  },
+};
 
 @Component({
   mixins: [Vue2Filters.mixin],
+  validations
 })
 export default class Maladie extends Vue {
   @Inject('maladieService') private maladieService: () => MaladieService;
@@ -20,10 +28,9 @@ export default class Maladie extends Vue {
   private affecteId: number = null;
 
   public maladies: IMaladie[] = [];
+  public maladie: IMaladie;
 
-  public stades: IStade[] = [];
-
-  private stade: IStade;
+  private stade: IStade = new Stade();
 
   public isFetching = false;
 
@@ -51,11 +58,6 @@ export default class Maladie extends Vue {
       );
   }
 
-  public async retrieveAllStades() {
-      let response = await this.stadeService().retrieve();
-      this.stades = response.data;
-      console.log(this.stades);
-  }
 
   public handleSyncList(): void {
     this.clear();
@@ -70,11 +72,26 @@ export default class Maladie extends Vue {
 
   // preparation de l'affectation
   public prepareAffecte(instance: IMaladie): void{
-    this.affecteId = instance.id;
-    this.retrieveAllStades();
-    if (<any>this.$refs.affecteEntity) {
-      (<any>this.$refs.affecteEntity).show();
+    this.maladie = instance;
+  }
+
+  public async saveStade(){
+    this.stade.maladie = this.maladie;
+    try {
+      await this.stadeService().create(this.stade);
+      this.$bvToast.toast('A stade is created', {
+        toaster: 'b-toaster-top-center',
+        title: 'Sucess',
+        variant: 'success',
+        solid: true,
+        autoHideDelay: 5000,
+      });
+      this.closeDialog();
+      this.stade = new Stade();
+    }catch (e) {
+      console.log(e);
     }
+
   }
 
   public removeMaladie(): void {
@@ -98,30 +115,8 @@ export default class Maladie extends Vue {
       });
   }
 
-  // affecter le stade avec la maladie
-  public async affecteStade(instance: IStade){
-    this.stade = instance;
-    try{
-      this.stade.maladie = await this.maladieService().find(this.affecteId);
-      await this.stadeService().update(this.stade);
-      this.$bvToast.toast("Affectation faite avec succès", {
-        toaster: 'b-toaster-top-center',
-        title: 'Sucess',
-        variant: 'sucess',
-        solid: true,
-        autoHideDelay: 5000,
-      });
-      this.closeDialog();
-    }catch (e){
-      console.log(e);
-    }
-
-  }
-
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
     (<any>this.$refs.affecteEntity).hide();
   }
-
-
 }

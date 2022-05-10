@@ -108,37 +108,54 @@
 
     <b-modal ref="affecteEntity" id="affecteEntity">
       <span slot="modal-title"
-      ><span id="pathogeneApp.maladie.affecte.question" data-cy="maladieAffecteDialogHeading">Choisissez le stade</span></span
+      ><span id="pathogeneApp.maladie.affecte.question" data-cy="maladieAffecteDialogHeading">Créer le stade</span></span
       >
       <div class="modal-body">
 
-        <table class="table table-striped" aria-describedby="stades">
-          <thead>
-          <tr>
-            <th scope="row"><span>Code</span></th>
-            <th scope="row"><span>Level</span></th>
-            <th scope="row"></th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="stade in stades" :key="stade.id" data-cy="entityTable">
-            <td>{{ stade.code }}</td>
-            <td>{{ stade.level }}</td>
-            <td class="text-right">
-              <div class="btn-group">
-                <b-button
-                  v-on:click="affecteStade(stade)"
-                  variant="info"
-                  class="btn btn-sm"
-                  data-cy="entityAffectedButton"
-                >
-                  <span class="d-none d-md-inline">Chosisir</span>
-                </b-button>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+        <form name="editForm" role="form" novalidate v-on:submit.prevent="saveStade()">
+          <div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="stade-level">Level</label>
+              <input
+                type="text"
+                class="form-control"
+                name="level"
+                id="stade-level"
+                data-cy="level"
+                :class="{ valid: !$v.stade.level.$invalid, invalid: $v.stade.level.$invalid }"
+                v-model="$v.stade.level.$model"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" for="stade-description">Description</label>
+              <input
+                type="text"
+                class="form-control"
+                name="description"
+                id="stade-description"
+                data-cy="description"
+                :class="{ valid: !$v.stade.description.$invalid, invalid: $v.stade.description.$invalid }"
+                v-model="$v.stade.description.$model"
+              />
+            </div>
+
+          </div>
+          <div>
+            <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">
+              <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
+            </button>
+            <button
+              type="submit"
+              id="save-entity"
+              data-cy="entityCreateSaveButton"
+              class="btn btn-primary"
+            >
+              <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
+            </button>
+          </div>
+        </form>
 
       </div>
       <div slot="modal-footer">
