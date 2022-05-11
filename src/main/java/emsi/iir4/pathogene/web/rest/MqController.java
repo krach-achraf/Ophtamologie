@@ -29,4 +29,10 @@ public class MqController {
         System.out.println("[x]" + new String(response));
         return new String(response);
     }
+
+    @PostMapping("/ping")
+    public String ping() {
+        byte[] response = (byte[]) template.convertSendAndReceive("", "rpc_queue", "");
+        return new String(response);
+    }
 }

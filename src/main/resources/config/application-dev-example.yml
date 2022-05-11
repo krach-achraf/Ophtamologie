@@ -60,6 +60,13 @@ spring:
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
   jpa:
+    rabbitmq:
+    host: b-709eef3a-fb78-408f-bf61-c4ce24bb71a5.mq.us-east-1.amazonaws.com
+    port: 5671
+    ssl:
+      enabled: true
+    username: kino
+    password: 1593578915935789
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
