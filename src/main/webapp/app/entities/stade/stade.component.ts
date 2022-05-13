@@ -4,17 +4,29 @@ import { IStade } from '@/shared/model/stade.model';
 
 import StadeService from './stade.service';
 import AlertService from '@/shared/alert/alert.service';
+import ImageService from "@/entities/image/image.service";
+import {IImage, Image} from "@/shared/model/image.model";
+import {mixins} from "vue-class-component";
+import JhiDataUtils from "@/shared/data/data-utils.service";
 
+const validations: any = {
+  image: {
+    photo: {},
+  },
+};
 @Component({
   mixins: [Vue2Filters.mixin],
+  validations
 })
-export default class Stade extends Vue {
+export default class Stade extends mixins(JhiDataUtils) {
   @Inject('stadeService') private stadeService: () => StadeService;
   @Inject('alertService') private alertService: () => AlertService;
+  @Inject('imageService') private imageService: () => ImageService;
 
   private removeId: number = null;
-
+  private image: IImage = new Image();
   public stades: IStade[] = [];
+  public stade: IStade;
 
   public isFetching = false;
 
@@ -74,7 +86,47 @@ export default class Stade extends Vue {
       });
   }
 
+  public prepareCeate(instance: IStade){
+    this.stade = instance;
+    if (<any>this.$refs.createEntity) {
+      (<any>this.$refs.createEntity).show();
+    }
+  }
+
+  public async saveImage(){
+    this.image.stade = this.stade;
+    try{
+      await this.imageService().create(this.image);
+      this.closeDialog();
+      return this.$root.$bvToast.toast('An image is created', {
+        toaster: 'b-toaster-top-center',
+        title: 'Info',
+        variant: 'info',
+        solid: true,
+        autoHideDelay: 5000,
+      });
+    }catch (e) {
+      console.log(e);
+    }
+
+  }
+
+
+  public clearInputImage(field, fieldContentType, idInput): void {
+    if (this.image && field && fieldContentType) {
+      if (Object.prototype.hasOwnProperty.call(this.image, field)) {
+        this.image[field] = null;
+      }
+      if (Object.prototype.hasOwnProperty.call(this.image, fieldContentType)) {
+        this.image[fieldContentType] = null;
+      }
+      if (idInput) {
+        (<any>this).$refs[idInput] = null;
+      }
+    }
+  }
   public closeDialog(): void {
     (<any>this.$refs.removeEntity).hide();
+    (<any>this.$refs.createEntity).hide();
   }
 }

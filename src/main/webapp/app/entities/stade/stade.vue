@@ -45,7 +45,7 @@
             <td>{{ stade.description }}</td>
             <td>
               <div v-if="stade.maladie">
-                <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.id }}</router-link>
+                <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.code }}</router-link>
               </div>
             </td>
             <td class="text-right">
@@ -72,6 +72,16 @@
                   <font-awesome-icon icon="times"></font-awesome-icon>
                   <span class="d-none d-md-inline">Delete</span>
                 </b-button>
+                <b-button
+                  v-on:click="prepareCeate(stade)"
+                  variant="success"
+                  class="btn btn-sm"
+                  data-cy="entityCreateButton"
+                  v-b-modal.createEntity
+                >
+                  <font-awesome-icon icon="plus"></font-awesome-icon>
+                  <span class="d-none d-md-inline">Image</span>
+                </b-button>
               </div>
             </td>
           </tr>
@@ -95,6 +105,74 @@
           v-on:click="removeStade()"
         >
           Delete
+        </button>
+      </div>
+    </b-modal>
+
+    <b-modal ref="createEntity" id="affecteEntity">
+      <span slot="modal-title"
+      ><span id="pathogeneApp.maladie.affecte.question"
+             data-cy="maladieAffecteDialogHeading">Créer l'image</span></span
+      >
+      <div class="modal-body">
+          <div>
+            <div class="form-group">
+              <label class="form-control-label" for="image-photo">Photo</label>
+              <div>
+                <img
+                  v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo"
+                  style="max-height: 100px"
+                  v-if="image.photo"
+                  alt="image image"
+                />
+                <div v-if="image.photo" class="form-text text-danger clearfix">
+                  <span class="pull-left">{{ image.photoContentType }}, {{ byteSize(image.photo) }}</span>
+                  <button
+                    type="button"
+                    v-on:click="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                    class="btn btn-secondary btn-xs pull-right"
+                  >
+                    <font-awesome-icon icon="times"></font-awesome-icon>
+                  </button>
+                </div>
+                <input
+                  type="file"
+                  ref="file_photo"
+                  id="file_photo"
+                  data-cy="photo"
+                  v-on:change="setFileData($event, image, 'photo', true)"
+                  accept="image/*"
+                />
+              </div>
+              <input
+                type="hidden"
+                class="form-control"
+                name="photo"
+                id="image-photo"
+                data-cy="photo"
+                :class="{ valid: !$v.image.photo.$invalid, invalid: $v.image.photo.$invalid }"
+                v-model="$v.image.photo.$model"
+              />
+              <input
+                type="hidden"
+                class="form-control"
+                name="photoContentType"
+                id="image-photoContentType"
+                v-model="image.photoContentType"
+              />
+            </div>
+          </div>
+      </div>
+      <div slot="modal-footer">
+        <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          class="btn btn-primary"
+          v-on:click="saveImage()"
+        >
+          <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
         </button>
       </div>
     </b-modal>
