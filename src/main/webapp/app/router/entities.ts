@@ -155,7 +155,7 @@ export default {
       path: 'detection',
       name: 'Detection',
       component: Detection,
-      meta: { authorities: [Authority.MEDECIN] },
+      meta: { authorities: [Authority.MEDECIN, Authority.PATIENT]},
     },
     {
       path: 'detection/new',

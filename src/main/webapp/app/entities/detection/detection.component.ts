@@ -7,6 +7,7 @@ import JhiDataUtils from '@/shared/data/data-utils.service';
 
 import DetectionService from './detection.service';
 import AlertService from '@/shared/alert/alert.service';
+import AccountService from "@/account/account.service";
 
 @Component({
   mixins: [Vue2Filters.mixin],
@@ -14,6 +15,7 @@ import AlertService from '@/shared/alert/alert.service';
 export default class Detection extends mixins(JhiDataUtils) {
   @Inject('detectionService') private detectionService: () => DetectionService;
   @Inject('alertService') private alertService: () => AlertService;
+  @Inject('accountService') private accountService: () => AccountService;
 
   private removeId: number = null;
 
@@ -22,7 +24,10 @@ export default class Detection extends mixins(JhiDataUtils) {
   public isFetching = false;
 
   public mounted(): void {
-    this.retrieveAllDetections();
+    if(this.isMedecin())
+      this.retrieveAllDetections();
+    else
+      this.retrievePatientDetections();
   }
 
   public clear(): void {
@@ -43,6 +48,11 @@ export default class Detection extends mixins(JhiDataUtils) {
           this.alertService().showHttpError(this, err.response);
         }
       );
+  }
+
+  public retrievePatientDetections(): void {
+    let user = JSON.parse(sessionStorage.getItem('user-info'));
+    this.detections = user.patient.detections;
   }
 
   public handleSyncList(): void {
@@ -75,6 +85,14 @@ export default class Detection extends mixins(JhiDataUtils) {
       .catch(error => {
         this.alertService().showHttpError(this, error.response);
       });
+  }
+
+  public isMedecin(): boolean {
+    return this.accountService().userAuthorities.includes('MEDECIN');
+  }
+
+  public isPatient(): boolean {
+    return this.accountService().userAuthorities.includes('PATIENT');
   }
 
   public closeDialog(): void {
