@@ -9,15 +9,10 @@
         <thead>
         <tr>
           <th scope="row"><span>ID</span></th>
-          <th scope="row"><span>Code</span></th>
           <th scope="row"><span>Nom</span></th>
           <th scope="row"><span>Prenom</span></th>
-          <th scope="row"><span>Date Naissance</span></th>
           <th scope="row"><span>Adresse</span></th>
-          <th scope="row"><span>Genre</span></th>
           <th scope="row"><span>Telephone</span></th>
-          <th scope="row"><span>Poids</span></th>
-          <th scope="row"><span>Taille</span></th>
           <th scope="row"><span>Photo</span></th>
           <th scope="row"></th>
         </tr>
@@ -25,16 +20,10 @@
         <tbody>
         <tr v-for="patient in patients" :key="patient.id" data-cy="entityTable">
           <td>{{ patient.id }}</td>
-          <td>{{ patient.code }}</td>
           <td>{{ patient.nom }}</td>
           <td>{{ patient.prenom }}</td>
-          <td>{{ patient.dateNaissance }}</td>
           <td>{{ patient.adresse }}</td>
-          <td>{{ patient.genre }}</td>
           <td>{{ patient.telephone }}</td>
-          <td>{{ patient.poids }}</td>
-          <td>{{ patient.taille }}</td>
-          <td></td>
           <td>
             <a v-if="patient.photo" v-on:click="openFile(patient.photoContentType, patient.photo)">
               <img
@@ -43,19 +32,26 @@
                 alt="patient image"
               />
             </a>
-            <span v-if="patient.photo">{{ patient.photoContentType }}, {{ byteSize(patient.photo) }}</span>
           </td>
           <td>
-            <b-button
-              v-on:click="prepareDetection(patient)"
-              variant="success"
-              class="btn btn-sm"
-              data-cy="entityDetectionButton"
-              v-b-modal.detectionEntity
-            >
-              <font-awesome-icon icon="plus"></font-awesome-icon>
-              <span class="d-none d-md-inline">Detection</span>
-            </b-button>
+            <div class="btn-group">
+              <router-link :to="{ name: 'MedecinPatientsDetails', params: { patientId: patient.id } }" custom v-slot="{ navigate }">
+                <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                  <font-awesome-icon icon="eye"></font-awesome-icon>
+                  <span class="d-none d-md-inline">View</span>
+                </button>
+              </router-link>
+              <b-button
+                v-on:click="prepareDetection(patient)"
+                variant="success"
+                class="btn btn-sm"
+                data-cy="entityDetectionButton"
+                v-b-modal.detectionEntity
+              >
+                <font-awesome-icon icon="plus"></font-awesome-icon>
+                <span class="d-none d-md-inline">Detection</span>
+              </b-button>
+            </div>
           </td>
         </tr>
         </tbody>

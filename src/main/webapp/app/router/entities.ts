@@ -74,6 +74,7 @@ const StadeDetails = () => import('@/entities/stade/stade-details.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 const PatientMedecins = () => import('@/entities/rendez-vous/medecins/patient-medecins.vue');
 const MedecinPatients = () => import('@/entities/rendez-vous/patients/medecin-patients.vue');
+const MedecinPatientsDetails = () => import('@/entities/rendez-vous/patients/medecin-patients-details.vue');
 
 export default {
   path: '/',
@@ -191,6 +192,12 @@ export default {
       path: 'medecin/patients',
       name: 'MedecinPatients',
       component: MedecinPatients,
+      meta: { authorities: [Authority.MEDECIN] },
+    },
+    {
+      path: 'medecin/patients/details',
+      name: 'MedecinPatientsDetails',
+      component: MedecinPatientsDetails,
       meta: { authorities: [Authority.MEDECIN] },
     },
     {
