@@ -71,8 +71,8 @@ public class Patient implements Serializable {
     @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
     private Maladie maladie;
 
-    @OneToMany(mappedBy = "patient")
-    @JsonIgnoreProperties(value = { "maladie", "patient", "visite" }, allowSetters = true)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Detection> detections = new HashSet<>();
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
