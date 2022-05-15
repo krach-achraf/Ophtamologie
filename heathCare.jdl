@@ -55,7 +55,7 @@ entity Visite {
 
 entity Maladie {
 	code String unique,
-	date LocalDate
+    nom  String unique,
 }
 
 entity Classification {
@@ -88,16 +88,15 @@ relationship OneToOne {
 	Secretaire{user} to User
 	Patient{user} to User
     Visite to Detection
-    Detection to Maladie
 }
 
 relationship ManyToOne {
-	Detection to Patient
+		Detection to Patient
      	Patient to Secretaire
-     	Patient to Maladie
-	Medecin to Secretaire
+     	Patient to Stade
+		Medecin to Secretaire
     	RendezVous to Patient
-	RendezVous to Medecin
+		RendezVous to Medecin
     	Classification to Medecin
      	Classification to Stade
     	Classification to Unclassified
