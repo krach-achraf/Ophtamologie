@@ -11,19 +11,6 @@
             <input type="text" class="form-control" id="id" name="id" v-model="medecin.id" readonly />
           </div>
           <div class="form-group">
-            <label class="form-control-label" for="medecin-code">Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="code"
-              id="medecin-code"
-              data-cy="code"
-              :class="{ valid: !$v.medecin.code.$invalid, invalid: $v.medecin.code.$invalid }"
-              v-model="$v.medecin.code.$model"
-            />
-            <div v-if="$v.medecin.code.$anyDirty && $v.medecin.code.$invalid"></div>
-          </div>
-          <div class="form-group">
             <label class="form-control-label" for="medecin-nom">Nom</label>
             <input
               type="text"

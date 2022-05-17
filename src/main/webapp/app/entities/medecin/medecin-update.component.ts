@@ -21,7 +21,6 @@ import MedecinService from './medecin.service';
 
 const validations: any = {
   medecin: {
-    code: {},
     nom: {},
     numEmp: {},
     prenom: {},
