@@ -167,13 +167,12 @@
           <div class="form-group">
             <label class="form-control-label" for="medecin-user">User</label>
             <select class="form-control" id="medecin-user" data-cy="user" name="user" v-model="medecin.user">
-              <option v-bind:value="null"></option>
               <option
                 v-bind:value="medecin.user && userOption.id === medecin.user.id ? medecin.user : userOption"
                 v-for="userOption in users"
                 :key="userOption.id"
               >
-                {{ userOption.id }}
+                {{ userOption.login }}
               </option>
             </select>
           </div>

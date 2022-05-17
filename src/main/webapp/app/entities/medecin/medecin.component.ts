@@ -60,7 +60,7 @@ export default class Medecin extends mixins(JhiDataUtils) {
     this.medecinService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Medecin is deleted with identifier ' + this.removeId;
+        const message = 'A Medecin is deleted';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',
