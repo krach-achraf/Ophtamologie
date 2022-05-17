@@ -65,6 +65,10 @@ export default class AccountService {
               this.router.replace(sessionStorage.getItem('requested-url'));
               sessionStorage.removeItem('requested-url');
             }
+            if(this.userAuthorities.includes('ROLE_ADMIN'))
+              this.router.push('/admin/user-management');
+            else
+              this.router.push('/rendez-vous');
           } else {
             this.store.commit('logout');
             if (this.router.currentRoute.path !== '/') {

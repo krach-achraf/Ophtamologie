@@ -1,75 +1,23 @@
 <template>
-  <b-navbar data-cy="navbar" toggleable="md" type="dark" class="bg-dark">
+  <b-navbar data-cy="navbar" toggleable="md" type="dark">
     <b-navbar-brand class="logo" b-link to="/">
-      <span class="logo-img"></span>
-      <span class="navbar-title">pathogene</span> <span class="navbar-version">{{ version }}</span>
+      <span class="navbar-title">HealthCare</span>
     </b-navbar-brand>
-    <b-navbar-toggle
-      right
-      class="jh-navbar-toggler d-lg-none"
-      href="javascript:void(0);"
-      data-toggle="collapse"
-      target="header-tabs"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <font-awesome-icon icon="bars" />
-    </b-navbar-toggle>
 
     <b-collapse is-nav id="header-tabs">
       <b-navbar-nav class="ml-auto">
-        <b-nav-item to="/" exact>
-          <span>
-            <font-awesome-icon icon="home" />
-            <span>Home</span>
-          </span>
-        </b-nav-item>
-        <b-nav-item-dropdown right id="entity-menu" v-if="authenticated" active-class="active" class="pointer" data-cy="entity">
-          <span slot="button-content" class="navbar-dropdown-menu">
-            <font-awesome-icon icon="th-list" />
-            <span class="no-bold">Entities</span>
-          </span>
-          <entities-menu></entities-menu>
-          <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
-        </b-nav-item-dropdown>
-        <b-nav-item-dropdown
-          right
-          id="admin-menu"
-          v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated"
-          :class="{ 'router-link-active': subIsActive('/admin') }"
-          active-class="active"
-          class="pointer"
-          data-cy="adminMenu"
-        >
-          <span slot="button-content" class="navbar-dropdown-menu">
-            <font-awesome-icon icon="users-cog" />
-            <span class="no-bold">Administration</span>
-          </span>
-          <b-dropdown-item to="/admin/user-management" active-class="active">
-            <font-awesome-icon icon="users" />
-            <span>User management</span>
-          </b-dropdown-item>
-          <b-dropdown-item to="/admin/metrics" active-class="active">
-            <font-awesome-icon icon="tachometer-alt" />
-            <span>Metrics</span>
-          </b-dropdown-item>
-          <b-dropdown-item to="/admin/health" active-class="active">
-            <font-awesome-icon icon="heart" />
-            <span>Health</span>
-          </b-dropdown-item>
-          <b-dropdown-item to="/admin/configuration" active-class="active">
-            <font-awesome-icon icon="cogs" />
-            <span>Configuration</span>
-          </b-dropdown-item>
-          <b-dropdown-item to="/admin/logs" active-class="active">
-            <font-awesome-icon icon="tasks" />
-            <span>Logs</span>
-          </b-dropdown-item>
-          <b-dropdown-item v-if="openAPIEnabled" to="/admin/docs" active-class="active">
-            <font-awesome-icon icon="book" />
-            <span>API</span>
-          </b-dropdown-item>
-        </b-nav-item-dropdown>
+        <b-nav-item to="/" exact>Home</b-nav-item>
+        <b-nav-item to="/admin/user-management" v-if="(hasAnyAuthority('ROLE_ADMIN') || hasAnyAuthority('SECRETAIRE')) && authenticated">Users</b-nav-item>
+        <b-nav-item to="/medecin" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Medecins</b-nav-item>
+        <b-nav-item to="/patient" v-if="hasAnyAuthority('SECRETAIRE') && authenticated">Patients</b-nav-item>
+        <b-nav-item to="/secretaire" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Secretaires</b-nav-item>
+        <b-nav-item to="/rendez-vous" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE') || hasAnyAuthority('MEDECIN')) && authenticated">Rendez-vous</b-nav-item>
+        <b-nav-item to="/visite" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE')) && authenticated">Visites</b-nav-item>
+        <b-nav-item to="/detection" v-if="hasAnyAuthority('MEDECIN') && authenticated">Detections</b-nav-item>
+        <b-nav-item to="/maladie" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT')) && authenticated">Maladies</b-nav-item>
+        <b-nav-item to="/image" v-if="hasAnyAuthority('MEDECIN') && authenticated">Images</b-nav-item>
+        <b-nav-item to="/stade" v-if="hasAnyAuthority('MEDECIN') && authenticated">Stades</b-nav-item>
+
         <b-nav-item-dropdown
           right
           href="javascript:void(0);"
@@ -125,6 +73,13 @@
     ========================================================================== */
 .navbar-version {
   font-size: 10px;
+}
+
+.navbar {
+  font-size: 0.95rem;
+  text-transform: none;
+  padding: 0.7rem 1rem;
+  background-color: #106eea;
 }
 
 @media screen and (min-width: 768px) {
