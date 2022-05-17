@@ -10,19 +10,7 @@
             <label for="id">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="secretaire.id" readonly />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="secretaire-code">Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="code"
-              id="secretaire-code"
-              data-cy="code"
-              :class="{ valid: !$v.secretaire.code.$invalid, invalid: $v.secretaire.code.$invalid }"
-              v-model="$v.secretaire.code.$model"
-            />
-            <div v-if="$v.secretaire.code.$anyDirty && $v.secretaire.code.$invalid"></div>
-          </div>
+
           <div class="form-group">
             <label class="form-control-label" for="secretaire-nom">Nom</label>
             <input
@@ -57,18 +45,6 @@
               data-cy="prenom"
               :class="{ valid: !$v.secretaire.prenom.$invalid, invalid: $v.secretaire.prenom.$invalid }"
               v-model="$v.secretaire.prenom.$model"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" for="secretaire-admin">Admin</label>
-            <input
-              type="checkbox"
-              class="form-check"
-              name="admin"
-              id="secretaire-admin"
-              data-cy="admin"
-              :class="{ valid: !$v.secretaire.admin.$invalid, invalid: $v.secretaire.admin.$invalid }"
-              v-model="$v.secretaire.admin.$model"
             />
           </div>
           <div class="form-group">
@@ -125,7 +101,7 @@
                 v-for="userOption in users"
                 :key="userOption.id"
               >
-                {{ userOption.id }}
+                {{ userOption.login }}
               </option>
             </select>
           </div>

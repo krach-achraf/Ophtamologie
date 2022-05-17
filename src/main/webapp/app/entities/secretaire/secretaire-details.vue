@@ -4,38 +4,8 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="secretaire">
-        <h2 class="jh-entity-heading" data-cy="secretaireDetailsHeading"><span>Secretaire</span> {{ secretaire.id }}</h2>
+        <h2 class="jh-entity-heading" data-cy="secretaireDetailsHeading"><span>Secretaire</span></h2>
         <dl class="row jh-entity-details">
-          <dt>
-            <span>Code</span>
-          </dt>
-          <dd>
-            <span>{{ secretaire.code }}</span>
-          </dd>
-          <dt>
-            <span>Nom</span>
-          </dt>
-          <dd>
-            <span>{{ secretaire.nom }}</span>
-          </dd>
-          <dt>
-            <span>Num Emp</span>
-          </dt>
-          <dd>
-            <span>{{ secretaire.numEmp }}</span>
-          </dd>
-          <dt>
-            <span>Prenom</span>
-          </dt>
-          <dd>
-            <span>{{ secretaire.prenom }}</span>
-          </dd>
-          <dt>
-            <span>Admin</span>
-          </dt>
-          <dd>
-            <span>{{ secretaire.admin }}</span>
-          </dd>
           <dt>
             <span>Photo</span>
           </dt>
@@ -48,15 +18,37 @@
                   alt="secretaire image"
                 />
               </a>
-              {{ secretaire.photoContentType }}, {{ byteSize(secretaire.photo) }}
             </div>
           </dd>
+
           <dt>
-            <span>User</span>
+            <span>Code</span>
           </dt>
           <dd>
-            {{ secretaire.user ? secretaire.user.id : '' }}
+            <span>{{ secretaire.code }}</span>
           </dd>
+
+          <dt>
+            <span>Num Emp</span>
+          </dt>
+          <dd>
+            <span>{{ secretaire.numEmp }}</span>
+          </dd>
+
+          <dt>
+            <span>Nom</span>
+          </dt>
+          <dd>
+            <span>{{ secretaire.nom }}</span>
+          </dd>
+
+          <dt>
+            <span>Prenom</span>
+          </dt>
+          <dd>
+            <span>{{ secretaire.prenom }}</span>
+          </dd>
+
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>

@@ -60,7 +60,7 @@ export default class Secretaire extends mixins(JhiDataUtils) {
     this.secretaireService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Secretaire is deleted with identifier ' + this.removeId;
+        const message = 'A Secretaire is deleted';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',

@@ -18,7 +18,6 @@ import SecretaireService from './secretaire.service';
 
 const validations: any = {
   secretaire: {
-    code: {},
     nom: {},
     numEmp: {},
     prenom: {},
@@ -77,7 +76,7 @@ export default class SecretaireUpdate extends mixins(JhiDataUtils) {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Secretaire is updated with identifier ' + param.id;
+          const message = 'A Secretaire is updated';
           return this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Info',
@@ -96,7 +95,7 @@ export default class SecretaireUpdate extends mixins(JhiDataUtils) {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Secretaire is created with identifier ' + param.id;
+          const message = 'A Secretaire is created';
           this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Success',
