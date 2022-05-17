@@ -37,11 +37,23 @@ export default class SecretaireUpdate extends mixins(JhiDataUtils) {
     this.isSaving = true;
     this.user.firstName = this.secretaire.prenom;
     this.user.lastName = this.secretaire.nom;
-    let response = await this.userManagementService().createSecretaire({
-      user: this.user,
-      secretaire: this.secretaire,
-    })
-    console.log(response);
+    try {
+      await this.userManagementService().createSecretaire({
+        user: this.user,
+        secretaire: this.secretaire,
+      })
+      this.$router.push('/admin/user-management');
+      this.$root.$bvToast.toast('A Secretaire is created', {
+        toaster: 'b-toaster-top-center',
+        title: 'Success',
+        variant: 'success',
+        solid: true,
+        autoHideDelay: 5000,
+      })
+    }catch (e) {
+      console.log(e);
+    }
+
   }
 
   public previousState(): void {

@@ -43,6 +43,10 @@
   background-color: #106eea;
 }
 
+span.navbar-title {
+  font-size: 1.4rem;
+}
+
 @media screen and (min-width: 768px) {
   .jh-navbar-toggler {
     display: none;

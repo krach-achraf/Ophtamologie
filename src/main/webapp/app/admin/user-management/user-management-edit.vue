@@ -88,6 +88,30 @@
               </small>
             </div>
           </div>
+
+          <div class="form-group" :hidden="userAccount.id">
+            <label class="form-control-label" for="password">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              :class="{ valid: !$v.userAccount.password.$invalid, invalid: $v.userAccount.password.$invalid }"
+              v-model="$v.userAccount.password.$model"
+              data-cy="password"
+              required
+            />
+            <div v-if="$v.userAccount.password.$anyDirty && $v.userAccount.password.$invalid">
+              <small class="form-text text-danger" v-if="!$v.userAccount.password.required"> Your password is required. </small>
+              <small class="form-text text-danger" v-if="!$v.userAccount.password.minLength">
+                Your password is required to be at least 8 characters.
+              </small>
+              <small class="form-text text-danger" v-if="!$v.userAccount.password.maxLength">
+                Your password cannot be longer than 50 characters.
+              </small>
+            </div>
+          </div>
+
           <div class="form-check">
             <label class="form-check-label" for="activated">
               <input
@@ -102,10 +126,10 @@
             </label>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" v-if="isAdmin()">
             <label>Profiles</label>
             <select class="form-control" multiple name="authority" v-model="userAccount.authorities">
-              <option v-for="authority of authorities" :value="authority" :key="authority">{{ authority }}</option>
+              <option v-for="authority of authorities" v-if="authority" :value="authority" :key="authority">{{ authority }}</option>
             </select>
           </div>
         </div>
@@ -113,7 +137,7 @@
           <button type="button" class="btn btn-secondary" v-on:click="previousState()">
             <font-awesome-icon icon="ban"></font-awesome-icon>&nbsp;<span>Cancel</span>
           </button>
-          <button type="submit" :disabled="$v.userAccount.$invalid || isSaving" class="btn btn-primary">
+          <button type="submit" :disabled="isSaving" class="btn btn-primary">
             <font-awesome-icon icon="save"></font-awesome-icon>&nbsp;<span>Save</span>
           </button>
         </div>

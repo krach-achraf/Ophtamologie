@@ -34,9 +34,6 @@
       <table class="table table-striped" aria-describedby="Users">
         <thead>
           <tr>
-            <th scope="col" v-on:click="changeOrder('id')">
-              <span>ID</span> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
-            </th>
             <th scope="col" v-on:click="changeOrder('login')">
               <span>Login</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'login'"></jhi-sort-indicator>
@@ -45,29 +42,14 @@
               <span>Email</span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'email'"></jhi-sort-indicator>
             </th>
-            <th scope="col"></th>
+            <th scope="col">Status</th>
             <th scope="col"><span>Profiles</span></th>
-            <th scope="col" v-on:click="changeOrder('createdDate')">
-              <span>Created Date</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'createdDate'"></jhi-sort-indicator>
-            </th>
-            <th scope="col" v-on:click="changeOrder('lastModifiedBy')">
-              <span>Last Modified By</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedBy'"></jhi-sort-indicator>
-            </th>
-            <th scope="col" id="modified-date-sort" v-on:click="changeOrder('lastModifiedDate')">
-              <span>Last Modified Date</span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'lastModifiedDate'"></jhi-sort-indicator>
-            </th>
             <th scope="col"></th>
           </tr>
         </thead>
 
         <tbody v-if="users && isAdmin()">
           <tr v-for="user in users" :key="user.id" :id="user.login" v-if="!user.authorities.includes('PATIENT')">
-            <td>
-              <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }">{{ user.id }}</router-link>
-            </td>
             <td>{{ user.login }}</td>
             <td class="jhi-user-email">{{ user.email }}</td>
             <td>
@@ -89,19 +71,16 @@
                 <span class="badge badge-info">{{ authority }}</span>
               </div>
             </td>
-            <td>{{ user.createdDate | formatDate }}</td>
-            <td>{{ user.lastModifiedBy }}</td>
-            <td>{{ user.lastModifiedDate | formatDate }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-info btn-sm details">
+                  <button @click="navigate" class="btn btn-info btn-sm details mr-1">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'JhiUserEdit', params: { userId: user.login } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit">
+                  <button @click="navigate" class="btn btn-primary btn-sm edit mr-1">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline">Edit</span>
                   </button>

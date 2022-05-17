@@ -136,10 +136,6 @@ export default class JhiUserManagementComponent extends Vue {
     return this.accountService().userAuthorities.includes('MEDECIN');
   }
 
-  public isPatient(): boolean {
-    return this.accountService().userAuthorities.includes('PATIENT');
-  }
-
   public isSecretaire(): boolean {
     return this.accountService().userAuthorities.includes('SECRETAIRE');
   }
