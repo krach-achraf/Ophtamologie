@@ -13,52 +13,13 @@
         <b-nav-item to="/secretaire" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Secretaires</b-nav-item>
         <b-nav-item to="/rendez-vous" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE') || hasAnyAuthority('MEDECIN')) && authenticated">Rendez-vous</b-nav-item>
         <b-nav-item to="/visite" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE')) && authenticated">Visites</b-nav-item>
-        <b-nav-item to="/detection" v-if="hasAnyAuthority('MEDECIN') && authenticated">Detections</b-nav-item>
+        <b-nav-item to="/detection" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT'))&& authenticated">Detections</b-nav-item>
         <b-nav-item to="/maladie" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT')) && authenticated">Maladies</b-nav-item>
         <b-nav-item to="/image" v-if="hasAnyAuthority('MEDECIN') && authenticated">Images</b-nav-item>
         <b-nav-item to="/stade" v-if="hasAnyAuthority('MEDECIN') && authenticated">Stades</b-nav-item>
-
-        <b-nav-item-dropdown
-          right
-          href="javascript:void(0);"
-          id="account-menu"
-          :class="{ 'router-link-active': subIsActive('/account') }"
-          active-class="active"
-          class="pointer"
-          data-cy="accountMenu"
-        >
-          <span slot="button-content" class="navbar-dropdown-menu">
-            <font-awesome-icon icon="user" />
-            <span class="no-bold"> Account </span>
-          </span>
-          <b-dropdown-item data-cy="settings" to="/account/settings" tag="b-dropdown-item" v-if="authenticated" active-class="active">
-            <font-awesome-icon icon="wrench" />
-            <span>Settings</span>
-          </b-dropdown-item>
-          <b-dropdown-item data-cy="passwordItem" to="/account/password" tag="b-dropdown-item" v-if="authenticated" active-class="active">
-            <font-awesome-icon icon="lock" />
-            <span>Password</span>
-          </b-dropdown-item>
-          <b-dropdown-item data-cy="logout" v-if="authenticated" v-on:click="logout()" id="logout" active-class="active">
-            <font-awesome-icon icon="sign-out-alt" />
-            <span>Sign out</span>
-          </b-dropdown-item>
-          <b-dropdown-item data-cy="login" v-if="!authenticated" v-on:click="openLogin()" id="login" active-class="active">
-            <font-awesome-icon icon="sign-in-alt" />
-            <span>Sign in</span>
-          </b-dropdown-item>
-          <b-dropdown-item
-            data-cy="register"
-            to="/register"
-            tag="b-dropdown-item"
-            id="register"
-            v-if="!authenticated"
-            active-class="active"
-          >
-            <font-awesome-icon icon="user-plus" />
-            <span>Register</span>
-          </b-dropdown-item>
-        </b-nav-item-dropdown>
+        <b-nav-item v-on:click="openLogin()" v-if="!authenticated">Sign in</b-nav-item>
+        <b-nav-item to="/register" v-if="!authenticated">Register</b-nav-item>
+        <b-nav-item href="javascript:void(0);" :class="{ 'router-link-active': subIsActive('/account') }" v-on:click="logout()" v-if="authenticated">Sign out</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
