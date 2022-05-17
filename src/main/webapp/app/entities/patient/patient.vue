@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <h2 id="page-heading" data-cy="PatientHeading">
       <span id="patient-heading">Patients</span>
       <div class="d-flex justify-content-end">
@@ -133,6 +134,7 @@
         </button>
       </div>
     </b-modal>
+  </div>
   </div>
 </template>
 

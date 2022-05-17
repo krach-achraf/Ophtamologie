@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <div class="row justify-content-center">
       <div class="col-md-8 toastify-container">
         <h1 id="register-title" data-cy="registerTitle">Registration</h1>
@@ -141,6 +142,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

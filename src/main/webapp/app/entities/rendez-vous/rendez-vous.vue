@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <!-- bouttons pour affiches mes medecins et les patients -->
     <h2 id="page-heading" data-cy="RendezVousHeading">
       <span id="rendez-vous-heading">Rendez Vous</span>
@@ -120,7 +121,7 @@
       </div>
     </b-modal>
     <!-- end modal delete rdv -->
-
+    </div>
   </div>
 </template>
 

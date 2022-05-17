@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <h2>
       <span id="user-management-page-heading" data-cy="userManagementPageHeading">Users</span>
 
@@ -7,7 +8,7 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isLoading">
           <font-awesome-icon icon="sync" :spin="isLoading"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }">
+        <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }" v-if="isAdmin()">
           <button @click="navigate" class="btn btn-primary jh-create-entity mr-2">
             <font-awesome-icon icon="plus"></font-awesome-icon> <span>New User</span>
           </button>
@@ -185,6 +186,7 @@
         <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage" :change="loadPage(page)"></b-pagination>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

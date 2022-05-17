@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <h2 id="page-heading" data-cy="MaladieHeading">
       <span id="maladie-heading">Maladies</span>
       <div class="d-flex justify-content-end">
@@ -162,6 +163,7 @@
         <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
       </div>
     </b-modal>
+  </div>
   </div>
 </template>
 

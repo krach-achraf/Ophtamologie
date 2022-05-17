@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <h2 id="page-heading" data-cy="DetectionHeading">
       <span id="detection-heading">Detections</span>
       <div class="d-flex justify-content-end">
@@ -126,6 +127,7 @@
         </button>
       </div>
     </b-modal>
+  </div>
   </div>
 </template>
 

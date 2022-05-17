@@ -115,7 +115,6 @@ export default class RendezVouss extends Vue {
       this.calendarOptions.events = [];
       let medecin = JSON.parse(sessionStorage.getItem('user-info'));
       this.rendezVouss = medecin.medecin.rendezVous
-      console.log(this.rendezVouss);
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
           if (this.rendezVouss[i].status == "pending")

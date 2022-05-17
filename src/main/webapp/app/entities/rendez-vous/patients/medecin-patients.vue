@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <h2  id="page-heading" data-cy="MedecinHeading">
       <span id="medecin-heading">Patients</span>
     </h2>
@@ -123,19 +124,6 @@
           />
         </div>
 
-        <div class="form-group">
-          <label class="form-control-label" for="detection-stade">Stade</label>
-          <input
-            type="text"
-            class="form-control"
-            name="stade"
-            id="detection-stade"
-            data-cy="stade"
-            :class="{ valid: !$v.detection.stade.$invalid, invalid: $v.detection.stade.$invalid }"
-            v-model="$v.detection.stade.$model"
-          />
-        </div>
-
       </div>
       <div slot="modal-footer">
         <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
@@ -186,6 +174,7 @@
         <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Quitter</button>
       </div>
     </b-modal>
+  </div>
   </div>
 </template>
 

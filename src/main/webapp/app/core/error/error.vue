@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <div class="row">
       <div class="col-md-3">
         <span class="hipster img-fluid rounded"></span>
@@ -14,6 +15,7 @@
         <div v-if="error404" class="alert alert-warning">The page you requested does not exist.</div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

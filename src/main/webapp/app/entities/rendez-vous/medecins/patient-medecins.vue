@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="container-fluid">
+    <div class="card jh-card">
     <h2  id="page-heading" data-cy="MedecinHeading">
       <span id="medecin-heading">Medecins</span>
     </h2>
@@ -40,6 +41,7 @@
         </tbody>
       </table>
     </div>
+  </div>
   </div>
 </template>
 

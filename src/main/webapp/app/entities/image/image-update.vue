@@ -1,4 +1,6 @@
 <template>
+  <div class="container-fluid">
+    <div class="card jh-card">
   <div class="row justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
@@ -95,6 +97,8 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
     </div>
   </div>
 </template>

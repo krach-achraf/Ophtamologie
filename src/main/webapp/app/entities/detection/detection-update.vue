@@ -1,4 +1,6 @@
 <template>
+  <div class="container-fluid">
+    <div class="card jh-card">
   <div class="row justify-content-center">
     <div class="col-8">
       <form name="editForm" role="form" novalidate v-on:submit.prevent="save()">
@@ -164,6 +166,8 @@
       </div>
     </b-modal>
 
+  </div>
+    </div>
   </div>
 </template>
 <script lang="ts" src="./detection-update.component.ts"></script>

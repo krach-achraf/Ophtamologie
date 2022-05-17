@@ -1,4 +1,6 @@
 <template>
+  <div class="container-fluid">
+    <div class="card jh-card">
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="stade">
@@ -91,6 +93,8 @@
           </button>
         </router-link>
       </div>
+    </div>
+  </div>
     </div>
   </div>
 </template>
