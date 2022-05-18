@@ -96,12 +96,23 @@ export default class RendezVouss extends Vue {
       this.rendezVouss = ev.data;
       if (this.rendezVouss != null) {
         for (let i = 0; i < this.rendezVouss.length; i++) {
-          if (this.rendezVouss[i].status == "pending")
-            this.calendarOptions.events.push({
-              id: this.rendezVouss[i].id,
-              title: `M: ${this.rendezVouss[i].medecin.nom} P: ${this.rendezVouss[i].patient.nom}`,
-              start: this.rendezVouss[i].date,
-            })
+          if (this.rendezVouss[i].status == "pending"){
+            if(this.validDate(new Date(this.rendezVouss[i].date))){
+              this.calendarOptions.events.push({
+                id: this.rendezVouss[i].id,
+                title: `M: ${this.rendezVouss[i].medecin.nom} P: ${this.rendezVouss[i].patient.nom}`,
+                start: this.rendezVouss[i].date,
+              })
+            }
+            else{
+              this.calendarOptions.events.push({
+                id: this.rendezVouss[i].id,
+                title: `M: ${this.rendezVouss[i].medecin.nom} P: ${this.rendezVouss[i].patient.nom}`,
+                start: this.rendezVouss[i].date,
+                color: 'red',
+              })
+            }
+          }
         }
       }
     } catch (e) {
@@ -125,7 +136,7 @@ export default class RendezVouss extends Vue {
             })
         }
       } else
-        this.$root.$bvToast.toast("Vous n'avez aucun rendez-vous", {
+        this.$root.$bvToast.toast("You don't have any appointment", {
           toaster: 'b-toaster-top-center',
           title: 'Info',
           variant: 'info',
@@ -154,7 +165,7 @@ export default class RendezVouss extends Vue {
 
         }
       } else
-        this.$root.$bvToast.toast("Vous n'avez aucun rendez-vous", {
+        this.$root.$bvToast.toast("You don't have any appointment", {
           toaster: 'b-toaster-top-center',
           title: 'Info',
           variant: 'info',
@@ -185,14 +196,14 @@ export default class RendezVouss extends Vue {
         this.rendezVous = await this.rendezVousService().find(selectionInfo.event.id);
         this.rendezVous.date = selectionInfo.event.start;
         await this.rendezVousService().update(this.rendezVous);
-        this.$root.$bvToast.toast('Rendez-vous ajourné avec success', {
+        this.$root.$bvToast.toast('A Rendez-vous is updated', {
           toaster: 'b-toaster-top-center',
           title: 'Success',
           variant: 'success',
           solid: true,
           autoHideDelay: 5000,
         });
-      } else this.alertService().showError(this, 'Veuillez saisir une date convenable!')
+      } else this.alertService().showError(this, 'Date incorrect')
     } catch (e) {
       console.log(e);
     }
@@ -209,7 +220,7 @@ export default class RendezVouss extends Vue {
       this.rendezVous.status = 'pending';
       await this.rendezVousService().create(this.rendezVous);
       (<any>this.$refs.createEntity).hide();
-      this.$root.$bvToast.toast('Rendez-vous ajouté avec success', {
+      this.$root.$bvToast.toast('A Rendez-vous is added', {
         toaster: 'b-toaster-top-center',
         title: 'Success',
         variant: 'success',
@@ -229,7 +240,7 @@ export default class RendezVouss extends Vue {
       this.rendezVous.status = 'passed';
       await this.rendezVousService().update(this.rendezVous);
       this.closeDialog();
-      this.$root.$bvToast.toast('Rendez-vous validé avec success', {
+      this.$root.$bvToast.toast('A Rendez-vous is confirmed', {
         toaster: 'b-toaster-top-center',
         title: 'Success',
         variant: 'success',
@@ -251,7 +262,7 @@ export default class RendezVouss extends Vue {
   public async removeRendezVous() {
     try {
       await this.rendezVousService().delete(this.idRdv);
-      this.$bvToast.toast('Le rendez-vous est annulé avec success', {
+      this.$bvToast.toast('A Rendez-vous is deleted', {
         toaster: 'b-toaster-top-center',
         title: 'Success',
         variant: 'success',
@@ -278,11 +289,13 @@ export default class RendezVouss extends Vue {
     if (this.validDate(selectionInfo.start)) {
       this.rendezVous.date = selectionInfo.start;
       (<any>this.$refs.createEntity).show();
-    } else this.alertService().showError(this, 'Veuillez saisir une date convenable!')
+    } else this.alertService().showError(this, 'Date incorrect')
   }
 
   // verification de la validation d'une date choisit
   public validDate(date): boolean {
+    console.log(new Date());
+    console.log(date);
     return date > new Date();
   }
 
