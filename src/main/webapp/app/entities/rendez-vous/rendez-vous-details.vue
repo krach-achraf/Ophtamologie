@@ -1,61 +1,54 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-8">
-      <div v-if="rendezVous">
-        <h2 class="jh-entity-heading" data-cy="rendezVousDetailsHeading"><span>RendezVous</span> {{ rendezVous.id }}</h2>
-        <dl class="row jh-entity-details">
-          <dt>
-            <span>Date</span>
-          </dt>
-          <dd>
-            <span>{{ rendezVous.date | formatDate }}</span>
-          </dd>
-          <dt>
-            <span>Code</span>
-          </dt>
-          <dd>
-            <span>{{ rendezVous.code }}</span>
-          </dd>
-          <dt>
-            <span>Status</span>
-          </dt>
-          <dd>
-            <span>{{ rendezVous.status }}</span>
-          </dd>
-          <dt>
-            <span>Patient</span>
-          </dt>
-          <dd>
-            <div v-if="rendezVous.patient">
-              <router-link :to="{ name: 'PatientView', params: { patientId: rendezVous.patient.id } }">{{
-                rendezVous.patient.id
-              }}</router-link>
-            </div>
-          </dd>
-          <dt>
-            <span>Medecin</span>
-          </dt>
-          <dd>
-            <div v-if="rendezVous.medecin">
-              <router-link :to="{ name: 'MedecinView', params: { medecinId: rendezVous.medecin.id } }">{{
-                rendezVous.medecin.id
-              }}</router-link>
-            </div>
-          </dd>
-        </dl>
-        <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-          <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>
-        </button>
-        <router-link
-          v-if="rendezVous.id"
-          :to="{ name: 'RendezVousEdit', params: { rendezVousId: rendezVous.id } }"
-          custom
-          v-slot="{ navigate }"
-        >
-          <button @click="navigate" class="btn btn-primary">
-            <font-awesome-icon icon="pencil-alt"></font-awesome-icon>&nbsp;<span> Edit</span>
-          </button>
-        </router-link>
+  <div class="container-fluid">
+    <div class="card jh-card">
+      <div class="row justify-content-center">
+        <div class="col-8">
+          <div v-if="rendezVous">
+            <h2 class="jh-entity-heading" data-cy="rendezVousDetailsHeading"><span>Rendez-vous</span>
+            </h2>
+            <dl class="row jh-entity-details">
+              <dt>
+                <span>Code</span>
+              </dt>
+              <dd>
+                <span>{{ rendezVous.code }}</span>
+              </dd>
+              <dt>
+                <span>Date</span>
+              </dt>
+              <dd>
+                <span>{{ rendezVous.date | formatDate }}</span>
+              </dd>
+
+              <dt>
+                <span>Status</span>
+              </dt>
+              <dd>
+                <span>{{ rendezVous.status }}</span>
+              </dd>
+              <dt v-if="!isPatient()">
+                <span>Patient</span>
+              </dt>
+              <dd v-if="!isPatient()">
+                <div v-if="rendezVous.patient">
+                  {{ rendezVous.patient.nom }} {{ rendezVous.patient.prenom }}
+                </div>
+              </dd>
+              <dt v-if="!isMedecin()">
+                <span>Medecin</span>
+              </dt>
+              <dd v-if="!isMedecin()">
+                <div v-if="rendezVous.medecin">
+                  {{ rendezVous.medecin.nom }} {{ rendezVous.medecin.prenom }}
+                </div>
+              </dd>
+            </dl>
+            <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info"
+                    data-cy="entityDetailsBackButton">
+              <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

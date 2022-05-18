@@ -3,11 +3,13 @@ import { Component, Vue, Inject } from 'vue-property-decorator';
 import { IVisite } from '@/shared/model/visite.model';
 import VisiteService from './visite.service';
 import AlertService from '@/shared/alert/alert.service';
+import AccountService from "@/account/account.service";
 
 @Component
 export default class VisiteDetails extends Vue {
   @Inject('visiteService') private visiteService: () => VisiteService;
   @Inject('alertService') private alertService: () => AlertService;
+  @Inject('accountService') private accountService: () => AccountService;
 
   public visite: IVisite = {};
 
@@ -28,6 +30,11 @@ export default class VisiteDetails extends Vue {
       .catch(error => {
         this.alertService().showHttpError(this, error.response);
       });
+  }
+
+
+  public isSecretaire(): boolean {
+    return this.accountService().userAuthorities.includes('SECRETAIRE');
   }
 
   public previousState() {

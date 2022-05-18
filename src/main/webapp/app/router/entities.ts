@@ -1,4 +1,4 @@
-import { Authority } from '@/shared/security/authority';
+import {Authority} from '@/shared/security/authority';
 /* tslint:disable */
 // prettier-ignore
 const Entities = () => import('@/entities/entities.vue');
@@ -75,6 +75,7 @@ const StadeDetails = () => import('@/entities/stade/stade-details.vue');
 const PatientMedecins = () => import('@/entities/rendez-vous/medecins/patient-medecins.vue');
 const MedecinPatients = () => import('@/entities/rendez-vous/patients/medecin-patients.vue');
 const MedecinPatientsDetails = () => import('@/entities/rendez-vous/patients/medecin-patients-details.vue');
+const RendezVousView = () => import('@/entities/rendez-vous/rendez-vous-details.vue');
 
 export default {
   path: '/',
@@ -183,6 +184,12 @@ export default {
       meta: { authorities: [Authority.MEDECIN, Authority.PATIENT, Authority.SECRETAIRE] },
     },
     {
+      path: 'rendez-vous/details',
+      name: 'RendezVousView',
+      component: RendezVousView,
+      meta: { authorities: [Authority.MEDECIN, Authority.PATIENT, Authority.SECRETAIRE] },
+    },
+    {
       path: 'patient/medecins',
       name: 'PatientMedecins',
       component: PatientMedecins,
@@ -222,7 +229,7 @@ export default {
       path: 'visite/:visiteId/view',
       name: 'VisiteView',
       component: VisiteDetails,
-      meta: { authorities: [Authority.SECRETAIRE] },
+      meta: { authorities: [Authority.SECRETAIRE, Authority.PATIENT, Authority.MEDECIN] },
     },
     {
       path: 'compte',

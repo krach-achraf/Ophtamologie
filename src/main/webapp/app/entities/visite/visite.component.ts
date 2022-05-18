@@ -4,6 +4,7 @@ import { IVisite } from '@/shared/model/visite.model';
 
 import VisiteService from './visite.service';
 import AlertService from '@/shared/alert/alert.service';
+import AccountService from "@/account/account.service";
 
 @Component({
   mixins: [Vue2Filters.mixin],
@@ -11,6 +12,7 @@ import AlertService from '@/shared/alert/alert.service';
 export default class Visite extends Vue {
   @Inject('visiteService') private visiteService: () => VisiteService;
   @Inject('alertService') private alertService: () => AlertService;
+  @Inject('accountService') private accountService: () => AccountService;
 
   private removeId: number = null;
 
@@ -72,6 +74,9 @@ export default class Visite extends Vue {
       .catch(error => {
         this.alertService().showHttpError(this, error.response);
       });
+  }
+  public isSecretaire(): boolean {
+    return this.accountService().userAuthorities.includes('SECRETAIRE');
   }
 
   public closeDialog(): void {
