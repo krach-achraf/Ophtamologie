@@ -211,7 +211,7 @@ export default {
       path: 'visite',
       name: 'Visite',
       component: Visite,
-      meta: { authorities: [Authority.SECRETAIRE, Authority.PATIENT] },
+      meta: { authorities: [Authority.SECRETAIRE, Authority.PATIENT, Authority.MEDECIN] },
     },
     {
       path: 'visite/new',

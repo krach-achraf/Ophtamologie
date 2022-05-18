@@ -12,7 +12,7 @@
         <b-nav-item to="/patient" v-if="hasAnyAuthority('SECRETAIRE') && authenticated">Patients</b-nav-item>
         <b-nav-item to="/secretaire" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Secretaires</b-nav-item>
         <b-nav-item to="/rendez-vous" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE') || hasAnyAuthority('MEDECIN')) && authenticated">Rendez-vous</b-nav-item>
-        <b-nav-item to="/visite" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE')) && authenticated">Visites</b-nav-item>
+        <b-nav-item to="/visite" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE')|| hasAnyAuthority('MEDECIN')) && authenticated">Visites</b-nav-item>
         <b-nav-item to="/detection" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT'))&& authenticated">Detections</b-nav-item>
         <b-nav-item to="/maladie" v-if="(hasAnyAuthority('MEDECIN') || hasAnyAuthority('PATIENT')) && authenticated">Maladies</b-nav-item>
         <b-nav-item to="/image" v-if="hasAnyAuthority('MEDECIN') && authenticated">Images</b-nav-item>

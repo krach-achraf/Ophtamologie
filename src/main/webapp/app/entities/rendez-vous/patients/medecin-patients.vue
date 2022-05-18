@@ -37,7 +37,7 @@
           <td>
             <div class="btn-group">
               <router-link :to="{ name: 'MedecinPatientsDetails', params: { patientId: patient.id } }" custom v-slot="{ navigate }">
-                <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                <button @click="navigate" class="btn btn-info btn-sm details mr-1" data-cy="entityDetailsButton">
                   <font-awesome-icon icon="eye"></font-awesome-icon>
                   <span class="d-none d-md-inline">View</span>
                 </button>
@@ -122,6 +122,19 @@
             :class="{ valid: !$v.detection.validation.$invalid, invalid: $v.detection.validation.$invalid }"
             v-model="$v.detection.validation.$model"
           />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Visite</label>
+          <select class="form-control" id="visite-patient" data-cy="visite" name="patient" v-model="idVisite">
+            <option
+              v-for="visite in visites"
+              :key="visite.id"
+              v-bind:value="visite.id"
+            >
+               {{ visite.code}} - {{visite.date}}
+            </option>
+          </select>
         </div>
 
       </div>

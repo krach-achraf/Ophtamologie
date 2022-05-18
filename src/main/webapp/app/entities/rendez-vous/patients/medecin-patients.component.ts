@@ -6,6 +6,8 @@ import AccountService from "@/account/account.service";
 import {IPatient} from "@/shared/model/patient.model";
 import {Detection, IDetection} from "@/shared/model/detection.model";
 import DetectionService from "@/entities/detection/detection.service";
+import {IVisite, Visite} from "@/shared/model/visite.model";
+import VisiteService from "@/entities/visite/visite.service";
 
 const validations: any = {
   detection: {
@@ -23,13 +25,18 @@ const validations: any = {
 export default class MedecinPatients extends mixins(JhiDataUtils) {
   @Inject('accountService') private accountService: () => AccountService;
   @Inject('detectionService') private detectionService: () => DetectionService;
+  @Inject('visiteService') private visiteService: () => VisiteService;
 
   public patients: IPatient[] = [];
   public patient: IPatient;
   private detection: IDetection = new Detection();
+  private visites: IVisite[] = [];
+  private visite: IVisite;
+  private idVisite: number = null;
 
   public mounted(): void {
     this.retrieveAllPatients();
+    this.retrieveAllVisites();
   }
 
   public async retrieveAllPatients() {
@@ -49,7 +56,15 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
     }catch (e){
       console.log(e);
     }
+  }
 
+  public async retrieveAllVisites() {
+    try{
+      let visites = await this.visiteService().retrieve();
+      this.visites = visites.data;
+    }catch (e){
+      console.log(e);
+    }
   }
 
   public prepareDetection(instance: IPatient): void{
@@ -64,6 +79,9 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
     this.detection.patient = this.patient;
     let response = await this.detectionService().create(this.detection);
     this.detection = response;
+    this.visite = await this.visiteService().find(this.idVisite);
+    this.visite.detection = this.detection;
+    await this.visiteService().update(this.visite);
     this.$root.$bvToast.toast("A detection is created", {
       toaster: 'b-toaster-top-center',
       title: 'Info',
