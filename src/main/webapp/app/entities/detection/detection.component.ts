@@ -70,7 +70,7 @@ export default class Detection extends mixins(JhiDataUtils) {
     this.detectionService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Detection is deleted with identifier ' + this.removeId;
+        const message = 'A Detection is deleted';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',
@@ -89,10 +89,6 @@ export default class Detection extends mixins(JhiDataUtils) {
 
   public isMedecin(): boolean {
     return this.accountService().userAuthorities.includes('MEDECIN');
-  }
-
-  public isPatient(): boolean {
-    return this.accountService().userAuthorities.includes('PATIENT');
   }
 
   public closeDialog(): void {

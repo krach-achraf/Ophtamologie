@@ -81,7 +81,7 @@ export default class DetectionUpdate extends mixins(JhiDataUtils) {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Detection is updated with identifier ' + param.id;
+          const message = 'A Detection is updated';
           return this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Info',

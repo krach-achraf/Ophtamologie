@@ -4,7 +4,7 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="detection">
-        <h2 class="jh-entity-heading" data-cy="detectionDetailsHeading"><span>Detection</span> {{ detection.id }}</h2>
+        <h2 class="jh-entity-heading" data-cy="detectionDetailsHeading"><span>Detection</span></h2>
         <dl class="row jh-entity-details">
           <dt>
             <span>Photo</span>
@@ -18,7 +18,6 @@
                   alt="detection image"
                 />
               </a>
-              {{ detection.photoContentType }}, {{ byteSize(detection.photo) }}
             </div>
           </dd>
           <dt>
@@ -30,8 +29,11 @@
           <dt>
             <span>Validation</span>
           </dt>
-          <dd>
-            <span>{{ detection.validation }}</span>
+          <dd v-if="detection.validation">
+            <span>Validé</span>
+          </dd>
+          <dd v-if="!detection.validation">
+            <span>Non validé</span>
           </dd>
           <dt>
             <span>Stade</span>
@@ -56,20 +58,14 @@
           </dt>
           <dd>
             <div v-if="detection.maladie">
-              <router-link :to="{ name: 'MaladieView', params: { maladieId: detection.maladie.id } }">{{
-                detection.maladie.id
-              }}</router-link>
+              {{detection.maladie.code}}
             </div>
           </dd>
-          <dt>
+          <dt v-if="isMedecin()">
             <span>Patient</span>
           </dt>
-          <dd>
-            <div v-if="detection.patient">
-              <router-link :to="{ name: 'PatientView', params: { patientId: detection.patient.id } }">{{
-                detection.patient.id
-              }}</router-link>
-            </div>
+          <dd v-if="isMedecin()">
+            <div v-if="detection.patient">{{detection.patient.nom}} {{detection.patient.prenom }}</div>
           </dd>
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -6,11 +6,13 @@ import JhiDataUtils from '@/shared/data/data-utils.service';
 import { IDetection } from '@/shared/model/detection.model';
 import DetectionService from './detection.service';
 import AlertService from '@/shared/alert/alert.service';
+import AccountService from "@/account/account.service";
 
 @Component
 export default class DetectionDetails extends mixins(JhiDataUtils) {
   @Inject('detectionService') private detectionService: () => DetectionService;
   @Inject('alertService') private alertService: () => AlertService;
+  @Inject('accountService') private accountService: () => AccountService;
 
   public detection: IDetection = {};
 
@@ -31,6 +33,11 @@ export default class DetectionDetails extends mixins(JhiDataUtils) {
       .catch(error => {
         this.alertService().showHttpError(this, error.response);
       });
+  }
+
+
+  public isMedecin(): boolean {
+    return this.accountService().userAuthorities.includes('MEDECIN');
   }
 
   public previousState() {

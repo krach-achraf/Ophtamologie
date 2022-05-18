@@ -16,7 +16,7 @@
             class="btn btn-primary jh-create-entity create-detection"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Create a new Detection </span>
+            <span> New Detection </span>
           </button>
         </router-link>
       </div>
@@ -29,40 +29,30 @@
       <table class="table table-striped" aria-describedby="detections">
         <thead>
         <tr>
-          <th scope="row"><span>ID</span></th>
           <th scope="row"><span>Photo</span></th>
-          <th scope="row"><span>Code</span></th>
           <th scope="row"><span>Validation</span></th>
           <th scope="row"><span>Stade</span></th>
-          <th scope="row"><span>Date</span></th>
           <th scope="row"><span>Description</span></th>
           <th scope="row"><span>Maladie</span></th>
           <th scope="row" v-if="isMedecin()"><span>Patient</span></th>
-          <th scope="row" v-if="isMedecin()"></th>
+          <th scope="row"></th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="detection in detections" :key="detection.id" data-cy="entityTable">
-          <td>
-            <router-link :to="{ name: 'DetectionView', params: { detectionId: detection.id } }">{{
-                detection.id
-              }}
-            </router-link>
-          </td>
+
           <td>
             <a v-if="detection.photo" v-on:click="openFile(detection.photoContentType, detection.photo)">
               <img
                 v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
-                style="max-height: 30px"
+                style="max-height: 70px"
                 alt="detection image"
               />
             </a>
-            <span v-if="detection.photo">{{ detection.photoContentType }}, {{ byteSize(detection.photo) }}</span>
           </td>
-          <td>{{ detection.code }}</td>
-          <td>{{ detection.validation }}</td>
+          <td v-if="detection.validation">Validé</td>
+          <td v-if="!detection.validation">Non validé</td>
           <td>{{ detection.stade }}</td>
-          <td>{{ detection.date | formatDate }}</td>
           <td>{{ detection.description }}</td>
           <td>
             <div v-if="detection.maladie">
@@ -74,18 +64,18 @@
               {{detection.patient.nom}} {{detection.patient.prenom}}
             </div>
           </td>
-          <td class="text-right" v-if="isMedecin()">
+          <td class="text-right">
             <div class="btn-group">
               <router-link :to="{ name: 'DetectionView', params: { detectionId: detection.id } }" custom
-                           v-slot="{ navigate }">
-                <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                           v-slot="{ navigate }" >
+                <button @click="navigate" class="btn btn-info btn-sm details mr-1" data-cy="entityDetailsButton">
                   <font-awesome-icon icon="eye"></font-awesome-icon>
                   <span class="d-none d-md-inline">View</span>
                 </button>
               </router-link>
               <router-link :to="{ name: 'DetectionEdit', params: { detectionId: detection.id } }" custom
-                           v-slot="{ navigate }">
-                <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                           v-slot="{ navigate }"  v-if="isMedecin()">
+                <button @click="navigate" class="btn btn-primary btn-sm edit mr-1" data-cy="entityEditButton">
                   <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                   <span class="d-none d-md-inline">Edit</span>
                 </button>
@@ -96,6 +86,7 @@
                 class="btn btn-sm"
                 data-cy="entityDeleteButton"
                 v-b-modal.removeEntity
+                v-if="isMedecin()"
               >
                 <font-awesome-icon icon="times"></font-awesome-icon>
                 <span class="d-none d-md-inline">Delete</span>

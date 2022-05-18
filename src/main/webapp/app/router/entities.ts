@@ -174,7 +174,7 @@ export default {
       path: 'detection/:detectionId/view',
       name: 'DetectionView',
       component: DetectionDetails,
-      meta: { authorities: [Authority.MEDECIN] },
+      meta: { authorities: [Authority.MEDECIN, Authority.PATIENT] },
     },
     {
       path: 'rendez-vous',
