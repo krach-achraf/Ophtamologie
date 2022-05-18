@@ -6,6 +6,7 @@ import MaladieService from './maladie.service';
 import AlertService from '@/shared/alert/alert.service';
 import StadeService from "@/entities/stade/stade.service";
 import {IStade, Stade} from "@/shared/model/stade.model";
+import AccountService from "@/account/account.service";
 
 const validations: any = {
   stade: {
@@ -22,6 +23,7 @@ export default class Maladie extends Vue {
   @Inject('maladieService') private maladieService: () => MaladieService;
   @Inject('alertService') private alertService: () => AlertService;
   @Inject('stadeService') private stadeService: () => StadeService;
+  @Inject('accountService') private accountService: () => AccountService;
 
   private removeId: number = null;
 
@@ -98,11 +100,11 @@ export default class Maladie extends Vue {
     this.maladieService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Maladie is deleted with identifier ' + this.removeId;
+        const message = 'A Maladie is deleted';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
-          title: 'Info',
-          variant: 'danger',
+          title: 'Success',
+          variant: 'success',
           solid: true,
           autoHideDelay: 5000,
         });
@@ -111,8 +113,18 @@ export default class Maladie extends Vue {
         this.closeDialog();
       })
       .catch(error => {
-        this.alertService().showHttpError(this, error.response);
+        this.$bvToast.toast("You can't delete this Maladie", {
+          toaster: 'b-toaster-top-center',
+          title: 'Error',
+          variant: 'danger',
+          solid: true,
+          autoHideDelay: 5000,
+        });
       });
+  }
+
+  public isMedecin(): boolean {
+    return this.accountService().userAuthorities.includes('MEDECIN');
   }
 
   public closeDialog(): void {

@@ -270,7 +270,7 @@ export default {
       path: 'maladie/:maladieId/view',
       name: 'MaladieView',
       component: MaladieDetails,
-      meta: { authorities: [Authority.MEDECIN] },
+      meta: { authorities: [Authority.MEDECIN, Authority.PATIENT] },
     },
     {
       path: 'classification',

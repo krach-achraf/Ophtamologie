@@ -10,19 +10,7 @@
             <label for="id">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="maladie.id" readonly />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="maladie-code">Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="code"
-              id="maladie-code"
-              data-cy="code"
-              :class="{ valid: !$v.maladie.code.$invalid, invalid: $v.maladie.code.$invalid }"
-              v-model="$v.maladie.code.$model"
-            />
-            <div v-if="$v.maladie.code.$anyDirty && $v.maladie.code.$invalid"></div>
-          </div>
+
           <div class="form-group">
             <label class="form-control-label" for="maladie-date">Date</label>
             <b-input-group class="mb-3">

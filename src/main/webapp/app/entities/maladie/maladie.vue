@@ -7,7 +7,7 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link :to="{ name: 'MaladieCreate' }" custom v-slot="{ navigate }">
+        <router-link :to="{ name: 'MaladieCreate' }" custom v-slot="{ navigate }" v-if="isMedecin()">
           <button
             @click="navigate"
             id="jh-create-entity"
@@ -15,7 +15,7 @@
             class="btn btn-primary jh-create-entity create-maladie"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Create a new Maladie </span>
+            <span> New Maladie </span>
           </button>
         </router-link>
       </div>
@@ -28,7 +28,6 @@
       <table class="table table-striped" aria-describedby="maladies">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Code</span></th>
             <th scope="row"><span>Date</span></th>
             <th scope="row"></th>
@@ -36,32 +35,30 @@
         </thead>
         <tbody>
           <tr v-for="maladie in maladies" :key="maladie.id" data-cy="entityTable">
-            <td>
-              <router-link :to="{ name: 'MaladieView', params: { maladieId: maladie.id } }">{{ maladie.id }}</router-link>
-            </td>
             <td>{{ maladie.code }}</td>
             <td>{{ maladie.date }}</td>
             <td class="text-right">
               <div class="btn-group">
 
                 <router-link :to="{ name: 'MaladieView', params: { maladieId: maladie.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                  <button @click="navigate" class="btn btn-info btn-sm details mr-1" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
                   </button>
                 </router-link>
 
-                <router-link :to="{ name: 'MaladieEdit', params: { maladieId: maladie.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                <router-link :to="{ name: 'MaladieEdit', params: { maladieId: maladie.id } }" custom v-slot="{ navigate }" v-if="isMedecin()">
+                  <button @click="navigate" class="btn btn-primary btn-sm edit mr-1" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline">Edit</span>
                   </button>
                 </router-link>
 
                 <b-button
+                  v-if="isMedecin()"
                   v-on:click="prepareRemove(maladie)"
                   variant="danger"
-                  class="btn btn-sm"
+                  class="btn btn-sm mr-1"
                   data-cy="entityDeleteButton"
                   v-b-modal.removeEntity
                 >
@@ -70,6 +67,7 @@
                 </b-button>
 
                 <b-button
+                  v-if="isMedecin()"
                   v-on:click="prepareAffecte(maladie)"
                   variant="success"
                   class="btn btn-sm"

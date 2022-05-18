@@ -19,7 +19,6 @@ import MaladieService from './maladie.service';
 
 const validations: any = {
   maladie: {
-    code: {},
     date: {},
   },
 };
@@ -78,7 +77,7 @@ export default class MaladieUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Maladie is updated with identifier ' + param.id;
+          const message = 'A Maladie is updated';
           return this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Info',
