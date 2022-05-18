@@ -10,19 +10,7 @@
             <label for="id">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="patient.id" readonly />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="patient-code">Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="code"
-              id="patient-code"
-              data-cy="code"
-              :class="{ valid: !$v.patient.code.$invalid, invalid: $v.patient.code.$invalid }"
-              v-model="$v.patient.code.$model"
-            />
-            <div v-if="$v.patient.code.$anyDirty && $v.patient.code.$invalid"></div>
-          </div>
+
           <div class="form-group">
             <label class="form-control-label" for="patient-nom">Nom</label>
             <input
@@ -190,36 +178,11 @@
                 v-for="userOption in users"
                 :key="userOption.id"
               >
-                {{ userOption.id }}
+                {{ userOption.login }}
               </option>
             </select>
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="patient-secretaire">Secretaire</label>
-            <select class="form-control" id="patient-secretaire" data-cy="secretaire" name="secretaire" v-model="patient.secretaire">
-              <option v-bind:value="null"></option>
-              <option
-                v-bind:value="patient.secretaire && secretaireOption.id === patient.secretaire.id ? patient.secretaire : secretaireOption"
-                v-for="secretaireOption in secretaires"
-                :key="secretaireOption.id"
-              >
-                {{ secretaireOption.id }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-control-label" for="patient-maladie">Maladie</label>
-            <select class="form-control" id="patient-maladie" data-cy="maladie" name="maladie" v-model="patient.maladie">
-              <option v-bind:value="null"></option>
-              <option
-                v-bind:value="patient.maladie && maladieOption.id === patient.maladie.id ? patient.maladie : maladieOption"
-                v-for="maladieOption in maladies"
-                :key="maladieOption.id"
-              >
-                {{ maladieOption.id }}
-              </option>
-            </select>
-          </div>
+
         </div>
         <div>
           <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" v-on:click="previousState()">

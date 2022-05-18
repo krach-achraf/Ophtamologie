@@ -4,8 +4,22 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="patient">
-        <h2 class="jh-entity-heading" data-cy="patientDetailsHeading"><span>Patient</span> {{ patient.id }}</h2>
+        <h2 class="jh-entity-heading" data-cy="patientDetailsHeading"><span>Patient</span></h2>
         <dl class="row jh-entity-details">
+          <dt>
+            <span>Photo</span>
+          </dt>
+          <dd>
+            <div v-if="patient.photo">
+              <a v-on:click="openFile(patient.photoContentType, patient.photo)">
+                <img
+                  v-bind:src="'data:' + patient.photoContentType + ';base64,' + patient.photo"
+                  style="max-width: 100%"
+                  alt="patient image"
+                />
+              </a>
+            </div>
+          </dd>
           <dt>
             <span>Code</span>
           </dt>
@@ -60,45 +74,7 @@
           <dd>
             <span>{{ patient.taille }}</span>
           </dd>
-          <dt>
-            <span>Photo</span>
-          </dt>
-          <dd>
-            <div v-if="patient.photo">
-              <a v-on:click="openFile(patient.photoContentType, patient.photo)">
-                <img
-                  v-bind:src="'data:' + patient.photoContentType + ';base64,' + patient.photo"
-                  style="max-width: 100%"
-                  alt="patient image"
-                />
-              </a>
-              {{ patient.photoContentType }}, {{ byteSize(patient.photo) }}
-            </div>
-          </dd>
-          <dt>
-            <span>User</span>
-          </dt>
-          <dd>
-            {{ patient.user ? patient.user.id : '' }}
-          </dd>
-          <dt>
-            <span>Secretaire</span>
-          </dt>
-          <dd>
-            <div v-if="patient.secretaire">
-              <router-link :to="{ name: 'SecretaireView', params: { secretaireId: patient.secretaire.id } }">{{
-                patient.secretaire.id
-              }}</router-link>
-            </div>
-          </dd>
-          <dt>
-            <span>Maladie</span>
-          </dt>
-          <dd>
-            <div v-if="patient.maladie">
-              <router-link :to="{ name: 'MaladieView', params: { maladieId: patient.maladie.id } }">{{ patient.maladie.id }}</router-link>
-            </div>
-          </dd>
+
         </dl>
         <button type="submit" v-on:click.prevent="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
           <font-awesome-icon icon="arrow-left"></font-awesome-icon>&nbsp;<span> Back</span>

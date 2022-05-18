@@ -25,7 +25,6 @@ import { Genre } from '@/shared/model/enumerations/genre.model';
 
 const validations: any = {
   patient: {
-    code: {},
     nom: {},
     prenom: {},
     dateNaissance: {},
@@ -97,7 +96,7 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Patient is updated with identifier ' + param.id;
+          const message = 'A Patient is updated';
           return this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Info',
@@ -111,12 +110,14 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
           this.alertService().showHttpError(this, error.response);
         });
     } else {
+      let user = JSON.parse(sessionStorage.getItem('user-info'));
+      this.patient.secretaire = user;
       this.patientService()
         .create(this.patient)
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Patient is created with identifier ' + param.id;
+          const message = 'A Patient is created';
           this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Success',
