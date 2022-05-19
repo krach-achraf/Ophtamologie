@@ -5,6 +5,7 @@ import { IDetection } from '@/shared/model/detection.model';
 import { IRendezVous } from '@/shared/model/rendez-vous.model';
 
 import { Genre } from '@/shared/model/enumerations/genre.model';
+import {IStade} from "@/shared/model/stade.model";
 export interface IPatient {
   id?: number;
   code?: string | null;
@@ -20,7 +21,7 @@ export interface IPatient {
   photo?: string | null;
   user?: IUser | null;
   secretaire?: ISecretaire | null;
-  maladie?: IMaladie | null;
+  stade?: IStade | null;
   detections?: IDetection[] | null;
   rendezVous?: IRendezVous[] | null;
 }
@@ -41,7 +42,7 @@ export class Patient implements IPatient {
     public photo?: string | null,
     public user?: IUser | null,
     public secretaire?: ISecretaire | null,
-    public maladie?: IMaladie | null,
+    public stade?: IStade | null,
     public detections?: IDetection[] | null,
     public rendezVous?: IRendezVous[] | null
   ) {}
