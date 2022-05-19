@@ -3,7 +3,6 @@ package emsi.iir4.pathogene.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,16 +25,8 @@ public class Maladie implements Serializable {
     @Column(name = "code", unique = true)
     private String code;
 
-    @Column(name = "date")
-    private LocalDate date;
-
-    @JsonIgnoreProperties(value = { "maladie", "patient", "visite" }, allowSetters = true)
-    @OneToOne(mappedBy = "maladie")
-    private Detection detection;
-
-    @OneToMany(mappedBy = "maladie")
-    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
-    private Set<Patient> patients = new HashSet<>();
+    @Column(name = "nom", unique = true)
+    private String nom;
 
     @OneToMany(mappedBy = "maladie", fetch = FetchType.EAGER)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -73,67 +64,17 @@ public class Maladie implements Serializable {
         this.code = code;
     }
 
-    public LocalDate getDate() {
-        return this.date;
+    public String getNom() {
+        return this.nom;
     }
 
-    public Maladie date(LocalDate date) {
-        this.setDate(date);
+    public Maladie nom(String nom) {
+        this.setNom(nom);
         return this;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Detection getDetection() {
-        return this.detection;
-    }
-
-    public void setDetection(Detection detection) {
-        if (this.detection != null) {
-            this.detection.setMaladie(null);
-        }
-        if (detection != null) {
-            detection.setMaladie(this);
-        }
-        this.detection = detection;
-    }
-
-    public Maladie detection(Detection detection) {
-        this.setDetection(detection);
-        return this;
-    }
-
-    public Set<Patient> getPatients() {
-        return this.patients;
-    }
-
-    public void setPatients(Set<Patient> patients) {
-        if (this.patients != null) {
-            this.patients.forEach(i -> i.setMaladie(null));
-        }
-        if (patients != null) {
-            patients.forEach(i -> i.setMaladie(this));
-        }
-        this.patients = patients;
-    }
-
-    public Maladie patients(Set<Patient> patients) {
-        this.setPatients(patients);
-        return this;
-    }
-
-    public Maladie addPatient(Patient patient) {
-        this.patients.add(patient);
-        patient.setMaladie(this);
-        return this;
-    }
-
-    public Maladie removePatient(Patient patient) {
-        this.patients.remove(patient);
-        patient.setMaladie(null);
-        return this;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public Set<Stade> getStades() {
@@ -223,7 +164,7 @@ public class Maladie implements Serializable {
         return "Maladie{" +
             "id=" + getId() +
             ", code='" + getCode() + "'" +
-            ", date='" + getDate() + "'" +
+            ", nom='" + getNom() + "'" +
             "}";
     }
 }

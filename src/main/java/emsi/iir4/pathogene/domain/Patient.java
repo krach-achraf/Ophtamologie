@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A Patient.
@@ -52,7 +53,6 @@ public class Patient implements Serializable {
     private Double taille;
 
     @Lob
-    @Basic(fetch = FetchType.LAZY)
     @Column(name = "photo")
     private byte[] photo;
 
@@ -68,8 +68,8 @@ public class Patient implements Serializable {
     private Secretaire secretaire;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
-    private Maladie maladie;
+    @JsonIgnoreProperties(value = { "maladie", "patients", "classifications", "images" }, allowSetters = true)
+    private Stade stade;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -247,8 +247,6 @@ public class Patient implements Serializable {
 
     public Patient user(User user) {
         this.setUser(user);
-        this.setNom(user.getLastName());
-        this.setPrenom(user.getFirstName());
         return this;
     }
 
@@ -265,16 +263,16 @@ public class Patient implements Serializable {
         return this;
     }
 
-    public Maladie getMaladie() {
-        return this.maladie;
+    public Stade getStade() {
+        return this.stade;
     }
 
-    public void setMaladie(Maladie maladie) {
-        this.maladie = maladie;
+    public void setStade(Stade stade) {
+        this.stade = stade;
     }
 
-    public Patient maladie(Maladie maladie) {
-        this.setMaladie(maladie);
+    public Patient stade(Stade stade) {
+        this.setStade(stade);
         return this;
     }
 
