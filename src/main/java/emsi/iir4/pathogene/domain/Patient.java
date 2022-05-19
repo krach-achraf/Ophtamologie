@@ -54,6 +54,7 @@ public class Patient implements Serializable {
 
     @Lob
     @Column(name = "photo")
+    @Basic(fetch = FetchType.LAZY)
     private byte[] photo;
 
     @Column(name = "photo_content_type")
@@ -247,6 +248,8 @@ public class Patient implements Serializable {
 
     public Patient user(User user) {
         this.setUser(user);
+        this.setNom(user.getLastName());
+        this.setPrenom(user.getFirstName());
         return this;
     }
 
