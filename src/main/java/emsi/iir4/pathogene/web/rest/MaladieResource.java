@@ -8,9 +8,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -56,7 +53,6 @@ public class MaladieResource {
         if (maladie.getId() != null) {
             throw new BadRequestAlertException("A new maladie cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        maladie.setCode("MAL-" + UUID.randomUUID().toString());
         Maladie result = maladieRepository.save(maladie);
         return ResponseEntity
             .created(new URI("/api/maladies/" + result.getId()))
@@ -132,8 +128,8 @@ public class MaladieResource {
                 if (maladie.getCode() != null) {
                     existingMaladie.setCode(maladie.getCode());
                 }
-                if (maladie.getDate() != null) {
-                    existingMaladie.setDate(maladie.getDate());
+                if (maladie.getNom() != null) {
+                    existingMaladie.setNom(maladie.getNom());
                 }
 
                 return existingMaladie;
@@ -149,18 +145,10 @@ public class MaladieResource {
     /**
      * {@code GET  /maladies} : get all the maladies.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of maladies in body.
      */
     @GetMapping("/maladies")
-    public List<Maladie> getAllMaladies(@RequestParam(required = false) String filter) {
-        if ("detection-is-null".equals(filter)) {
-            log.debug("REST request to get all Maladies where detection is null");
-            return StreamSupport
-                .stream(maladieRepository.findAll().spliterator(), false)
-                .filter(maladie -> maladie.getDetection() == null)
-                .collect(Collectors.toList());
-        }
+    public List<Maladie> getAllMaladies() {
         log.debug("REST request to get all Maladies");
         return maladieRepository.findAll();
     }
