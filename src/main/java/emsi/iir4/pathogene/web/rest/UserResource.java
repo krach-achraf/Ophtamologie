@@ -8,7 +8,6 @@ import emsi.iir4.pathogene.domain.Secretaire;
 import emsi.iir4.pathogene.domain.User;
 import emsi.iir4.pathogene.repository.MedecinRepository;
 import emsi.iir4.pathogene.repository.PatientRepository;
-import emsi.iir4.pathogene.repository.RendezVousRepository;
 import emsi.iir4.pathogene.repository.SecretaireRepository;
 import emsi.iir4.pathogene.repository.UserRepository;
 import emsi.iir4.pathogene.security.AuthoritiesConstants;
@@ -38,6 +37,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -111,13 +111,16 @@ public class UserResource {
 
     private final MailService mailService;
 
+    private final AccountResource accountResource;
+
     public UserResource(
         UserService userService,
         UserRepository userRepository,
         MailService mailService,
         MedecinRepository medecinRepository,
         PatientRepository patientRepository,
-        SecretaireRepository secretaireRepository
+        SecretaireRepository secretaireRepository,
+        AccountResource accountResource
     ) {
         this.userService = userService;
         this.userRepository = userRepository;
@@ -125,6 +128,7 @@ public class UserResource {
         this.medecinRepository = medecinRepository;
         this.patientRepository = patientRepository;
         this.secretaireRepository = secretaireRepository;
+        this.accountResource = accountResource;
     }
 
     @PostMapping("medecin/register")
@@ -265,8 +269,13 @@ public class UserResource {
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
         }
-
-        final Page<AdminUserDTO> page = userService.getAllManagedUsers(pageable);
+        final Page<AdminUserDTO> page;
+        //if current account is a SECRETAIRE, he can only see his patients
+        if (accountResource.getAccount().getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.SECRETAIRE))) {
+            page = userService.getAllSecPatients(pageable, accountResource.getAccount().getId());
+        } else {
+            page = userService.getAllManagedUsers(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -296,8 +305,21 @@ public class UserResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/users/{login}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAnyAuthority('" + AuthoritiesConstants.SECRETAIRE + "','" + AuthoritiesConstants.ADMIN + "')")
     public ResponseEntity<Void> deleteUser(@PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
+        if (accountResource.getAccount().getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.SECRETAIRE))) {
+            log.debug("REST request to delete User : {}", login);
+            //forbid deleting non PATIENT users
+            if (
+                !userService
+                    .getUserWithAuthoritiesByLogin(login)
+                    .get()
+                    .getAuthorities()
+                    .contains(new SimpleGrantedAuthority(AuthoritiesConstants.PATIENT))
+            ) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity

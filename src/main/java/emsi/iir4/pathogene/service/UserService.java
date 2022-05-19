@@ -15,6 +15,7 @@ import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.security.SecurityUtils;
 import emsi.iir4.pathogene.service.dto.AdminUserDTO;
 import emsi.iir4.pathogene.service.dto.UserDTO;
+import emsi.iir4.pathogene.web.rest.AccountResource;
 import emsi.iir4.pathogene.web.rest.vm.ManagedUserVM;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -379,6 +381,16 @@ public class UserService {
     @Transactional(readOnly = true)
     public Page<AdminUserDTO> getAllManagedUsers(Pageable pageable) {
         return userRepository.findAll(pageable).map(AdminUserDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<AdminUserDTO> getAllSecPatients(Pageable pageable, Long id) {
+        Set<Patient> patients = patientRepository.findBySecretaireId(id);
+        // collect users from all patients
+        Set<User> users = new HashSet<>();
+        patients.forEach(patient -> users.add(patient.getUser()));
+        // transform users to PAGE using pageable
+        return new PageImpl<AdminUserDTO>(users.stream().map(AdminUserDTO::new).collect(Collectors.toList()), pageable, users.size());
     }
 
     @Transactional(readOnly = true)
