@@ -30,6 +30,10 @@ public class Maladie implements Serializable {
 
     @OneToMany(mappedBy = "maladie", fetch = FetchType.EAGER)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Detection detection;
+
+    @OneToMany(mappedBy = "maladie", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Set<Stade> stades = new HashSet<>();
 
     @OneToMany(mappedBy = "maladie")
@@ -75,6 +79,25 @@ public class Maladie implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Detection getDetection() {
+        return this.detection;
+    }
+
+    public void setDetection(Detection detection) {
+        if (this.detection != null) {
+            this.detection.setMaladie(null);
+        }
+        if (detection != null) {
+            detection.setMaladie(this);
+        }
+        this.detection = detection;
+    }
+
+    public Maladie detection(Detection detection) {
+        this.setDetection(detection);
+        return this;
     }
 
     public Set<Stade> getStades() {

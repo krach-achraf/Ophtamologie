@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!--
+        Added the relationship constraints for entity Detection.
+    -->
+    <changeSet id="20220519175037-relationship-constraints" author="jhipster">
+        <addUniqueConstraint tableName="detection"
+            columnNames="maladie_id"
+            constraintName="ux_detection__maladie_id"/>
+    </changeSet>
+
+
+    <!--
+        Added the relationship constraints for entity Detection.
+    -->
+    <changeSet id="20220519175037-relationship-foreign-keys" author="jhipster">
+        <addForeignKeyConstraint baseColumnNames="maladie_id"
+                                 baseTableName="detection"
+                                 constraintName="fk_detection__maladie_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="maladie"/>
+    </changeSet>
+</databaseChangeLog>

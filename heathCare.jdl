@@ -1,9 +1,9 @@
 entity Medecin   {
-   code String unique,
+    code String unique,
 	nom String,
     numEmp String,
     prenom String,
-    expertLevel Integer,
+    expertLevel Integer
     photo ImageBlob,
     type String,
     nbrPatients Integer,
@@ -83,6 +83,7 @@ enum Genre {
 }
 
 relationship OneToOne {
+  Detection to Maladie
 	Visite to RendezVous
 	Medecin{user} to User
 	Secretaire{user} to User
@@ -103,6 +104,7 @@ relationship ManyToOne {
     Image to Stade
     Stade to Maladie
     Unclassified to Maladie
+    
 }
 
 
