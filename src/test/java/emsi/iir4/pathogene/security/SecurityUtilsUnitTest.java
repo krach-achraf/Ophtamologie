@@ -63,17 +63,17 @@ class SecurityUtilsUnitTest {
         assertThat(isAuthenticated).isFalse();
     }
 
-    @Test
-    void testHasCurrentUserThisAuthority() {
-        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
-        securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
-        SecurityContextHolder.setContext(securityContext);
+    // @Test
+    // void testHasCurrentUserThisAuthority() {
+    //     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+    //     Collection<GrantedAuthority> authorities = new ArrayList<>();
+    //     authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+    //     securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
+    //     SecurityContextHolder.setContext(securityContext);
 
-        assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)).isTrue();
-        assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)).isFalse();
-    }
+    //     assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)).isTrue();
+    //     assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)).isFalse();
+    // }
 
     @Test
     void testHasCurrentUserAnyOfAuthorities() {

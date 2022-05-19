@@ -139,7 +139,6 @@ public class UserResource {
         }
         Puser.setAuthorities(new HashSet<>());
         Puser.getAuthorities().add(AuthoritiesConstants.MEDECIN);
-        Puser.getAuthorities().add(AuthoritiesConstants.USER);
 
         User user = userService.createAdministeredUser(Puser);
         medecin.setUser(user);
@@ -158,7 +157,6 @@ public class UserResource {
         }
         Puser.setAuthorities(new HashSet<>());
         Puser.getAuthorities().add(AuthoritiesConstants.PATIENT);
-        Puser.getAuthorities().add(AuthoritiesConstants.USER);
         User user = userService.createAdministeredUser(Puser);
         patient.setUser(user);
         patient.setCode("PAT-" + UUID.randomUUID().toString());
@@ -176,7 +174,6 @@ public class UserResource {
         }
         Puser.setAuthorities(new HashSet<>());
         Puser.getAuthorities().add(AuthoritiesConstants.SECRETAIRE);
-        Puser.getAuthorities().add(AuthoritiesConstants.USER);
         User user = userService.createAdministeredUser(Puser);
         secretaire.setUser(user);
         secretaire.setCode("SEC-" + UUID.randomUUID().toString());
