@@ -8,11 +8,6 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isLoading">
           <font-awesome-icon icon="sync" :spin="isLoading"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link custom v-slot="{ navigate }" :to="{ name: 'JhiUserCreate' }" v-if="isAdmin()">
-          <button @click="navigate" class="btn btn-primary jh-create-entity mr-2">
-            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New User</span>
-          </button>
-        </router-link>
         <router-link custom v-slot="{ navigate }" :to="{ name: 'AddMedecins' }" v-if="isAdmin()">
           <button @click="navigate" class="btn btn-dark jh-create-entity mr-2">
             <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Medecin</span>
@@ -96,9 +91,6 @@
 
         <tbody v-if="users && isSecretaire()">
         <tr v-for="user in users" :key="user.id" :id="user.login" v-if="user.authorities.includes('PATIENT')">
-          <td>
-            <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }">{{ user.id }}</router-link>
-          </td>
           <td>{{ user.login }}</td>
           <td class="jhi-user-email">{{ user.email }}</td>
           <td>
@@ -116,23 +108,18 @@
           </td>
 
           <td>
-            <div v-for="authority of user.authorities" :key="authority">
-              <span class="badge badge-info">{{ authority }}</span>
-            </div>
+            PATIENT
           </td>
-          <td>{{ user.createdDate | formatDate }}</td>
-          <td>{{ user.lastModifiedBy }}</td>
-          <td>{{ user.lastModifiedDate | formatDate }}</td>
           <td class="text-right">
             <div class="btn-group">
               <router-link :to="{ name: 'JhiUserView', params: { userId: user.login } }" custom v-slot="{ navigate }">
-                <button @click="navigate" class="btn btn-info btn-sm details">
+                <button @click="navigate" class="btn btn-info btn-sm details mr-1">
                   <font-awesome-icon icon="eye"></font-awesome-icon>
                   <span class="d-none d-md-inline">View</span>
                 </button>
               </router-link>
               <router-link :to="{ name: 'JhiUserEdit', params: { userId: user.login } }" custom v-slot="{ navigate }">
-                <button @click="navigate" class="btn btn-primary btn-sm edit">
+                <button @click="navigate" class="btn btn-primary btn-sm edit mr-1">
                   <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                   <span class="d-none d-md-inline">Edit</span>
                 </button>

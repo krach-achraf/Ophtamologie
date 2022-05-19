@@ -6,6 +6,7 @@ import {IPatient, Patient} from '@/shared/model/patient.model';
 import {Genre} from '@/shared/model/enumerations/genre.model';
 import {IUser, User} from "@/shared/model/user.model";
 import UserManagementService from "@/admin/user-management/user-management.service";
+import PatientService from "@/entities/patient/patient.service";
 
 const validations: any = {
   patient: {
@@ -32,6 +33,7 @@ const validations: any = {
 export default class PatientUpdate extends mixins(JhiDataUtils) {
   @Inject('userManagementService') private userManagementService: () => UserManagementService;
   @Inject('alertService') private alertService: () => AlertService;
+  private patientService: PatientService = new PatientService();
 
   public patient: IPatient = new Patient();
   public genreValues: string[] = Object.keys(Genre);
@@ -40,10 +42,10 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
 
   public async save(){
     this.isSaving = true;
-    this.patient.secretaire = JSON.parse(sessionStorage.getItem('user-info'));
     this.user.firstName = this.patient.prenom;
     this.user.lastName = this.patient.nom;
     try {
+      this.patient.secretaire = JSON.parse(sessionStorage.getItem('user-info'));
       await this.userManagementService().createPatient({
         user: this.user,
         patient: this.patient
@@ -56,9 +58,12 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
         solid: true,
         autoHideDelay: 5000,
       });
+
+      //await this.patientService.update(this.patient);
     }catch (e) {
       console.log(e);
     }
+
   }
 
   public previousState(): void {

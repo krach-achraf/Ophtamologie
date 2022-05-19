@@ -172,7 +172,7 @@
                 v-for="secretaireOption in secretaires"
                 :key="secretaireOption.id"
               >
-                {{ secretaireOption.id }}
+                {{ secretaireOption.nom }} {{ secretaireOption.prenom }}
               </option>
             </select>
           </div>

@@ -90,8 +90,8 @@
               <dd>
                 <div v-if="medecin.secretaire">
                   <router-link :to="{ name: 'SecretaireView', params: { secretaireId: medecin.secretaire.id } }">{{
-                      medecin.secretaire.id
-                    }}
+                      medecin.secretaire.nom
+                    }} {{ medecin.secretaire.prenom }}
                   </router-link>
                 </div>
               </dd>

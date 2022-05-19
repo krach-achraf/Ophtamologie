@@ -64,7 +64,7 @@ export default class Secretaire extends mixins(JhiDataUtils) {
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',
-          variant: 'danger',
+          variant: 'success',
           solid: true,
           autoHideDelay: 5000,
         });

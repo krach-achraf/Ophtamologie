@@ -102,7 +102,7 @@ export default class JhiUserManagementComponent extends Vue {
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',
-          variant: 'danger',
+          variant: 'success',
           solid: true,
           autoHideDelay: 5000,
         });

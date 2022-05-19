@@ -7,17 +7,6 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link :to="{ name: 'SecretaireCreate' }" custom v-slot="{ navigate }">
-          <button
-            @click="navigate"
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-            class="btn btn-primary jh-create-entity create-secretaire"
-          >
-            <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> New Secretaire </span>
-          </button>
-        </router-link>
       </div>
     </h2>
     <br />
