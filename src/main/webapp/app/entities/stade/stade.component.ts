@@ -69,11 +69,11 @@ export default class Stade extends mixins(JhiDataUtils) {
     this.stadeService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Stade is deleted with identifier ' + this.removeId;
+        const message = 'A Stade is deleted';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',
-          variant: 'danger',
+          variant: 'success',
           solid: true,
           autoHideDelay: 5000,
         });
@@ -82,7 +82,14 @@ export default class Stade extends mixins(JhiDataUtils) {
         this.closeDialog();
       })
       .catch(error => {
-        this.alertService().showHttpError(this, error.response);
+        const message = "You can't delete this Stade" ;
+        this.$bvToast.toast(message.toString(), {
+          toaster: 'b-toaster-top-center',
+          title: 'Error',
+          variant: 'danger',
+          solid: true,
+          autoHideDelay: 5000,
+        });
       });
   }
 

@@ -4,7 +4,7 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="stade">
-        <h2 class="jh-entity-heading" data-cy="stadeDetailsHeading"><span>Stade</span> {{ stade.id }}</h2>
+        <h2 class="jh-entity-heading" data-cy="stadeDetailsHeading"><span>Stade</span></h2>
         <dl class="row jh-entity-details">
           <dt>
             <span>Code</span>
@@ -29,24 +29,10 @@
           </dt>
           <dd>
             <div v-if="stade.maladie">
-              <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.id }} </router-link>
+              <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.code }} </router-link>
             </div>
           </dd>
-          <dt>
-            <span>Photo</span>
-          </dt>
-          <dd>
-            <div v-if="stade.images">
-              <a v-on:click="openFile(stade.images[0].photoContentType, stade.images[0].photo)">
-                <img
-                  v-bind:src="'data:' + stade.images[0].photoContentType + ';base64,' + stade.images[0].photo"
-                  style="max-width: 100%"
-                  alt="stade.images[0] stade.images[0]"
-                />
-              </a>
-              {{ stade.images[0].photoContentType }}, {{ byteSize(stade.images[0].photo) }}
-            </div>
-          </dd>
+
         </dl>
 
         <div v-if="images && images.length > 0">
@@ -59,24 +45,21 @@
             <table class="table table-striped" aria-describedby="stades">
               <thead>
                 <tr>
-                  <th scope="row"><span>ID</span></th>
                   <th scope="row"><span>Code</span></th>
                   <th scope="row"><span>Photo</span></th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="image in images" :key="image.id" data-cy="entityTable">
-                  <td>{{ image.id }}</td>
                   <td>{{ image.code }}</td>
                   <td>
                     <a v-if="image.photo" v-on:click="openFile(image.photoContentType, image.photo)">
                       <img
                         v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo"
-                        style="max-height: 30px"
+                        style="max-height: 70px"
                         alt="image image"
                       />
                     </a>
-                    <span v-if="image.photo">{{ image.photoContentType }}, {{ byteSize(image.photo) }}</span>
                   </td>
                 </tr>
               </tbody>

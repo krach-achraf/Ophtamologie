@@ -15,7 +15,7 @@
             class="btn btn-primary jh-create-entity create-stade"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Create a new Stade </span>
+            <span> New Stade </span>
           </button>
         </router-link>
       </div>
@@ -28,8 +28,6 @@
       <table class="table table-striped" aria-describedby="stades">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
-            <th scope="row"><span>Code</span></th>
             <th scope="row"><span>Level</span></th>
             <th scope="row"><span>Description</span></th>
             <th scope="row"><span>Maladie</span></th>
@@ -38,10 +36,6 @@
         </thead>
         <tbody>
           <tr v-for="stade in stades" :key="stade.id" data-cy="entityTable">
-            <td>
-              <router-link :to="{ name: 'StadeView', params: { stadeId: stade.id } }">{{ stade.id }}</router-link>
-            </td>
-            <td>{{ stade.code }}</td>
             <td>{{ stade.level }}</td>
             <td>{{ stade.description }}</td>
             <td>
@@ -52,13 +46,13 @@
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'StadeView', params: { stadeId: stade.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                  <button @click="navigate" class="btn btn-info btn-sm details mr-1" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'StadeEdit', params: { stadeId: stade.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                  <button @click="navigate" class="btn btn-primary btn-sm edit mr-1" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline">Edit</span>
                   </button>
@@ -66,7 +60,7 @@
                 <b-button
                   v-on:click="prepareRemove(stade)"
                   variant="danger"
-                  class="btn btn-sm"
+                  class="btn btn-sm mr-1"
                   data-cy="entityDeleteButton"
                   v-b-modal.removeEntity
                 >
@@ -113,7 +107,7 @@
     <b-modal ref="createEntity" id="affecteEntity">
       <span slot="modal-title"
       ><span id="pathogeneApp.maladie.affecte.question"
-             data-cy="maladieAffecteDialogHeading">Créer l'image</span></span
+             data-cy="maladieAffecteDialogHeading">Create an image</span></span
       >
       <div class="modal-body">
           <div>

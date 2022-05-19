@@ -10,19 +10,7 @@
             <label for="id">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="stade.id" readonly />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="stade-code">Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="code"
-              id="stade-code"
-              data-cy="code"
-              :class="{ valid: !$v.stade.code.$invalid, invalid: $v.stade.code.$invalid }"
-              v-model="$v.stade.code.$model"
-            />
-            <div v-if="$v.stade.code.$anyDirty && $v.stade.code.$invalid"></div>
-          </div>
+
           <div class="form-group">
             <label class="form-control-label" for="stade-level">Level</label>
             <input
@@ -56,7 +44,7 @@
                 v-for="maladieOption in maladies"
                 :key="maladieOption.id"
               >
-                {{ maladieOption.id }}
+                {{ maladieOption.code }}
               </option>
             </select>
           </div>
