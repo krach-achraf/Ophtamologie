@@ -175,10 +175,9 @@ public class UserResource {
             throw new BadRequestAlertException("A new Secretaire cannot already have an ID", "Secretaire", "idexists");
         }
         Puser.setAuthorities(new HashSet<>());
-
-        User user = userService.createAdministeredUser(Puser);
         Puser.getAuthorities().add(AuthoritiesConstants.SECRETAIRE);
         Puser.getAuthorities().add(AuthoritiesConstants.USER);
+        User user = userService.createAdministeredUser(Puser);
         secretaire.setUser(user);
         secretaire.setCode("SEC-" + UUID.randomUUID().toString());
         return secretaireRepository.save(secretaire);
