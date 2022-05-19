@@ -35,7 +35,7 @@ entity Detection {
     stade String,
     date ZonedDateTime,
     description String
-    
+
 }
 
 entity  RendezVous{
@@ -49,8 +49,7 @@ entity Visite {
     date LocalDate
 }
 
-entity Compte {
-}
+
 entity Maladie {
 	code String unique,
 	date LocalDate
@@ -81,11 +80,7 @@ enum Genre {
 }
 
 relationship OneToOne {
-	Compte{user} to User
 	Visite{rendezVous} to RendezVous
-	Medecin{compte} to Compte
-	Secretaire{compte} to Compte
-	Patient{compte} to Compte
     Visite to Detection
     Detection to Maladie
 }
@@ -102,7 +97,7 @@ relationship ManyToOne {
      Classification to Unclassified
      Image to Stade
      Stade to Maladie
-     Unclassified to Maladie  
+     Unclassified to Maladie
 }
 
 

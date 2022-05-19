@@ -38,14 +38,13 @@ application {
     withAdminUi true
   }
 
-  entities Classification, Compte, Detection, Image, Maladie, Medecin, Patient, RendezVous, Secretaire, Stade, Unclassified, Visite
+  entities Classification, Detection, Image, Maladie, Medecin, Patient, RendezVous, Secretaire, Stade, Unclassified, Visite
 }
 
 entity Classification {
   code String unique
   score Boolean
 }
-entity Compte
 entity Detection {
   photo ImageBlob
   code String unique
@@ -118,7 +117,6 @@ enum Genre {
 }
 
 relationship OneToOne {
-  Compte{user} to User
   Detection{maladie} to Maladie{detection}
   Medecin{user} to User
   Patient{user} to User

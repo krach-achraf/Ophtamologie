@@ -30,8 +30,7 @@
       "Classification",
       "Image",
       "Unclassified",
-      "Stade",
-      "Compte"
+      "Stade"
     ],
     "entitySuffix": "",
     "incrementalChangelog": true,

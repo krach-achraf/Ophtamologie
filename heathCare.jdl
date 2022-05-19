@@ -75,7 +75,7 @@ entity Unclassified {
 entity Stade {
 	code String unique,
 	level String,
-    description String
+   	description String
 }
 
 enum Genre {
@@ -91,20 +91,19 @@ relationship OneToOne {
 }
 
 relationship ManyToOne {
-		Detection to Patient
-     	Patient to Secretaire
-     	Patient to Stade
-		Medecin to Secretaire
-    	RendezVous to Patient
-		RendezVous to Medecin
-    	Classification to Medecin
-     	Classification to Stade
-    	Classification to Unclassified
-     	Image to Stade
-     	Stade to Maladie
-     	Unclassified to Maladie
+    Detection to Patient
+    Patient to Secretaire
+    Patient to Stade
+    Medecin to Secretaire
+    RendezVous to Patient
+    RendezVous to Medecin
+    Classification to Medecin
+    Classification to Stade
+    Classification to Unclassified
+    Image to Stade
+    Stade to Maladie
+    Unclassified to Maladie
 }
-
 
 
 
