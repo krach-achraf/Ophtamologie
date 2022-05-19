@@ -4,14 +4,8 @@
   <div class="row justify-content-center">
     <div class="col-8">
       <div v-if="image">
-        <h2 class="jh-entity-heading" data-cy="imageDetailsHeading"><span>Image</span> {{ image.id }}</h2>
+        <h2 class="jh-entity-heading" data-cy="imageDetailsHeading"><span>Image</span></h2>
         <dl class="row jh-entity-details">
-          <dt>
-            <span>Code</span>
-          </dt>
-          <dd>
-            <span>{{ image.code }}</span>
-          </dd>
           <dt>
             <span>Photo</span>
           </dt>
@@ -20,15 +14,21 @@
               <a v-on:click="openFile(image.photoContentType, image.photo)">
                 <img v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo" style="max-width: 100%" alt="image image" />
               </a>
-              {{ image.photoContentType }}, {{ byteSize(image.photo) }}
             </div>
           </dd>
+          <dt>
+            <span>Code</span>
+          </dt>
+          <dd>
+            <span>{{ image.code }}</span>
+          </dd>
+
           <dt>
             <span>Stade</span>
           </dt>
           <dd>
             <div v-if="image.stade">
-              <router-link :to="{ name: 'StadeView', params: { stadeId: image.stade.id } }">{{ image.stade.id }}</router-link>
+              <router-link :to="{ name: 'StadeView', params: { stadeId: image.stade.id } }">{{ image.stade.code }} - {{ image.stade.level }}</router-link>
             </div>
           </dd>
         </dl>

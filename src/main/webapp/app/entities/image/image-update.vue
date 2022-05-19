@@ -10,19 +10,7 @@
             <label for="id">ID</label>
             <input type="text" class="form-control" id="id" name="id" v-model="image.id" readonly />
           </div>
-          <div class="form-group">
-            <label class="form-control-label" for="image-code">Code</label>
-            <input
-              type="text"
-              class="form-control"
-              name="code"
-              id="image-code"
-              data-cy="code"
-              :class="{ valid: !$v.image.code.$invalid, invalid: $v.image.code.$invalid }"
-              v-model="$v.image.code.$model"
-            />
-            <div v-if="$v.image.code.$anyDirty && $v.image.code.$invalid"></div>
-          </div>
+
           <div class="form-group">
             <label class="form-control-label" for="image-photo">Photo</label>
             <div>
@@ -77,7 +65,7 @@
                 v-for="stadeOption in stades"
                 :key="stadeOption.id"
               >
-                {{ stadeOption.id }}
+                {{ stadeOption.code }} - {{ stadeOption.level }}
               </option>
             </select>
           </div>

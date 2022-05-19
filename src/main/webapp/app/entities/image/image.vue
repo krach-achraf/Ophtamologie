@@ -15,7 +15,7 @@
             class="btn btn-primary jh-create-entity create-image"
           >
             <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> Create a new Image </span>
+            <span> New Image </span>
           </button>
         </router-link>
       </div>
@@ -28,7 +28,6 @@
       <table class="table table-striped" aria-describedby="images">
         <thead>
           <tr>
-            <th scope="row"><span>ID</span></th>
             <th scope="row"><span>Code</span></th>
             <th scope="row"><span>Photo</span></th>
             <th scope="row"><span>Stade</span></th>
@@ -37,15 +36,11 @@
         </thead>
         <tbody>
           <tr v-for="image in images" :key="image.id" data-cy="entityTable">
-            <td>
-              <router-link :to="{ name: 'ImageView', params: { imageId: image.id } }">{{ image.id }}</router-link>
-            </td>
             <td>{{ image.code }}</td>
             <td>
               <a v-if="image.photo" v-on:click="openFile(image.photoContentType, image.photo)">
-                <img v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo" style="max-height: 30px" alt="image image" />
+                <img v-bind:src="'data:' + image.photoContentType + ';base64,' + image.photo" style="max-height: 70px" alt="image image" />
               </a>
-              <span v-if="image.photo">{{ image.photoContentType }}, {{ byteSize(image.photo) }}</span>
             </td>
             <td>
               <div v-if="image.stade">
@@ -55,13 +50,13 @@
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'ImageView', params: { imageId: image.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                  <button @click="navigate" class="btn btn-info btn-sm details mr-1" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline">View</span>
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'ImageEdit', params: { imageId: image.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                  <button @click="navigate" class="btn btn-primary btn-sm edit mr-1" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline">Edit</span>
                   </button>

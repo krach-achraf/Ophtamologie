@@ -13,7 +13,6 @@ import ImageService from './image.service';
 
 const validations: any = {
   image: {
-    code: {},
     photo: {},
   },
 };
@@ -60,7 +59,7 @@ export default class ImageUpdate extends mixins(JhiDataUtils) {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Image is updated with identifier ' + param.id;
+          const message = 'A Image is updated';
           return this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Info',
@@ -79,7 +78,7 @@ export default class ImageUpdate extends mixins(JhiDataUtils) {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Image is created with identifier ' + param.id;
+          const message = 'A Image is created';
           this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Success',
