@@ -70,9 +70,9 @@
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityName": "maladie",
+      "otherEntityName": "stade",
       "otherEntityRelationshipName": "patient",
-      "relationshipName": "maladie",
+      "relationshipName": "stade",
       "relationshipType": "many-to-one"
     },
     {
@@ -88,5 +88,6 @@
       "relationshipType": "one-to-many"
     }
   ],
-  "service": "no"
+  "service": "no",
+  "skipClient": true
 }

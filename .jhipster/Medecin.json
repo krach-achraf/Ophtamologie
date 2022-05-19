@@ -45,7 +45,8 @@
     },
     {
       "fieldName": "description",
-      "fieldType": "String"
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
     }
   ],
   "fluentMethods": true,
@@ -81,5 +82,6 @@
       "relationshipType": "one-to-many"
     }
   ],
-  "service": "no"
+  "service": "no",
+  "skipClient": true
 }

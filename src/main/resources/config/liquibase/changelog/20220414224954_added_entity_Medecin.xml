@@ -26,9 +26,6 @@
             <column name="prenom" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="admin" type="boolean">
-                <constraints nullable="true" />
-            </column>
             <column name="expert_level" type="integer">
                 <constraints nullable="true" />
             </column>
@@ -36,6 +33,18 @@
                 <constraints nullable="true" />
             </column>
             <column name="photo_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="nbr_patients" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="rating" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="description" type="${clobType}">
                 <constraints nullable="true" />
             </column>
             <column name="user_id" type="bigint">
@@ -69,10 +78,13 @@
             <column name="nom" type="string"/>
             <column name="num_emp" type="string"/>
             <column name="prenom" type="string"/>
-            <column name="admin" type="boolean"/>
             <column name="expert_level" type="numeric"/>
             <column name="photo" type="blob"/>
             <column name="photo_content_type" type="string"/>
+            <column name="type" type="string"/>
+            <column name="nbr_patients" type="numeric"/>
+            <column name="rating" type="numeric"/>
+            <column name="description" type="clob"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

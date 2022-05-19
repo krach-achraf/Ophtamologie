@@ -40,13 +40,6 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "maladie",
-      "otherEntityRelationshipName": "detection",
-      "ownerSide": true,
-      "relationshipName": "maladie",
-      "relationshipType": "one-to-one"
-    },
-    {
       "otherEntityName": "patient",
       "otherEntityRelationshipName": "detection",
       "relationshipName": "patient",
@@ -60,5 +53,6 @@
       "relationshipType": "one-to-one"
     }
   ],
-  "service": "no"
+  "service": "no",
+  "skipClient": true
 }

@@ -20,10 +20,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="secretaire"/>
 
-        <addForeignKeyConstraint baseColumnNames="maladie_id"
+        <addForeignKeyConstraint baseColumnNames="stade_id"
                                  baseTableName="patient"
-                                 constraintName="fk_patient__maladie_id"
+                                 constraintName="fk_patient__stade_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="maladie"/>
+                                 referencedTableName="stade"/>
     </changeSet>
 </databaseChangeLog>

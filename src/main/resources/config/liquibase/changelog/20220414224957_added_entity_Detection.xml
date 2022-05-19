@@ -35,9 +35,6 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="maladie_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_detection__maladie_id" />
-            </column>
             <column name="patient_id" type="bigint">
                 <constraints nullable="true" />
             </column>

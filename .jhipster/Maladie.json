@@ -11,8 +11,9 @@
       "fieldValidateRules": ["unique"]
     },
     {
-      "fieldName": "date",
-      "fieldType": "LocalDate"
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique"]
     }
   ],
   "fluentMethods": true,
@@ -22,19 +23,6 @@
   "pagination": "no",
   "readOnly": false,
   "relationships": [
-    {
-      "otherEntityName": "detection",
-      "otherEntityRelationshipName": "maladie",
-      "ownerSide": false,
-      "relationshipName": "detection",
-      "relationshipType": "one-to-one"
-    },
-    {
-      "otherEntityName": "patient",
-      "otherEntityRelationshipName": "maladie",
-      "relationshipName": "patient",
-      "relationshipType": "one-to-many"
-    },
     {
       "otherEntityName": "stade",
       "otherEntityRelationshipName": "maladie",
@@ -48,5 +36,6 @@
       "relationshipType": "one-to-many"
     }
   ],
-  "service": "no"
+  "service": "no",
+  "skipClient": true
 }

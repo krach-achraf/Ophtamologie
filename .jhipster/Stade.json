@@ -33,6 +33,12 @@
       "relationshipType": "many-to-one"
     },
     {
+      "otherEntityName": "patient",
+      "otherEntityRelationshipName": "stade",
+      "relationshipName": "patient",
+      "relationshipType": "one-to-many"
+    },
+    {
       "otherEntityName": "classification",
       "otherEntityRelationshipName": "stade",
       "relationshipName": "classification",
@@ -45,5 +51,6 @@
       "relationshipType": "one-to-many"
     }
   ],
-  "service": "no"
+  "service": "no",
+  "skipClient": true
 }
