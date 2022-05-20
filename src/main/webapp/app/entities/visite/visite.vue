@@ -19,7 +19,7 @@
           <tr>
             <th scope="row"><span>Date</span></th>
             <th scope="row"><span>Rendez Vous</span></th>
-            <th scope="row"><span>Detection</span></th>
+            <th scope="row" v-if="!isSecretaire"><span>Detection</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -33,8 +33,8 @@
                   }}</router-link>
               </div>
             </td>
-            <td>
-              <div v-if="visite.detection">
+            <td v-if="!isSecretaire">
+              <div v-if="visite.detection" >
                 <router-link :to="{ name: 'DetectionView', params: { detectionId: visite.detection.id } }">{{
                     visite.detection.code
                   }}</router-link>

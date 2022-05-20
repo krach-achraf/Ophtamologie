@@ -42,7 +42,7 @@ export default class SecretaireUpdate extends mixins(JhiDataUtils) {
         user: this.user,
         secretaire: this.secretaire,
       })
-      this.$router.push('/admin/user-management');
+      this.$router.push('/secretaire');
       this.$root.$bvToast.toast('A Secretaire is created', {
         toaster: 'b-toaster-top-center',
         title: 'Success',

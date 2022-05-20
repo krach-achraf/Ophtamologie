@@ -59,11 +59,11 @@ export default class Visite extends Vue {
     this.visiteService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Visite is deleted with identifier ' + this.removeId;
+        const message = 'A Visite is deleted';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
-          title: 'Info',
-          variant: 'danger',
+          title: 'Success',
+          variant: 'success',
           solid: true,
           autoHideDelay: 5000,
         });

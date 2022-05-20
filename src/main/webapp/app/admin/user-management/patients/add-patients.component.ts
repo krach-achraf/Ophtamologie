@@ -45,12 +45,12 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
     this.user.firstName = this.patient.prenom;
     this.user.lastName = this.patient.nom;
     try {
-      this.patient.secretaire = JSON.parse(sessionStorage.getItem('user-info'));
+      let user = JSON.parse(sessionStorage.getItem('user-info'));
+      this.patient.secretaire = user.secretaire;
       await this.userManagementService().createPatient({
         user: this.user,
         patient: this.patient
       })
-      //await this.patientService.update(this.patient);
       this.$router.push('/admin/user-management');
       this.$root.$bvToast.toast('A Patient is created', {
         toaster: 'b-toaster-top-center',

@@ -26,10 +26,10 @@
                   {{visite.rendezVous.code}}
                 </div>
               </dd>
-              <dt>
+              <dt v-if="!isSecretaire">
                 <span>Detection</span>
               </dt>
-              <dd>
+              <dd v-if="!isSecretaire">
                 <div v-if="visite.detection">
                  {{visite.detection.code}}
                 </div>
