@@ -8,21 +8,6 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isLoading">
           <font-awesome-icon icon="sync" :spin="isLoading"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link custom v-slot="{ navigate }" :to="{ name: 'AddMedecins' }" v-if="isAdmin()">
-          <button @click="navigate" class="btn btn-dark jh-create-entity mr-2">
-            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Medecin</span>
-          </button>
-        </router-link>
-        <router-link custom v-slot="{ navigate }" :to="{ name: 'AddSecretaires' }" v-if="isAdmin()">
-          <button @click="navigate" class="btn btn-dark jh-create-entity mr-2">
-            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Secretaire</span>
-          </button>
-        </router-link>
-        <router-link custom v-slot="{ navigate }" :to="{ name: 'AddPatients' }" v-if="isSecretaire()">
-          <button @click="navigate" class="btn btn-dark jh-create-entity">
-            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Patient</span>
-          </button>
-        </router-link>
       </div>
     </h2>
     <div class="table-responsive" v-if="users">

@@ -8,6 +8,11 @@
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
         </button>
 
+        <router-link custom v-slot="{ navigate }" :to="{ name: 'AddMedecins' }">
+          <button @click="navigate" class="btn btn-dark jh-create-entity mr-2">
+            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Medecin</span>
+          </button>
+        </router-link>
       </div>
     </h2>
     <br />

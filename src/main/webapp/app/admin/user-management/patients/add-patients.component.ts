@@ -50,6 +50,7 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
         user: this.user,
         patient: this.patient
       })
+      //await this.patientService.update(this.patient);
       this.$router.push('/admin/user-management');
       this.$root.$bvToast.toast('A Patient is created', {
         toaster: 'b-toaster-top-center',
@@ -58,8 +59,6 @@ export default class PatientUpdate extends mixins(JhiDataUtils) {
         solid: true,
         autoHideDelay: 5000,
       });
-
-      //await this.patientService.update(this.patient);
     }catch (e) {
       console.log(e);
     }

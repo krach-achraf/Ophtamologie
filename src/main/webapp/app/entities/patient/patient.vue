@@ -7,15 +7,10 @@
         <button class="btn btn-info mr-2" v-on:click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon> <span>Refresh List</span>
         </button>
-        <router-link :to="{ name: 'PatientCreate' }" custom v-slot="{ navigate }">
-          <button
-            @click="navigate"
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-            class="btn btn-primary jh-create-entity create-patient"
-          >
-            <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> New Patient </span>
+
+        <router-link custom v-slot="{ navigate }" :to="{ name: 'AddPatients' }">
+          <button @click="navigate" class="btn btn-dark jh-create-entity">
+            <font-awesome-icon icon="plus"></font-awesome-icon> <span>New Patient</span>
           </button>
         </router-link>
       </div>
