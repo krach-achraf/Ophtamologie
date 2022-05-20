@@ -32,8 +32,12 @@ public class Stade implements Serializable {
     private String description;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "detection", "stades", "unclassifieds" }, allowSetters = true)
     private Maladie maladie;
+
+    @OneToMany(mappedBy = "stade", fetch = FetchType.EAGER)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Set<Patient> patients = new HashSet<>();
 
     @OneToMany(mappedBy = "stade")
     @JsonIgnoreProperties(value = { "medecin", "stade", "unclassified" }, allowSetters = true)
@@ -110,6 +114,37 @@ public class Stade implements Serializable {
         return this;
     }
 
+    public Set<Patient> getPatients() {
+        return this.patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        if (this.patients != null) {
+            this.patients.forEach(i -> i.setStade(null));
+        }
+        if (patients != null) {
+            patients.forEach(i -> i.setStade(this));
+        }
+        this.patients = patients;
+    }
+
+    public Stade patients(Set<Patient> patients) {
+        this.setPatients(patients);
+        return this;
+    }
+
+    public Stade addPatient(Patient patient) {
+        this.patients.add(patient);
+        patient.setStade(this);
+        return this;
+    }
+
+    public Stade removePatient(Patient patient) {
+        this.patients.remove(patient);
+        patient.setStade(null);
+        return this;
+    }
+
     public Set<Classification> getClassifications() {
         return this.classifications;
     }
@@ -172,8 +207,7 @@ public class Stade implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
-    // setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -188,8 +222,7 @@ public class Stade implements Serializable {
 
     @Override
     public int hashCode() {
-        // see
-        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
@@ -197,10 +230,10 @@ public class Stade implements Serializable {
     @Override
     public String toString() {
         return "Stade{" +
-                "id=" + getId() +
-                ", code='" + getCode() + "'" +
-                ", level='" + getLevel() + "'" +
-                ", description='" + getDescription() + "'" +
-                "}";
+            "id=" + getId() +
+            ", code='" + getCode() + "'" +
+            ", level='" + getLevel() + "'" +
+            ", description='" + getDescription() + "'" +
+            "}";
     }
 }

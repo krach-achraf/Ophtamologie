@@ -30,7 +30,7 @@ public class RendezVous implements Serializable {
     private String status;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "stade", "detections", "rendezVous" }, allowSetters = true)
     private Patient patient;
 
     @ManyToOne

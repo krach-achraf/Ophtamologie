@@ -42,13 +42,13 @@ public class Detection implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @JsonIgnoreProperties(value = { "detection", "patients", "stades", "unclassifieds" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "detection", "stades", "unclassifieds" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Maladie maladie;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user", "secretaire", "maladie", "detections", "rendezVous" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "secretaire", "stade", "detections", "rendezVous" }, allowSetters = true)
     private Patient patient;
 
     @JsonIgnoreProperties(value = { "rendezVous", "detection" }, allowSetters = true)

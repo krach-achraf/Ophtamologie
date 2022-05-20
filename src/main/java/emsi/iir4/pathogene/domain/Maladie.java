@@ -28,8 +28,8 @@ public class Maladie implements Serializable {
     @Column(name = "nom", unique = true)
     private String nom;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @JsonIgnoreProperties(value = { "maladie", "patient", "visite" }, allowSetters = true)
+    @OneToOne(mappedBy = "maladie")
     private Detection detection;
 
     @OneToMany(mappedBy = "maladie", fetch = FetchType.EAGER)
