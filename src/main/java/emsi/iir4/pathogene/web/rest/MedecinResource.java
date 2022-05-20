@@ -199,7 +199,7 @@ public class MedecinResource {
                 medecinRepository
                     .findAll()
                     .stream()
-                    .filter(m -> m.getSecretaire().getId().equals(accountResource.getAccount().getId()))
+                    .filter(m -> m.getSecretaire().getId().equals(accountResource.getAccount().getSecretaire().getId()))
                     .collect(Collectors.toList());
         } else {
             medecins = medecinRepository.findAll();

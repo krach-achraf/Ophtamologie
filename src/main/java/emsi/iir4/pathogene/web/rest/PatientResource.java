@@ -200,7 +200,7 @@ public class PatientResource {
                 patientRepository
                     .findAll()
                     .stream()
-                    .filter(patient -> patient.getSecretaire().getId().equals(accountResource.getAccount().getId()))
+                    .filter(patient -> patient.getSecretaire().getId().equals(accountResource.getAccount().getSecretaire().getId()))
                     .collect(Collectors.toList());
         } else {
             patients = patientRepository.findAll();
