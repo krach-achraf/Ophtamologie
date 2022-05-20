@@ -2,6 +2,7 @@ package emsi.iir4.pathogene.web.rest;
 
 import emsi.iir4.pathogene.domain.Medecin;
 import emsi.iir4.pathogene.repository.MedecinRepository;
+import emsi.iir4.pathogene.security.AuthoritiesConstants;
 import emsi.iir4.pathogene.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,12 +10,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
@@ -32,20 +35,25 @@ public class MedecinResource {
 
     private static final String ENTITY_NAME = "medecin";
 
+    private AccountResource accountResource;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final MedecinRepository medecinRepository;
 
-    public MedecinResource(MedecinRepository medecinRepository) {
+    public MedecinResource(MedecinRepository medecinRepository, AccountResource accountResource) {
         this.medecinRepository = medecinRepository;
+        this.accountResource = accountResource;
     }
 
     /**
      * {@code POST  /medecins} : Create a new medecin.
      *
      * @param medecin the medecin to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new medecin, or with status {@code 400 (Bad Request)} if the medecin has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new medecin, or with status {@code 400 (Bad Request)} if the
+     *         medecin has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/medecins")
@@ -65,11 +73,13 @@ public class MedecinResource {
     /**
      * {@code PUT  /medecins/:id} : Updates an existing medecin.
      *
-     * @param id the id of the medecin to save.
+     * @param id      the id of the medecin to save.
      * @param medecin the medecin to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated medecin,
-     * or with status {@code 400 (Bad Request)} if the medecin is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the medecin couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated medecin,
+     *         or with status {@code 400 (Bad Request)} if the medecin is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the medecin
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/medecins/{id}")
@@ -97,14 +107,17 @@ public class MedecinResource {
     }
 
     /**
-     * {@code PATCH  /medecins/:id} : Partial updates given fields of an existing medecin, field will ignore if it is null
+     * {@code PATCH  /medecins/:id} : Partial updates given fields of an existing
+     * medecin, field will ignore if it is null
      *
-     * @param id the id of the medecin to save.
+     * @param id      the id of the medecin to save.
      * @param medecin the medecin to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated medecin,
-     * or with status {@code 400 (Bad Request)} if the medecin is not valid,
-     * or with status {@code 404 (Not Found)} if the medecin is not found,
-     * or with status {@code 500 (Internal Server Error)} if the medecin couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated medecin,
+     *         or with status {@code 400 (Bad Request)} if the medecin is not valid,
+     *         or with status {@code 404 (Not Found)} if the medecin is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the medecin
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/medecins/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -174,19 +187,32 @@ public class MedecinResource {
     /**
      * {@code GET  /medecins} : get all the medecins.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of medecins in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of medecins in body.
      */
     @GetMapping("/medecins")
     public List<Medecin> getAllMedecins() {
         log.debug("REST request to get all Medecins");
-        return medecinRepository.findAll();
+        List<Medecin> medecins;
+        if (accountResource.getAccount().getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.SECRETAIRE))) {
+            medecins =
+                medecinRepository
+                    .findAll()
+                    .stream()
+                    .filter(m -> m.getSecretaire().getId().equals(accountResource.getAccount().getId()))
+                    .collect(Collectors.toList());
+        } else {
+            medecins = medecinRepository.findAll();
+        }
+        return medecins;
     }
 
     /**
      * {@code GET  /medecins/:id} : get the "id" medecin.
      *
      * @param id the id of the medecin to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the medecin, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the medecin, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/medecins/{id}")
     public ResponseEntity<Medecin> getMedecin(@PathVariable Long id) {
