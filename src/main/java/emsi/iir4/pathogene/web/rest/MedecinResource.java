@@ -194,7 +194,7 @@ public class MedecinResource {
     public List<Medecin> getAllMedecins() {
         log.debug("REST request to get all Medecins");
         List<Medecin> medecins;
-        if (accountResource.getAccount().getAuthorities().contains(new SimpleGrantedAuthority(AuthoritiesConstants.SECRETAIRE))) {
+        if (accountResource.getAccount().getAuthorities().contains(AuthoritiesConstants.SECRETAIRE)) {
             medecins =
                 medecinRepository
                     .findAll()
