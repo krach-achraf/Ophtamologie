@@ -22,7 +22,7 @@
         <b-nav-item v-on:click="openLogin()" v-if="!authenticated">Sign in</b-nav-item>
         <b-nav-item to="/register" v-if="!authenticated">Register</b-nav-item>
 
-        <b-nav-item-dropdown
+<!--        <b-nav-item-dropdown
           right
           id="admin-menu"
           v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated"
@@ -59,7 +59,7 @@
             <font-awesome-icon icon="book" />
             <span>API</span>
           </b-dropdown-item>
-        </b-nav-item-dropdown>
+        </b-nav-item-dropdown>-->
 
         <b-nav-item href="javascript:void(0);" :class="{ 'router-link-active': subIsActive('/account') }" v-on:click="logout()" v-if="authenticated">Sign out</b-nav-item>
       </b-navbar-nav>
