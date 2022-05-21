@@ -22,7 +22,6 @@
     <include file="config/liquibase/changelog/20220414224957_added_entity_Detection.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414224958_added_entity_RendezVous.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414224959_added_entity_Visite.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20220414225000_added_entity_Compte.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225001_added_entity_Maladie.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225002_added_entity_Classification.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225003_added_entity_Image.xml" relativeToChangelogFile="false"/>
@@ -36,7 +35,6 @@
     <include file="config/liquibase/changelog/20220414224957_added_entity_constraints_Detection.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414224958_added_entity_constraints_RendezVous.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414224959_added_entity_constraints_Visite.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20220414225000_added_entity_constraints_Compte.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225002_added_entity_constraints_Classification.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225003_added_entity_constraints_Image.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220414225004_added_entity_constraints_Unclassified.xml" relativeToChangelogFile="false"/>
