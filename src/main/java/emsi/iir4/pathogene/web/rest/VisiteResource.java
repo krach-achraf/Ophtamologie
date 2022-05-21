@@ -45,7 +45,9 @@ public class VisiteResource {
      * {@code POST  /visites} : Create a new visite.
      *
      * @param visite the visite to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new visite, or with status {@code 400 (Bad Request)} if the visite has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new visite, or with status {@code 400 (Bad Request)} if the
+     *         visite has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/visites")
@@ -66,11 +68,13 @@ public class VisiteResource {
     /**
      * {@code PUT  /visites/:id} : Updates an existing visite.
      *
-     * @param id the id of the visite to save.
+     * @param id     the id of the visite to save.
      * @param visite the visite to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated visite,
-     * or with status {@code 400 (Bad Request)} if the visite is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the visite couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated visite,
+     *         or with status {@code 400 (Bad Request)} if the visite is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the visite
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/visites/{id}")
@@ -98,14 +102,17 @@ public class VisiteResource {
     }
 
     /**
-     * {@code PATCH  /visites/:id} : Partial updates given fields of an existing visite, field will ignore if it is null
+     * {@code PATCH  /visites/:id} : Partial updates given fields of an existing
+     * visite, field will ignore if it is null
      *
-     * @param id the id of the visite to save.
+     * @param id     the id of the visite to save.
      * @param visite the visite to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated visite,
-     * or with status {@code 400 (Bad Request)} if the visite is not valid,
-     * or with status {@code 404 (Not Found)} if the visite is not found,
-     * or with status {@code 500 (Internal Server Error)} if the visite couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated visite,
+     *         or with status {@code 400 (Bad Request)} if the visite is not valid,
+     *         or with status {@code 404 (Not Found)} if the visite is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the visite
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/visites/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -148,7 +155,8 @@ public class VisiteResource {
     /**
      * {@code GET  /visites} : get all the visites.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of visites in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of visites in body.
      */
     @GetMapping("/visites")
     public List<Visite> getAllVisites() {
@@ -160,7 +168,8 @@ public class VisiteResource {
      * {@code GET  /visites/:id} : get the "id" visite.
      *
      * @param id the id of the visite to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the visite, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the visite, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/visites/{id}")
     public ResponseEntity<Visite> getVisite(@PathVariable Long id) {
@@ -183,5 +192,12 @@ public class VisiteResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/visites/{id}/patient")
+    public List<Visite> getPatient(@PathVariable Long id) {
+        log.debug("REST request to get Visite : {}", id);
+        List<Visite> visite = visiteRepository.findByRendezVousPatientId(id);
+        return visite;
     }
 }
