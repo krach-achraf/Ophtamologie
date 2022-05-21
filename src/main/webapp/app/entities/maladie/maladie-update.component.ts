@@ -19,7 +19,7 @@ import MaladieService from './maladie.service';
 
 const validations: any = {
   maladie: {
-    date: {},
+    nom: {},
   },
 };
 

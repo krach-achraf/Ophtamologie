@@ -44,7 +44,7 @@
                 v-for="maladieOption in maladies"
                 :key="maladieOption.id"
               >
-                {{ maladieOption.code }}
+                {{ maladieOption.nom }}
               </option>
             </select>
           </div>

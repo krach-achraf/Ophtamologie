@@ -58,7 +58,7 @@
           </dt>
           <dd>
             <div v-if="detection.maladie">
-              {{detection.maladie.code}}
+              {{detection.maladie.nom}}
             </div>
           </dd>
           <dt v-if="isMedecin()">

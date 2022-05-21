@@ -37,7 +37,10 @@ export default class Maladie extends Vue {
   public isFetching = false;
 
   public mounted(): void {
-    this.retrieveAllMaladies();
+    if(this.isMedecin())
+      this.retrieveAllMaladies();
+    else
+      this.retrieveAllMaladiesForPatient();
   }
 
   public clear(): void {
@@ -60,7 +63,12 @@ export default class Maladie extends Vue {
       );
   }
 
-
+  public retrieveAllMaladiesForPatient(): void {
+    this.isFetching = true;
+    let user = JSON.parse(sessionStorage.getItem('user-info'));
+    this.maladies.push(user.patient.stade.maladie);
+    this.isFetching = false;
+  }
   public handleSyncList(): void {
     this.clear();
   }

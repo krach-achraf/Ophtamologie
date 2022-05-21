@@ -13,10 +13,10 @@
                 <span>{{ maladie.code }}</span>
               </dd>
               <dt>
-                <span>Date</span>
+                <span>Nom</span>
               </dt>
               <dd>
-                <span>{{ maladie.date }}</span>
+                <span>{{ maladie.nom }}</span>
               </dd>
             </dl>
 

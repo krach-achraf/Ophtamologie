@@ -7,8 +7,10 @@
     <b-collapse is-nav id="header-tabs">
       <b-navbar-nav class="ml-auto">
         <b-nav-item to="/" exact>Home</b-nav-item>
-        <b-nav-item to="/admin/user-management" v-if="(hasAnyAuthority('ROLE_ADMIN') || hasAnyAuthority('SECRETAIRE')) && authenticated">Users</b-nav-item>
+        <b-nav-item to="/admin/user-management" v-if="(hasAnyAuthority('ROLE_ADMIN') || hasAnyAuthority('SECRETAIRE')) && authenticated">Comptes</b-nav-item>
         <b-nav-item to="/medecin" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Medecins</b-nav-item>
+        <b-nav-item to="/patient/medecins" v-if="hasAnyAuthority('PATIENT') && authenticated">Mes medecins</b-nav-item>
+        <b-nav-item to="/medecin/patients" v-if="hasAnyAuthority('MEDECIN') && authenticated">Mes patients</b-nav-item>
         <b-nav-item to="/patient" v-if="hasAnyAuthority('SECRETAIRE') && authenticated">Patients</b-nav-item>
         <b-nav-item to="/secretaire" v-if="hasAnyAuthority('ROLE_ADMIN') && authenticated">Secretaires</b-nav-item>
         <b-nav-item to="/rendez-vous" v-if="(hasAnyAuthority('PATIENT') || hasAnyAuthority('SECRETAIRE') || hasAnyAuthority('MEDECIN')) && authenticated">Rendez-vous</b-nav-item>

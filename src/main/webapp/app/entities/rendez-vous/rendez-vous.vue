@@ -4,28 +4,6 @@
     <!-- bouttons pour affiches mes medecins et les patients -->
     <h2 id="page-heading" data-cy="RendezVousHeading">
       <span id="rendez-vous-heading">Rendez Vous</span>
-      <div class="d-flex justify-content-end">
-        <router-link :to="{ name: 'MedecinPatients' }" custom v-slot="{ navigate }" class="mr-2" v-if="this.isMedecin()">
-          <button
-            @click="navigate"
-            id="jh-patients-entity"
-            data-cy="entityPatients'Button"
-            class="btn btn-primary jh-create-entity affiche-patient"
-          >
-            <span> Mes patients </span>
-          </button>
-        </router-link>
-        <router-link :to="{ name: 'PatientMedecins' }" custom v-slot="{ navigate }" v-if="this.isPatient()">
-          <button
-            @click="navigate"
-            id="jh-medecins-entity"
-            data-cy="entityMedecinsButton"
-            class="btn btn-primary jh-create-entity affiche-patient"
-          >
-            <span> Mes medecins </span>
-          </button>
-        </router-link>
-      </div>
     </h2>
     <!-- end bouttons pour affiches mes medecins et les patients -->
 

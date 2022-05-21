@@ -29,14 +29,14 @@
         <thead>
           <tr>
             <th scope="row"><span>Code</span></th>
-            <th scope="row"><span>Date</span></th>
+            <th scope="row"><span>Nom</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="maladie in maladies" :key="maladie.id" data-cy="entityTable">
             <td>{{ maladie.code }}</td>
-            <td>{{ maladie.date }}</td>
+            <td>{{ maladie.nom }}</td>
             <td class="text-right">
               <div class="btn-group">
 

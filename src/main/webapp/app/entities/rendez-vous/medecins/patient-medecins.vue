@@ -9,20 +9,15 @@
       <table class="table table-striped" aria-describedby="medecins">
         <thead>
         <tr>
-          <th scope="row"><span>ID</span></th>
-          <th scope="row"><span>Code</span></th>
           <th scope="row"><span>Nom</span></th>
           <th scope="row"><span>Num Emp</span></th>
           <th scope="row"><span>Prenom</span></th>
           <th scope="row"><span>Expert Level</span></th>
           <th scope="row"><span>Photo</span></th>
-          <th scope="row"></th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="medecin in medecins" :key="medecin.id" data-cy="entityTable">
-          <td>{{ medecin.id }}</td>
-          <td>{{ medecin.code }}</td>
           <td>{{ medecin.nom }}</td>
           <td>{{ medecin.numEmp }}</td>
           <td>{{ medecin.prenom }}</td>
@@ -31,11 +26,10 @@
             <a v-if="medecin.photo" v-on:click="openFile(medecin.photoContentType, medecin.photo)">
               <img
                 v-bind:src="'data:' + medecin.photoContentType + ';base64,' + medecin.photo"
-                style="max-height: 30px"
+                style="max-height: 70px"
                 alt="medecin image"
               />
             </a>
-            <span v-if="medecin.photo">{{ medecin.photoContentType }}, {{ byteSize(medecin.photo) }}</span>
           </td>
         </tr>
         </tbody>

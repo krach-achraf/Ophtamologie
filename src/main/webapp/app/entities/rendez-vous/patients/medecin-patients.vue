@@ -45,12 +45,22 @@
               <b-button
                 v-on:click="prepareDetection(patient)"
                 variant="success"
-                class="btn btn-sm"
+                class="btn btn-sm mr-1"
                 data-cy="entityDetectionButton"
                 v-b-modal.detectionEntity
               >
                 <font-awesome-icon icon="plus"></font-awesome-icon>
                 <span class="d-none d-md-inline">Detection</span>
+              </b-button>
+              <b-button
+                v-on:click="prepareStade(patient)"
+                variant="dark"
+                class="btn btn-sm"
+                data-cy="entityStadeButton"
+                v-b-modal.stadeEntity
+              >
+                <font-awesome-icon icon="plus"></font-awesome-icon>
+                <span class="d-none d-md-inline">Stade</span>
               </b-button>
             </div>
           </td>
@@ -137,6 +147,19 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label class="form-control-label">Maladie</label>
+          <select class="form-control" id="maladie-patient" data-cy="maladie" name="maladie" v-model="idMaladie">
+            <option
+              v-for="maladie in maladies"
+              :key="maladie.id"
+              v-bind:value="maladie.id"
+            >
+              {{ maladie.nom}}
+            </option>
+          </select>
+        </div>
+
       </div>
       <div slot="modal-footer">
         <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
@@ -152,7 +175,50 @@
       </div>
     </b-modal>
 
-    <b-modal ref="afficheEntity" id="afficheEntity">
+      <b-modal ref="stadeEntity" id="stadeEntity">
+      <span slot="modal-title"
+      ><span id="pathogeneApp.patient.stade.question" data-cy="patientStadeDialogHeading">Affecter le stade</span></span
+      >
+        <div class="modal-body">
+          <table class="table table-striped" aria-describedby="stades">
+            <thead>
+            <tr>
+              <th scope="row"><span>Level</span></th>
+              <th scope="row"><span>Maladie</span></th>
+              <th scope="row"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="stade in stades" :key="stade.id" data-cy="entityTable">
+              <td>{{ stade.level }}</td>
+              <td>
+                <div v-if="stade.maladie">{{ stade.maladie.nom }}</div>
+              </td>
+              <td class="text-right">
+                <div class="btn-group">
+                  <b-button
+                    v-on:click="saveStade(stade)"
+                    variant="success"
+                    class="btn btn-sm"
+                    data-cy="entityCreateButton"
+                  >
+                    <span class="d-none d-md-inline">Choisir</span>
+                  </b-button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div slot="modal-footer">
+          <button type="button" class="btn btn-secondary" v-on:click="closeDialog()">Annuler</button>
+
+        </div>
+      </b-modal>
+
+
+      <b-modal ref="afficheEntity" id="afficheEntity">
       <span slot="modal-title"
       ><span id="pathogeneApp.detection.affiche.question" data-cy="detectionAfficheDialogHeading">Result AI</span></span
       >
@@ -171,7 +237,6 @@
                   alt="patient image"
                 />
               </a>
-              {{ detection.photoContentType }}, {{ byteSize(detection.photo) }}
             </div>
           </dd>
           <dt>

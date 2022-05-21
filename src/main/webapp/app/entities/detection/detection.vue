@@ -56,7 +56,7 @@
           <td>{{ detection.description }}</td>
           <td>
             <div v-if="detection.maladie">
-              {{detection.maladie.code}}
+              {{detection.maladie.nom}}
             </div>
           </td>
           <td v-if="isMedecin()">

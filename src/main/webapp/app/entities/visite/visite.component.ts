@@ -21,7 +21,12 @@ export default class Visite extends Vue {
   public isFetching = false;
 
   public mounted(): void {
-    this.retrieveAllVisites();
+    if(this.isSecretaire()){
+      this.retrieveAllVisites();
+    }else if(this.isPatient()){
+      this.retrieveAllVisitesForPatients();
+    }else
+      this.retrieveAllVisitesForMedecins();
   }
 
   public clear(): void {
@@ -42,6 +47,30 @@ export default class Visite extends Vue {
           this.alertService().showHttpError(this, err.response);
         }
       );
+  }
+
+  public retrieveAllVisitesForMedecins(): void {
+    this.isFetching = true;
+    let user = JSON.parse(sessionStorage.getItem('user-info'));
+    let rdvs = user.medecin.rendezVous;
+    for(let i=0 ; i< rdvs.length; i++){
+      if(rdvs[i].visite){
+        rdvs[i].visite.rendezVous = rdvs[i];
+        this.visites.push(rdvs[i].visite);
+      }
+    }
+  }
+
+  public retrieveAllVisitesForPatients(): void {
+    this.isFetching = true;
+    let user = JSON.parse(sessionStorage.getItem('user-info'));
+    let rdvs = user.patient.rendezVous;
+    for(let i=0 ; i< rdvs.length; i++){
+      if(rdvs[i].visite){
+        rdvs[i].visite.rendezVous = rdvs[i];
+        this.visites.push(rdvs[i].visite);
+      }
+    }
   }
 
   public handleSyncList(): void {
@@ -75,8 +104,17 @@ export default class Visite extends Vue {
         this.alertService().showHttpError(this, error.response);
       });
   }
+
   public isSecretaire(): boolean {
     return this.accountService().userAuthorities.includes('SECRETAIRE');
+  }
+
+  public isPatient(): boolean {
+    return this.accountService().userAuthorities.includes('PATIENT');
+  }
+
+  public isMedecin(): boolean {
+    return this.accountService().userAuthorities.includes('MEDECIN');
   }
 
   public closeDialog(): void {
