@@ -79,7 +79,7 @@ public class DetectionResource {
         //     unclassified = unclassifiedRepository.save(unclassified);
 
         System.out.println(detection.getPhoto());
-        String oracle = mqController.send(detection.getPhoto());
+        String oracle = mqController.send(detection.getPhoto(), detection.getMaladie().getNom());
         detection.setDescription(oracle);
         detection.setCode("DET-" + UUID.randomUUID().toString());
         Detection result = detectionRepository.save(detection);
