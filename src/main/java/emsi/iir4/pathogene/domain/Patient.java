@@ -69,7 +69,7 @@ public class Patient implements Serializable {
     private Secretaire secretaire;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "maladie", "patients", "classifications", "images" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "patients", "classifications", "images" }, allowSetters = true)
     private Stade stade;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
