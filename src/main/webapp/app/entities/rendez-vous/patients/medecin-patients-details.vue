@@ -7,6 +7,20 @@
         <h2 class="jh-entity-heading" data-cy="patientDetailsHeading"><span>Patient</span> {{ patient.id }}</h2>
         <dl class="row jh-entity-details">
           <dt>
+            <span>Photo</span>
+          </dt>
+          <dd>
+            <div v-if="patient.photo">
+              <a v-on:click="openFile(patient.photoContentType, patient.photo)">
+                <img
+                  v-bind:src="'data:' + patient.photoContentType + ';base64,' + patient.photo"
+                  style="max-width: 50%"
+                  alt="patient image"
+                />
+              </a>
+            </div>
+          </dd>
+          <dt>
             <span>Code</span>
           </dt>
           <dd>
@@ -60,27 +74,14 @@
           <dd>
             <span>{{ patient.taille }}</span>
           </dd>
+
           <dt>
-            <span>Photo</span>
+            <span>Stade</span>
           </dt>
           <dd>
-            <div v-if="patient.photo">
-              <a v-on:click="openFile(patient.photoContentType, patient.photo)">
-                <img
-                  v-bind:src="'data:' + patient.photoContentType + ';base64,' + patient.photo"
-                  style="max-width: 100%"
-                  alt="patient image"
-                />
-              </a>
-            </div>
-          </dd>
-          <dt>
-            <span>Maladie</span>
-          </dt>
-          <dd>
-            <div v-if="patient.maladie">
-              <router-link :to="{ name: 'MaladieView', params: { maladieId: patient.maladie.id } }">
-                {{ patient.maladie.code }}
+            <div v-if="patient.stade">
+              <router-link :to="{ name: 'StadeView', params: { stadeId: patient.stade.id } }">
+                {{ patient.stade.level }}
               </router-link>
             </div>
           </dd>
@@ -96,41 +97,32 @@
             <table class="table table-striped" aria-describedby="detections">
               <thead>
               <tr>
-                <th scope="row"><span>ID</span></th>
                 <th scope="row"><span>Photo</span></th>
-                <th scope="row"><span>Code</span></th>
                 <th scope="row"><span>Validation</span></th>
                 <th scope="row"><span>Stade</span></th>
-                <th scope="row"><span>Date</span></th>
                 <th scope="row"><span>Description</span></th>
                 <th scope="row"><span>Maladie</span></th>
               </tr>
               </thead>
               <tbody>
               <tr v-for="detection in detections" :key="detection.id" data-cy="entityTable">
-                <td>
-                  <router-link :to="{ name: 'DetectionView', params: { detectionId: detection.id } }">{{
-                      detection.id
-                    }}
-                  </router-link>
-                </td>
+
                 <td>
                   <a v-if="detection.photo" v-on:click="openFile(detection.photoContentType, detection.photo)">
                     <img
                       v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
-                      style="max-height: 30px"
+                      style="max-height: 70px"
                       alt="detection image"
                     />
                   </a>
                 </td>
-                <td>{{ detection.code }}</td>
-                <td>{{ detection.validation }}</td>
+                <td v-if="detection.validation">Validé</td>
+                <td v-if="!detection.validation">Non validé</td>
                 <td>{{ detection.stade }}</td>
-                <td>{{ detection.date | formatDate }}</td>
                 <td>{{ detection.description }}</td>
                 <td>
                   <div v-if="detection.maladie">
-                    {{ detection.maladie.code }}
+                    {{detection.maladie.nom}}
                   </div>
                 </td>
               </tr>

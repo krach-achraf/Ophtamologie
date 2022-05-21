@@ -25,7 +25,6 @@ const validations: any = {
     photo: {},
     code: {},
     validation: {},
-    stade: {},
     date: {},
     description: {},
   },

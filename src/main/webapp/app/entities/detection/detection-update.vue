@@ -70,18 +70,7 @@
             />
           </div>
 
-          <div class="form-group">
-            <label class="form-control-label" for="detection-stade">Stade</label>
-            <input
-              type="text"
-              class="form-control"
-              name="stade"
-              id="detection-stade"
-              data-cy="stade"
-              :class="{ valid: !$v.detection.stade.$invalid, invalid: $v.detection.stade.$invalid }"
-              v-model="$v.detection.stade.$model"
-            />
-          </div>
+
 
           <div class="form-group">
             <label class="form-control-label" for="detection-maladie">Maladie</label>
@@ -92,7 +81,7 @@
                 v-for="maladieOption in maladies"
                 :key="maladieOption.id"
               >
-                {{ maladieOption.code }}
+                {{ maladieOption.nom }}
               </option>
             </select>
           </div>

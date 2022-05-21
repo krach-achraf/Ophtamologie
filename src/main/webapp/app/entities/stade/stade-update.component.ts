@@ -72,7 +72,7 @@ export default class StadeUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Stade is updated with identifier ' + param.id;
+          const message = 'A Stade is updated';
           return this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Info',
@@ -91,7 +91,7 @@ export default class StadeUpdate extends Vue {
         .then(param => {
           this.isSaving = false;
           this.$router.go(-1);
-          const message = 'A Stade is created with identifier ' + param.id;
+          const message = 'A Stade is created';
           this.$root.$bvToast.toast(message.toString(), {
             toaster: 'b-toaster-top-center',
             title: 'Success',

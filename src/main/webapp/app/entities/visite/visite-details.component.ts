@@ -37,6 +37,12 @@ export default class VisiteDetails extends Vue {
     return this.accountService().userAuthorities.includes('SECRETAIRE');
   }
 
+  public isPatient(): boolean {
+    return this.accountService().userAuthorities.includes('PATIENT');
+  }
+  public isMedecin(): boolean {
+    return this.accountService().userAuthorities.includes('MEDECIN');
+  }
   public previousState() {
     this.$router.go(-1);
   }

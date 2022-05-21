@@ -8,17 +8,6 @@
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
           <span>Refresh List</span>
         </button>
-        <router-link :to="{ name: 'DetectionCreate' }" custom v-slot="{ navigate }" v-if="isMedecin()">
-          <button
-            @click="navigate"
-            id="jh-create-entity"
-            data-cy="entityCreateButton"
-            class="btn btn-primary jh-create-entity create-detection"
-          >
-            <font-awesome-icon icon="plus"></font-awesome-icon>
-            <span> New Detection </span>
-          </button>
-        </router-link>
       </div>
     </h2>
     <br/>

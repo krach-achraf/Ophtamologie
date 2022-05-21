@@ -101,8 +101,10 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
     }
   }
 
-  public prepareDetection(instance: IPatient): void{
+  public async prepareDetection(instance: IPatient){
     this.patient = instance;
+    let visites = await this.visiteService().retrieveForMed(instance.id);
+    this.visites = visites.data;
     if (<any>this.$refs.detectionEntity) {
       (<any>this.$refs.detectionEntity).show();
     }
@@ -110,6 +112,7 @@ export default class MedecinPatients extends mixins(JhiDataUtils) {
 
   public prepareStade(instance: IPatient): void{
     this.patient = instance;
+
   }
 
   public async saveDetection(){

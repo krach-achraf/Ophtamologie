@@ -19,7 +19,8 @@
           <tr>
             <th scope="row"><span>Date</span></th>
             <th scope="row"><span>Rendez Vous</span></th>
-            <th scope="row" v-if="!isSecretaire()"><span>Detection</span></th>
+            <th scope="row" v-if="!isPatient()"><span>Patient</span></th>
+            <th scope="row" v-if="!isMedecin()"><span>Medecin</span></th>
             <th scope="row"></th>
           </tr>
         </thead>
@@ -33,12 +34,11 @@
                   }}</router-link>
               </div>
             </td>
-            <td v-if="!isSecretaire()">
-              <div v-if="visite.detection" >
-                <router-link :to="{ name: 'DetectionView', params: { detectionId: visite.detection.id } }">{{
-                    visite.detection.code
-                  }}</router-link>
-              </div>
+            <td v-if="!isPatient()">
+              {{visite.rendezVous.patient.nom}} {{visite.rendezVous.patient.prenom}}
+            </td>
+            <td v-if="!isMedecin()">
+              {{visite.rendezVous.medecin.nom}} {{visite.rendezVous.medecin.prenom}}
             </td>
             <td class="text-right">
               <div class="btn-group">

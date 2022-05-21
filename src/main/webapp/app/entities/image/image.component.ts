@@ -60,7 +60,7 @@ export default class Image extends mixins(JhiDataUtils) {
     this.imageService()
       .delete(this.removeId)
       .then(() => {
-        const message = 'A Image is deleted';
+        const message = 'An Image is deleted';
         this.$bvToast.toast(message.toString(), {
           toaster: 'b-toaster-top-center',
           title: 'Info',

@@ -29,7 +29,7 @@
           </dt>
           <dd>
             <div v-if="stade.maladie">
-              <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.code }} </router-link>
+              <router-link :to="{ name: 'MaladieView', params: { maladieId: stade.maladie.id } }">{{ stade.maladie.nom }} </router-link>
             </div>
           </dd>
 

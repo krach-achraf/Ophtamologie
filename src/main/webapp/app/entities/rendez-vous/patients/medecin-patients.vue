@@ -9,7 +9,6 @@
       <table class="table table-striped" aria-describedby="medecins">
         <thead>
         <tr>
-          <th scope="row"><span>ID</span></th>
           <th scope="row"><span>Nom</span></th>
           <th scope="row"><span>Prenom</span></th>
           <th scope="row"><span>Adresse</span></th>
@@ -20,7 +19,6 @@
         </thead>
         <tbody>
         <tr v-for="patient in patients" :key="patient.id" data-cy="entityTable">
-          <td>{{ patient.id }}</td>
           <td>{{ patient.nom }}</td>
           <td>{{ patient.prenom }}</td>
           <td>{{ patient.adresse }}</td>
@@ -29,7 +27,7 @@
             <a v-if="patient.photo" v-on:click="openFile(patient.photoContentType, patient.photo)">
               <img
                 v-bind:src="'data:' + patient.photoContentType + ';base64,' + patient.photo"
-                style="max-height: 30px"
+                style="max-height: 70px"
                 alt="patient image"
               />
             </a>
@@ -142,7 +140,7 @@
               :key="visite.id"
               v-bind:value="visite.id"
             >
-               {{ visite.code}} - {{visite.date}}
+               {{visite.date}}
             </option>
           </select>
         </div>
@@ -177,7 +175,7 @@
 
       <b-modal ref="stadeEntity" id="stadeEntity">
       <span slot="modal-title"
-      ><span id="pathogeneApp.patient.stade.question" data-cy="patientStadeDialogHeading">Affecter le stade</span></span
+      ><span id="pathogeneApp.patient.stade.question" data-cy="patientStadeDialogHeading">Choisir le stade</span></span
       >
         <div class="modal-body">
           <table class="table table-striped" aria-describedby="stades">
@@ -233,7 +231,7 @@
               <a v-on:click="openFile(detection.photoContentType, detection.photo)">
                 <img
                   v-bind:src="'data:' + detection.photoContentType + ';base64,' + detection.photo"
-                  style="max-width: 100%"
+                  style="max-width: 50%"
                   alt="patient image"
                 />
               </a>
@@ -244,6 +242,12 @@
           </dt>
           <dd>
             <span>{{ detection.description }}</span>
+          </dd>
+          <dt>
+            <span>Stade</span>
+          </dt>
+          <dd>
+            <span>{{ detection.stade }}</span>
           </dd>
         </dl>
 

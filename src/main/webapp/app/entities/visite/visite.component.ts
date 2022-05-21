@@ -59,6 +59,7 @@ export default class Visite extends Vue {
         this.visites.push(rdvs[i].visite);
       }
     }
+    this.isFetching = false;
   }
 
   public retrieveAllVisitesForPatients(): void {

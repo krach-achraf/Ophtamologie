@@ -47,9 +47,8 @@
         </div>
 
         <div class="form-group">
-          <label for="appt">Heure</label>
-
-          <input type="time" id="appt" name="appt" min="08:30" max="18:30" class="form-control" v-model="$v.rendezVous.heure.$model">
+          <label >Heure</label>
+          <input list="calltimeslist" class="form-control" v-model="$v.rendezVous.heure.$model">
         </div>
 
       </div>
@@ -100,6 +99,48 @@
     </b-modal>
     <!-- end modal delete rdv -->
     </div>
+
+    <datalist id="calltimeslist">
+      <option value="08:30"/>
+      <option value="08:45"/>
+      <option value="09:00"/>
+      <option value="09:15"/>
+      <option value="09:30"/>
+      <option value="09:45"/>
+      <option value="10:00"/>
+      <option value="10:15"/>
+      <option value="10:30"/>
+      <option value="10:45"/>
+      <option value="11:00"/>
+      <option value="11:15"/>
+      <option value="11:30"/>
+      <option value="11:45"/>
+      <option value="12:00"/>
+      <option value="12:15"/>
+      <option value="12:30"/>
+      <option value="12:45"/>
+      <option value="13:00"/>
+      <option value="13:15"/>
+      <option value="13:30"/>
+      <option value="13:45"/>
+      <option value="14:00"/>
+      <option value="14:15"/>
+      <option value="14:30"/>
+      <option value="14:45"/>
+      <option value="15:00"/>
+      <option value="15:15"/>
+      <option value="15:30"/>
+      <option value="15:45"/>
+      <option value="16:00"/>
+      <option value="16:15"/>
+      <option value="16:30"/>
+      <option value="16:45"/>
+      <option value="17:00"/>
+      <option value="17:15"/>
+      <option value="17:30"/>
+      <option value="17:45"/>
+      <option value="18:00"/>
+    </datalist>
   </div>
 </template>
 
