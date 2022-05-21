@@ -81,6 +81,8 @@ public class DetectionResource {
         System.out.println(detection.getPhoto());
         String oracle = mqController.send(detection.getPhoto(), detection.getMaladie().getNom());
         detection.setDescription(oracle);
+        String stade = oracle.split("Confidence This Is ")[1];
+        detection.setStade(stade);
         detection.setCode("DET-" + UUID.randomUUID().toString());
         Detection result = detectionRepository.save(detection);
 

@@ -27,8 +27,9 @@ public class MqController {
         if (name.equals("brain Cancer")) response = (byte[]) template.convertSendAndReceive("", "rpc_brain", photo); else response =
             (byte[]) template.convertSendAndReceive("", "rpc_retino", photo);
 
-        System.out.println("[x]" + new String(response));
-        return new String(response);
+        String oracle = new String(response);
+        System.out.println("[x]" + oracle);
+        return oracle;
     }
 
     @PostMapping("/ping")
