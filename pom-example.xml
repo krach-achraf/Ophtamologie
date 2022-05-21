@@ -313,7 +313,7 @@
 		</dependency>
     </dependencies>
         <!-- jhipster-needle-maven-add-dependency -->
-    </dependencies>
+
 
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>

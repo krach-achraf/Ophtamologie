@@ -60,7 +60,7 @@ spring:
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
   jpa:
-    rabbitmq:
+  rabbitmq:
     host: b-709eef3a-fb78-408f-bf61-c4ce24bb71a5.mq.us-east-1.amazonaws.com
     port: 5671
     ssl:
