@@ -61,7 +61,7 @@ class MaladieResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Maladie createEntity(EntityManager em) {
-        Maladie maladie = new Maladie().code(DEFAULT_CODE).date(DEFAULT_DATE);
+        Maladie maladie = new Maladie().code(DEFAULT_CODE);
         return maladie;
     }
 
@@ -72,7 +72,7 @@ class MaladieResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Maladie createUpdatedEntity(EntityManager em) {
-        Maladie maladie = new Maladie().code(UPDATED_CODE).date(UPDATED_DATE);
+        Maladie maladie = new Maladie().code(UPDATED_CODE);
         return maladie;
     }
 
@@ -95,7 +95,6 @@ class MaladieResourceIT {
         assertThat(maladieList).hasSize(databaseSizeBeforeCreate + 1);
         Maladie testMaladie = maladieList.get(maladieList.size() - 1);
         assertThat(testMaladie.getCode()).isEqualTo(DEFAULT_CODE);
-        assertThat(testMaladie.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
     @Test
@@ -167,7 +166,7 @@ class MaladieResourceIT {
         Maladie updatedMaladie = maladieRepository.findById(maladie.getId()).get();
         // Disconnect from session so that the updates on updatedMaladie are not directly saved in db
         em.detach(updatedMaladie);
-        updatedMaladie.code(UPDATED_CODE).date(UPDATED_DATE);
+        updatedMaladie.code(UPDATED_CODE);
 
         restMaladieMockMvc
             .perform(
@@ -182,7 +181,6 @@ class MaladieResourceIT {
         assertThat(maladieList).hasSize(databaseSizeBeforeUpdate);
         Maladie testMaladie = maladieList.get(maladieList.size() - 1);
         assertThat(testMaladie.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testMaladie.getDate()).isEqualTo(UPDATED_DATE);
     }
 
     @Test
@@ -266,7 +264,6 @@ class MaladieResourceIT {
         assertThat(maladieList).hasSize(databaseSizeBeforeUpdate);
         Maladie testMaladie = maladieList.get(maladieList.size() - 1);
         assertThat(testMaladie.getCode()).isEqualTo(DEFAULT_CODE);
-        assertThat(testMaladie.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
     @Test
@@ -281,7 +278,7 @@ class MaladieResourceIT {
         Maladie partialUpdatedMaladie = new Maladie();
         partialUpdatedMaladie.setId(maladie.getId());
 
-        partialUpdatedMaladie.code(UPDATED_CODE).date(UPDATED_DATE);
+        partialUpdatedMaladie.code(UPDATED_CODE);
 
         restMaladieMockMvc
             .perform(
@@ -296,7 +293,6 @@ class MaladieResourceIT {
         assertThat(maladieList).hasSize(databaseSizeBeforeUpdate);
         Maladie testMaladie = maladieList.get(maladieList.size() - 1);
         assertThat(testMaladie.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testMaladie.getDate()).isEqualTo(UPDATED_DATE);
     }
 
     @Test

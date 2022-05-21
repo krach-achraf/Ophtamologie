@@ -26,12 +26,11 @@ public class Visite implements Serializable {
     @Column(name = "date")
     private LocalDate date;
 
-    @JsonIgnoreProperties(value = { "patient", "medecin", "visite" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "visite" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private RendezVous rendezVous;
 
-    @JsonIgnoreProperties(value = { "maladie", "patient", "visite" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Detection detection;
